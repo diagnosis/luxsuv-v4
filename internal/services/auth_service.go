@@ -109,8 +109,8 @@ func (s *AuthService) validateEmail(email string) error {
 		return errors.New("email is required")
 	}
 	
-	// More comprehensive email validation
-	emailRegex := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
+	// Simple but effective email validation
+	emailRegex := regexp.MustCompile(`^[a-zA-Z0-9.!#$%&'*+/=?^_` + "`" + `{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$`)
 	
 	if !emailRegex.MatchString(email) {
 		s.log.Warn("Email regex failed for: " + email)
