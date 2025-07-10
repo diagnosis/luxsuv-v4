@@ -52,6 +52,8 @@ func (s *AuthService) Register(user *data.User) error {
 		return err
 	}
 
+	s.log.Info("All validations passed, proceeding to hash password")
+
 	// Hash password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
@@ -103,10 +105,15 @@ func (s *AuthService) validateUserInput(user *data.User) error {
 func (s *AuthService) validateEmail(email string) error {
 	s.log.Info("Validating email: " + email)
 	
+	if email == "" {
+		return errors.New("email is required")
+	}
+	
 	// More comprehensive email validation
-	emailRegex := regexp.MustCompile(`^[a-zA-Z0-9.!#$%&'*+/=?^_` + "`" + `{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$`)
+	emailRegex := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
 	
 	if !emailRegex.MatchString(email) {
+		s.log.Warn("Email regex failed for: " + email)
 		return errors.New("invalid email format")
 	}
 
@@ -150,11 +157,15 @@ func (s *AuthService) validateAndSetRole(user *data.User) error {
 	if user.Role == "" {
 		user.Role = "rider" // Default role
 		s.log.Info("Setting default role: rider")
-	} else if !validRoles[user.Role] {
+	} else {
+		if !validRoles[user.Role] {
+			s.log.Warn("Invalid role provided: " + user.Role)
+			return errors.New("invalid role; must be admin, driver, or rider")
+		}
+	}
 		return errors.New("invalid role; must be admin, driver, or rider")
 	}
 
-	// Set super_admin flag for admin role
 	user.SuperAdmin = user.Role == "admin"
 	s.log.Info("Role validation passed. Role: " + user.Role + ", SuperAdmin: " + fmt.Sprintf("%t", user.SuperAdmin))
 
