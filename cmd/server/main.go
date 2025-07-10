@@ -72,6 +72,8 @@ func main() {
 	userRepo := repository.NewUserRepository(db)
 	authService := auth.NewService(userRepo, cfg.JWTSecret, log)
 	authHandler := handlers.NewAuthHandler(authService, log)
+	userHandler := handlers.NewUserHandler(authService, userRepo, log)
+	passwordHandler := handlers.NewPasswordHandler(authService, userRepo, log)
 	authMiddleware := middleware.NewAuthMiddleware(authService, log)
 
 	// Set up Echo server
@@ -84,7 +86,16 @@ func main() {
 	// Global middleware
 	e.Use(echomiddleware.Logger())
 	e.Use(echomiddleware.Recover())
-	e.Use(echomiddleware.CORS())
+	
+	// Enhanced CORS configuration
+	if cfg.Environment == "development" {
+		e.Use(echomiddleware.CORSWithConfig(middleware.DevelopmentCORSConfig()))
+		log.Info("Using development CORS configuration (permissive)")
+	} else {
+		e.Use(echomiddleware.CORSWithConfig(middleware.CORSConfig()))
+		log.Info("Using production CORS configuration")
+	}
+	
 	e.Use(echomiddleware.Secure())
 
 	// Configure rate limiter
@@ -142,11 +153,21 @@ func main() {
 	protectedGroup := e.Group("")
 	protectedGroup.Use(authMiddleware.RequireAuth())
 	protectedGroup.GET("/users/me", authHandler.GetCurrentUser)
+	protectedGroup.PUT("/users/me/password", passwordHandler.ChangePassword)
+
+	// Password reset routes (public)
+	e.POST("/auth/forgot-password", passwordHandler.ResetPasswordRequest)
+	e.POST("/auth/reset-password", passwordHandler.ResetPassword)
 
 	// Admin routes
 	adminGroup := e.Group("/admin")
 	adminGroup.Use(authMiddleware.RequireAuth())
 	adminGroup.Use(authMiddleware.RequireAdmin())
+	
+	// User management endpoints
+	adminGroup.GET("/users", userHandler.ListUsers)
+	adminGroup.GET("/users/:id", userHandler.GetUserByID)
+	adminGroup.PUT("/users/:id/role", userHandler.UpdateUserRole)
 	adminGroup.DELETE("/users/:id", authHandler.DeleteUser)
 
 	log.Info("Starting server on port " + cfg.Port)
@@ -154,7 +175,13 @@ func main() {
 	log.Info("  GET  /health")
 	log.Info("  POST /register")
 	log.Info("  POST /login")
+	log.Info("  POST /auth/forgot-password")
+	log.Info("  POST /auth/reset-password")
 	log.Info("  GET  /users/me (protected)")
+	log.Info("  PUT  /users/me/password (protected)")
+	log.Info("  GET  /admin/users (admin only)")
+	log.Info("  GET  /admin/users/:id (admin only)")
+	log.Info("  PUT  /admin/users/:id/role (admin only)")
 	log.Info("  DELETE /admin/users/:id (admin only)")
 
 	if err := e.Start(":" + cfg.Port); err != nil {

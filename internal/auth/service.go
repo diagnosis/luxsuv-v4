@@ -241,3 +241,65 @@ func (s *Service) ValidateJWT(tokenString string) (jwt.MapClaims, error) {
 
 	return claims, nil
 }
+
+// GenerateResetToken generates a password reset token
+func (s *Service) GenerateResetToken(userID int64) (string, error) {
+	claims := jwt.MapClaims{
+		"user_id": userID,
+		"type":    "password_reset",
+		"exp":     time.Now().Add(1 * time.Hour).Unix(), // 1 hour expiry
+		"iat":     time.Now().Unix(),
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString([]byte(s.jwtSecret))
+}
+
+// ValidateResetToken validates a password reset token and returns user ID
+func (s *Service) ValidateResetToken(tokenString string) (int64, error) {
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+		return []byte(s.jwtSecret), nil
+	})
+
+	if err != nil {
+		return 0, err
+	}
+
+	if !token.Valid {
+		return 0, errors.New("invalid token")
+	}
+
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		return 0, errors.New("invalid token claims")
+	}
+
+	// Check token type
+	tokenType, ok := claims["type"]
+	if !ok || tokenType != "password_reset" {
+		return 0, errors.New("invalid token type")
+	}
+
+	// Get user ID
+	userIDClaim, ok := claims["user_id"]
+	if !ok {
+		return 0, errors.New("missing user ID in token")
+	}
+
+	var userID int64
+	switch v := userIDClaim.(type) {
+	case float64:
+		userID = int64(v)
+	case int64:
+		userID = v
+	case int:
+		userID = int64(v)
+	default:
+		return 0, errors.New("invalid user ID type")
+	}
+
+	return userID, nil
+}

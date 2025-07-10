@@ -136,3 +136,91 @@ func (r *UserRepository) CountUsers() (int64, error) {
 	}
 	return count, nil
 }
+
+// UpdateUserRole updates a user's role and admin status
+func (r *UserRepository) UpdateUserRole(userID int64, role string, isAdmin bool) error {
+	query := `UPDATE users SET role = $1, super_admin = $2 WHERE id = $3`
+	
+	result, err := r.db.Exec(query, role, isAdmin, userID)
+	if err != nil {
+		return fmt.Errorf("failed to update user role: %w", err)
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return fmt.Errorf("failed to get rows affected: %w", err)
+	}
+
+	if rowsAffected == 0 {
+		return sql.ErrNoRows
+	}
+
+	return nil
+}
+
+// UpdatePassword updates a user's password
+func (r *UserRepository) UpdatePassword(userID int64, hashedPassword string) error {
+	query := `UPDATE users SET password = $1 WHERE id = $2`
+	
+	result, err := r.db.Exec(query, hashedPassword, userID)
+	if err != nil {
+		return fmt.Errorf("failed to update password: %w", err)
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return fmt.Errorf("failed to get rows affected: %w", err)
+	}
+
+	if rowsAffected == 0 {
+		return sql.ErrNoRows
+	}
+
+	return nil
+}
+
+// StoreResetToken stores a password reset token for a user
+func (r *UserRepository) StoreResetToken(userID int64, token string) error {
+	query := `
+		INSERT INTO password_reset_tokens (user_id, token, expires_at, created_at)
+		VALUES ($1, $2, NOW() + INTERVAL '1 hour', NOW())
+		ON CONFLICT (user_id) 
+		DO UPDATE SET token = $2, expires_at = NOW() + INTERVAL '1 hour', created_at = NOW()`
+	
+	_, err := r.db.Exec(query, userID, token)
+	if err != nil {
+		return fmt.Errorf("failed to store reset token: %w", err)
+	}
+
+	return nil
+}
+
+// GetResetToken retrieves a reset token for validation
+func (r *UserRepository) GetResetToken(token string) (int64, error) {
+	var userID int64
+	query := `
+		SELECT user_id FROM password_reset_tokens 
+		WHERE token = $1 AND expires_at > NOW()`
+	
+	err := r.db.Get(&userID, query, token)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return 0, sql.ErrNoRows
+		}
+		return 0, fmt.Errorf("failed to get reset token: %w", err)
+	}
+
+	return userID, nil
+}
+
+// InvalidateResetToken removes a reset token
+func (r *UserRepository) InvalidateResetToken(userID int64) error {
+	query := `DELETE FROM password_reset_tokens WHERE user_id = $1`
+	
+	_, err := r.db.Exec(query, userID)
+	if err != nil {
+		return fmt.Errorf("failed to invalidate reset token: %w", err)
+	}
+
+	return nil
+}
