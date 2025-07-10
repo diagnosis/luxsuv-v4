@@ -18,15 +18,15 @@ type AuthHandler struct {
 }
 
 type RegisterRequest struct {
-	Username string `json:"username" validate:"required,min=3,max=50"`
-	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"required,min=8"`
-	Role     string `json:"role" validate:"omitempty,oneof=admin driver rider"`
+	Username string `json:"username"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+	Role     string `json:"role"`
 }
 
 type LoginRequest struct {
-	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"required"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
 type ErrorResponse struct {
@@ -52,6 +52,8 @@ func (h *AuthHandler) Register(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, ErrorResponse{Error: "invalid request body"})
 	}
 
+	h.log.Info("Registration request received for username: " + req.Username + ", email: " + req.Email)
+
 	// Convert request to user model
 	user := &data.User{
 		Username: strings.TrimSpace(req.Username),
@@ -62,23 +64,26 @@ func (h *AuthHandler) Register(c echo.Context) error {
 
 	err := h.authService.Register(user)
 	if err != nil {
+		h.log.Warn("Registration failed: " + err.Error())
+		
 		// Check for PostgreSQL unique constraint violation
 		if pqErr, ok := err.(*pq.Error); ok {
-			h.log.Warn(fmt.Sprintf("PostgreSQL error: Code=%s, Message=%s", pqErr.Code, pqErr.Message))
+			h.log.Warn(fmt.Sprintf("PostgreSQL error: Code=%s, Message=%s, Detail=%s", pqErr.Code, pqErr.Message, pqErr.Detail))
 			if pqErr.Code == "23505" { // unique_violation
-				if strings.Contains(pqErr.Message, "email") {
+				if strings.Contains(pqErr.Message, "email") || strings.Contains(pqErr.Detail, "email") {
 					h.log.Warn("Registration failed: email already exists: " + user.Email)
 					return c.JSON(http.StatusBadRequest, ErrorResponse{Error: "email already exists"})
 				}
-				if strings.Contains(pqErr.Message, "username") {
+				if strings.Contains(pqErr.Message, "username") || strings.Contains(pqErr.Detail, "username") {
 					h.log.Warn("Registration failed: username already exists: " + user.Username)
 					return c.JSON(http.StatusBadRequest, ErrorResponse{Error: "username already exists"})
 				}
+				// Generic unique constraint violation
+				return c.JSON(http.StatusBadRequest, ErrorResponse{Error: "user already exists"})
 			}
 		}
 
-		// Handle validation errors from service
-		h.log.Warn("Registration failed: " + err.Error())
+		// Handle validation errors from service - return the exact error message
 		return c.JSON(http.StatusBadRequest, ErrorResponse{Error: err.Error()})
 	}
 
@@ -113,12 +118,16 @@ func (h *AuthHandler) Login(c echo.Context) error {
 }
 
 func (h *AuthHandler) GetCurrentUser(c echo.Context) error {
+	h.log.Info("GetCurrentUser endpoint called")
+	
 	// Get user ID from JWT claims set by middleware
 	userIDClaim := c.Get("user_id")
 	if userIDClaim == nil {
 		h.log.Err("User ID not found in JWT claims")
 		return c.JSON(http.StatusUnauthorized, ErrorResponse{Error: "invalid token"})
 	}
+
+	h.log.Info(fmt.Sprintf("User ID claim from context: %v (type: %T)", userIDClaim, userIDClaim))
 
 	var userID int64
 	switch v := userIDClaim.(type) {
@@ -137,6 +146,8 @@ func (h *AuthHandler) GetCurrentUser(c echo.Context) error {
 		h.log.Err(fmt.Sprintf("Invalid user ID value: %d", userID))
 		return c.JSON(http.StatusUnauthorized, ErrorResponse{Error: "invalid user ID"})
 	}
+
+	h.log.Info(fmt.Sprintf("Fetching user with ID: %d", userID))
 
 	user, err := h.authService.GetUserByID(userID)
 	if err != nil {

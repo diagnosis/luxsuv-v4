@@ -16,6 +16,8 @@ type ErrorResponse struct {
 func AuthMiddleware(jwtSecret string, log *logger.Logger) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
+			log.Info("Auth middleware called for path: " + c.Request().URL.Path)
+			
 			// Get Authorization header
 			authHeader := c.Request().Header.Get("Authorization")
 			if authHeader == "" {
@@ -35,6 +37,8 @@ func AuthMiddleware(jwtSecret string, log *logger.Logger) echo.MiddlewareFunc {
 				log.Warn("Auth middleware: empty token")
 				return c.JSON(http.StatusUnauthorized, ErrorResponse{Error: "missing token"})
 			}
+
+			log.Info("Token extracted: " + tokenString[:20] + "...")
 
 			// Parse and validate token
 			token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
@@ -61,6 +65,8 @@ func AuthMiddleware(jwtSecret string, log *logger.Logger) echo.MiddlewareFunc {
 				log.Warn("Auth middleware: invalid token claims type")
 				return c.JSON(http.StatusUnauthorized, ErrorResponse{Error: "invalid token claims"})
 			}
+
+			log.Info(fmt.Sprintf("JWT Claims: %+v", claims))
 
 			// Validate required claims
 			userID, ok := claims["id"]

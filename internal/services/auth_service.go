@@ -25,24 +25,30 @@ func NewAuthService(repo *data.Repository, jwtSecret string, log *logger.Logger)
 }
 
 func (s *AuthService) Register(user *data.User) error {
+	s.log.Info("Starting registration process for user: " + user.Username)
+	
 	// Input validation with detailed error messages
 	if err := s.validateUserInput(user); err != nil {
+		s.log.Warn("User input validation failed: " + err.Error())
 		return err
 	}
 
 	// Normalize and validate email
 	user.Email = strings.TrimSpace(strings.ToLower(user.Email))
 	if err := s.validateEmail(user.Email); err != nil {
+		s.log.Warn("Email validation failed for: " + user.Email + " - " + err.Error())
 		return err
 	}
 
 	// Validate password strength
 	if err := s.validatePassword(user.Password); err != nil {
+		s.log.Warn("Password validation failed: " + err.Error())
 		return err
 	}
 
 	// Validate and set role
 	if err := s.validateAndSetRole(user); err != nil {
+		s.log.Warn("Role validation failed: " + err.Error())
 		return err
 	}
 
@@ -72,27 +78,22 @@ func (s *AuthService) validateUserInput(user *data.User) error {
 
 	user.Username = strings.TrimSpace(user.Username)
 	if user.Username == "" {
-		s.log.Warn("Registration failed: username is required")
 		return errors.New("username is required")
 	}
 
 	if len(user.Username) < 3 {
-		s.log.Warn("Registration failed: username too short for " + user.Username)
 		return errors.New("username must be at least 3 characters long")
 	}
 
 	if len(user.Username) > 50 {
-		s.log.Warn("Registration failed: username too long for " + user.Username)
 		return errors.New("username must be no more than 50 characters long")
 	}
 
 	if user.Email == "" {
-		s.log.Warn("Registration failed: email is required")
 		return errors.New("email is required")
 	}
 
 	if user.Password == "" {
-		s.log.Warn("Registration failed: password is required")
 		return errors.New("password is required")
 	}
 
@@ -100,30 +101,31 @@ func (s *AuthService) validateUserInput(user *data.User) error {
 }
 
 func (s *AuthService) validateEmail(email string) error {
+	s.log.Info("Validating email: " + email)
+	
 	// More comprehensive email validation
 	emailRegex := regexp.MustCompile(`^[a-zA-Z0-9.!#$%&'*+/=?^_` + "`" + `{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$`)
 	
 	if !emailRegex.MatchString(email) {
-		s.log.Warn("Registration failed: invalid email format for " + email)
 		return errors.New("invalid email format")
 	}
 
 	if len(email) > 254 {
-		s.log.Warn("Registration failed: email too long for " + email)
 		return errors.New("email address is too long")
 	}
 
+	s.log.Info("Email validation passed for: " + email)
 	return nil
 }
 
 func (s *AuthService) validatePassword(password string) error {
+	s.log.Info("Validating password strength")
+	
 	if len(password) < 8 {
-		s.log.Warn("Registration failed: password too short")
 		return errors.New("password must be at least 8 characters long")
 	}
 
 	if len(password) > 128 {
-		s.log.Warn("Registration failed: password too long")
 		return errors.New("password must be no more than 128 characters long")
 	}
 
@@ -132,26 +134,29 @@ func (s *AuthService) validatePassword(password string) error {
 	hasNumber := regexp.MustCompile(`[0-9]`).MatchString(password)
 
 	if !hasLetter || !hasNumber {
-		s.log.Warn("Registration failed: password must contain letters and numbers")
 		return errors.New("password must contain both letters and numbers")
 	}
 
+	s.log.Info("Password validation passed")
 	return nil
 }
 
 func (s *AuthService) validateAndSetRole(user *data.User) error {
+	s.log.Info("Validating role: " + user.Role)
+	
 	validRoles := map[string]bool{"admin": true, "driver": true, "rider": true}
 	
 	user.Role = strings.TrimSpace(strings.ToLower(user.Role))
 	if user.Role == "" {
 		user.Role = "rider" // Default role
+		s.log.Info("Setting default role: rider")
 	} else if !validRoles[user.Role] {
-		s.log.Warn("Registration failed: invalid role " + user.Role + " for user " + user.Username)
 		return errors.New("invalid role; must be admin, driver, or rider")
 	}
 
 	// Set super_admin flag for admin role
 	user.SuperAdmin = user.Role == "admin"
+	s.log.Info("Role validation passed. Role: " + user.Role + ", SuperAdmin: " + fmt.Sprintf("%t", user.SuperAdmin))
 
 	return nil
 }
