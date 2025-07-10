@@ -163,8 +163,6 @@ func (s *AuthService) validateAndSetRole(user *data.User) error {
 			return errors.New("invalid role; must be admin, driver, or rider")
 		}
 	}
-		return errors.New("invalid role; must be admin, driver, or rider")
-	}
 
 	user.SuperAdmin = user.Role == "admin"
 	s.log.Info("Role validation passed. Role: " + user.Role + ", SuperAdmin: " + fmt.Sprintf("%t", user.SuperAdmin))
