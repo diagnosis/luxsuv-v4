@@ -3,15 +3,16 @@ package main
 import (
 	"fmt"
 	"time"
+
+	"github.com/diagnosis/luxsuv-v4/internal/auth"
 	"github.com/diagnosis/luxsuv-v4/internal/config"
-	"github.com/diagnosis/luxsuv-v4/internal/data"
 	"github.com/diagnosis/luxsuv-v4/internal/handlers"
 	"github.com/diagnosis/luxsuv-v4/internal/logger"
-	"github.com/diagnosis/luxsuv-v4/internal/mw"
-	"github.com/diagnosis/luxsuv-v4/internal/services"
+	"github.com/diagnosis/luxsuv-v4/internal/middleware"
+	"github.com/diagnosis/luxsuv-v4/internal/repository"
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	echomiddleware "github.com/labstack/echo/v4/middleware"
 	_ "github.com/lib/pq"
 	"github.com/pressly/goose/v3"
 )
@@ -67,31 +68,32 @@ func main() {
 	}
 	log.Info("Successfully connected to database")
 
-	// Initialize dependencies
-	repo := data.NewRepository(db)
-	authService := services.NewAuthService(repo, cfg.JWTSecret, log)
+	// Initialize repositories and services
+	userRepo := repository.NewUserRepository(db)
+	authService := auth.NewService(userRepo, cfg.JWTSecret, log)
 	authHandler := handlers.NewAuthHandler(authService, log)
+	authMiddleware := middleware.NewAuthMiddleware(authService, log)
 
 	// Set up Echo server
 	e := echo.New()
-	
+
 	// Configure Echo
 	e.HideBanner = true
 	e.HidePort = true
 
 	// Global middleware
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
-	e.Use(middleware.CORS())
-	e.Use(middleware.Secure())
+	e.Use(echomiddleware.Logger())
+	e.Use(echomiddleware.Recover())
+	e.Use(echomiddleware.CORS())
+	e.Use(echomiddleware.Secure())
 
-	// Configure rate limiter with more restrictive limits
-	generalRateLimiterConfig := middleware.RateLimiterConfig{
-		Store: middleware.NewRateLimiterMemoryStoreWithConfig(
-			middleware.RateLimiterMemoryStoreConfig{
-				Rate:      5,                    // 5 requests per second
-				Burst:     10,                   // Allow burst of 10 requests
-				ExpiresIn: 3 * time.Minute,      // Clean up expired entries
+	// Configure rate limiter
+	generalRateLimiterConfig := echomiddleware.RateLimiterConfig{
+		Store: echomiddleware.NewRateLimiterMemoryStoreWithConfig(
+			echomiddleware.RateLimiterMemoryStoreConfig{
+				Rate:      5,                   // 5 requests per second
+				Burst:     10,                  // Allow burst of 10 requests
+				ExpiresIn: 3 * time.Minute,     // Clean up expired entries
 			},
 		),
 		IdentifierExtractor: func(ctx echo.Context) (string, error) {
@@ -103,12 +105,12 @@ func main() {
 	}
 
 	// More restrictive rate limiter for authentication endpoints
-	authRateLimiterConfig := middleware.RateLimiterConfig{
-		Store: middleware.NewRateLimiterMemoryStoreWithConfig(
-			middleware.RateLimiterMemoryStoreConfig{
-				Rate:      2,                    // 2 requests per second
-				Burst:     5,                    // Allow burst of 5 requests
-				ExpiresIn: 5 * time.Minute,      // Clean up expired entries
+	authRateLimiterConfig := echomiddleware.RateLimiterConfig{
+		Store: echomiddleware.NewRateLimiterMemoryStoreWithConfig(
+			echomiddleware.RateLimiterMemoryStoreConfig{
+				Rate:      2,                   // 2 requests per second
+				Burst:     5,                   // Allow burst of 5 requests
+				ExpiresIn: 5 * time.Minute,     // Clean up expired entries
 			},
 		),
 		IdentifierExtractor: func(ctx echo.Context) (string, error) {
@@ -120,7 +122,7 @@ func main() {
 	}
 
 	// Apply general rate limiting
-	e.Use(middleware.RateLimiterWithConfig(generalRateLimiterConfig))
+	e.Use(echomiddleware.RateLimiterWithConfig(generalRateLimiterConfig))
 
 	// Health check endpoint
 	e.GET("/health", func(c echo.Context) error {
@@ -132,20 +134,20 @@ func main() {
 
 	// Public routes with stricter rate limiting
 	authGroup := e.Group("")
-	authGroup.Use(middleware.RateLimiterWithConfig(authRateLimiterConfig))
+	authGroup.Use(echomiddleware.RateLimiterWithConfig(authRateLimiterConfig))
 	authGroup.POST("/register", authHandler.Register)
 	authGroup.POST("/login", authHandler.Login)
 
 	// Protected routes
 	protectedGroup := e.Group("")
-	protectedGroup.Use(mw.AuthMiddleware(cfg.JWTSecret, log))
+	protectedGroup.Use(authMiddleware.RequireAuth())
 	protectedGroup.GET("/users/me", authHandler.GetCurrentUser)
 
-	// Admin routes (example for future use)
+	// Admin routes
 	adminGroup := e.Group("/admin")
-	adminGroup.Use(mw.AuthMiddleware(cfg.JWTSecret, log))
-	adminGroup.Use(mw.SuperAdminMiddleware(log))
-	// Add admin routes here in the future
+	adminGroup.Use(authMiddleware.RequireAuth())
+	adminGroup.Use(authMiddleware.RequireAdmin())
+	adminGroup.DELETE("/users/:id", authHandler.DeleteUser)
 
 	log.Info("Starting server on port " + cfg.Port)
 	log.Info("Available endpoints:")
@@ -153,6 +155,7 @@ func main() {
 	log.Info("  POST /register")
 	log.Info("  POST /login")
 	log.Info("  GET  /users/me (protected)")
+	log.Info("  DELETE /admin/users/:id (admin only)")
 
 	if err := e.Start(":" + cfg.Port); err != nil {
 		log.Err("Failed to start server: " + err.Error())
