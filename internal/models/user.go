@@ -9,9 +9,8 @@ type User struct {
 	Email     string    `json:"email" db:"email"`
 	Password  string    `json:"-" db:"password"` // Never include in JSON responses
 	Role      string    `json:"role" db:"role"`
-	IsAdmin   bool      `json:"is_admin" db:"is_admin"`
+	IsAdmin   bool      `json:"is_admin" db:"super_admin"`
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
-	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
 }
 
 // UserRole constants
@@ -29,4 +28,24 @@ func IsValidRole(role string) bool {
 	default:
 		return false
 	}
+}
+
+// CreateUserRequest represents the request payload for user registration
+type CreateUserRequest struct {
+	Username string `json:"username" validate:"required,min=3,max=50"`
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required,min=8"`
+	Role     string `json:"role" validate:"omitempty,oneof=rider driver admin"`
+}
+
+// LoginRequest represents the request payload for user login
+type LoginRequest struct {
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required"`
+}
+
+// LoginResponse represents the response for successful login
+type LoginResponse struct {
+	Token string `json:"token"`
+	User  *User  `json:"user"`
 }

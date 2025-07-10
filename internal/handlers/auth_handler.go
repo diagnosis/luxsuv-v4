@@ -7,6 +7,7 @@ import (
 
 	"github.com/diagnosis/luxsuv-v4/internal/auth"
 	"github.com/diagnosis/luxsuv-v4/internal/logger"
+	"github.com/diagnosis/luxsuv-v4/internal/models"
 	"github.com/labstack/echo/v4"
 )
 
@@ -24,7 +25,7 @@ func NewAuthHandler(authService *auth.Service, logger *logger.Logger) *AuthHandl
 
 // Register handles user registration
 func (h *AuthHandler) Register(c echo.Context) error {
-	var req auth.RegisterRequest
+	var req models.CreateUserRequest
 	if err := c.Bind(&req); err != nil {
 		h.logger.Warn(fmt.Sprintf("Invalid request body: %s", err.Error()))
 		return c.JSON(http.StatusBadRequest, map[string]string{
@@ -49,7 +50,7 @@ func (h *AuthHandler) Register(c echo.Context) error {
 
 // Login handles user authentication
 func (h *AuthHandler) Login(c echo.Context) error {
-	var req auth.LoginRequest
+	var req models.LoginRequest
 	if err := c.Bind(&req); err != nil {
 		h.logger.Warn(fmt.Sprintf("Invalid request body: %s", err.Error()))
 		return c.JSON(http.StatusBadRequest, map[string]string{

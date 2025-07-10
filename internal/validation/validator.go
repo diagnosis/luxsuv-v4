@@ -13,8 +13,8 @@ var (
 	emailRegex = regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
 )
 
-// ValidateUser validates user registration data
-func ValidateUser(username, email, password, role string) error {
+// ValidateUserRegistration validates user registration data
+func ValidateUserRegistration(username, email, password, role string) error {
 	if err := ValidateUsername(username); err != nil {
 		return err
 	}
@@ -42,7 +42,8 @@ func ValidateUsername(username string) error {
 	if len(username) > 50 {
 		return errors.New("username must be no more than 50 characters long")
 	}
-	// Check for valid characters (alphanumeric and underscore)
+	
+	// Check for valid characters (alphanumeric and underscore only)
 	for _, char := range username {
 		if !unicode.IsLetter(char) && !unicode.IsDigit(char) && char != '_' {
 			return errors.New("username can only contain letters, numbers, and underscores")

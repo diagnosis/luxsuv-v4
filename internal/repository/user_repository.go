@@ -3,7 +3,6 @@ package repository
 import (
 	"database/sql"
 	"fmt"
-	"time"
 
 	"github.com/diagnosis/luxsuv-v4/internal/models"
 	"github.com/jmoiron/sqlx"
@@ -17,7 +16,7 @@ func NewUserRepository(db *sqlx.DB) *UserRepository {
 	return &UserRepository{db: db}
 }
 
-// CreateUser creates a new user
+// CreateUser creates a new user in the database
 func (r *UserRepository) CreateUser(user *models.User) error {
 	query := `
 		INSERT INTO users (username, email, password, role, super_admin, created_at)
@@ -49,7 +48,6 @@ func (r *UserRepository) GetUserByEmail(email string) (*models.User, error) {
 		return nil, fmt.Errorf("failed to get user by email: %w", err)
 	}
 
-	user.IsAdmin = user.Role == models.RoleAdmin
 	return user, nil
 }
 
@@ -69,7 +67,6 @@ func (r *UserRepository) GetUserByID(id int64) (*models.User, error) {
 		return nil, fmt.Errorf("failed to get user by ID: %w", err)
 	}
 
-	user.IsAdmin = user.Role == models.RoleAdmin
 	return user, nil
 }
 
@@ -89,11 +86,10 @@ func (r *UserRepository) GetUserByUsername(username string) (*models.User, error
 		return nil, fmt.Errorf("failed to get user by username: %w", err)
 	}
 
-	user.IsAdmin = user.Role == models.RoleAdmin
 	return user, nil
 }
 
-// DeleteUser deletes a user (only admins can do this)
+// DeleteUser deletes a user by ID
 func (r *UserRepository) DeleteUser(userID int64) error {
 	query := `DELETE FROM users WHERE id = $1`
 	
@@ -126,11 +122,6 @@ func (r *UserRepository) ListUsers(limit, offset int) ([]*models.User, error) {
 	err := r.db.Select(&users, query, limit, offset)
 	if err != nil {
 		return nil, fmt.Errorf("failed to list users: %w", err)
-	}
-
-	// Set IsAdmin flag for each user
-	for _, user := range users {
-		user.IsAdmin = user.Role == models.RoleAdmin
 	}
 
 	return users, nil

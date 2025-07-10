@@ -21,23 +21,6 @@ type Service struct {
 	logger    *logger.Logger
 }
 
-type RegisterRequest struct {
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-	Role     string `json:"role"`
-}
-
-type LoginRequest struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
-
-type LoginResponse struct {
-	Token string       `json:"token"`
-	User  *models.User `json:"user"`
-}
-
 func NewService(userRepo *repository.UserRepository, jwtSecret string, logger *logger.Logger) *Service {
 	return &Service{
 		userRepo:  userRepo,
@@ -47,7 +30,7 @@ func NewService(userRepo *repository.UserRepository, jwtSecret string, logger *l
 }
 
 // Register creates a new user account
-func (s *Service) Register(req *RegisterRequest) (*models.User, error) {
+func (s *Service) Register(req *models.CreateUserRequest) (*models.User, error) {
 	// Normalize inputs
 	username := strings.TrimSpace(req.Username)
 	email := strings.TrimSpace(strings.ToLower(req.Email))
@@ -62,20 +45,27 @@ func (s *Service) Register(req *RegisterRequest) (*models.User, error) {
 	s.logger.Info(fmt.Sprintf("Registration attempt - Username: %s, Email: %s, Role: %s", username, email, role))
 
 	// Validate input
-	if err := validation.ValidateUser(username, email, password, role); err != nil {
+	if err := validation.ValidateUserRegistration(username, email, password, role); err != nil {
 		s.logger.Warn(fmt.Sprintf("Registration validation failed: %s", err.Error()))
 		return nil, err
 	}
 
-	// Check if user already exists
+	// Check if user already exists by email
 	if existingUser, err := s.userRepo.GetUserByEmail(email); err == nil && existingUser != nil {
 		s.logger.Warn(fmt.Sprintf("Registration failed: email already exists - %s", email))
 		return nil, errors.New("email already exists")
+	} else if err != nil && err != sql.ErrNoRows {
+		s.logger.Err(fmt.Sprintf("Database error checking email: %s", err.Error()))
+		return nil, errors.New("registration failed")
 	}
 
+	// Check if user already exists by username
 	if existingUser, err := s.userRepo.GetUserByUsername(username); err == nil && existingUser != nil {
 		s.logger.Warn(fmt.Sprintf("Registration failed: username already exists - %s", username))
 		return nil, errors.New("username already exists")
+	} else if err != nil && err != sql.ErrNoRows {
+		s.logger.Err(fmt.Sprintf("Database error checking username: %s", err.Error()))
+		return nil, errors.New("registration failed")
 	}
 
 	// Hash password
@@ -107,7 +97,7 @@ func (s *Service) Register(req *RegisterRequest) (*models.User, error) {
 }
 
 // Login authenticates a user and returns a JWT token
-func (s *Service) Login(req *LoginRequest) (*LoginResponse, error) {
+func (s *Service) Login(req *models.LoginRequest) (*models.LoginResponse, error) {
 	// Normalize inputs
 	email := strings.TrimSpace(strings.ToLower(req.Email))
 	password := req.Password
@@ -149,7 +139,7 @@ func (s *Service) Login(req *LoginRequest) (*LoginResponse, error) {
 	// Remove password from response
 	user.Password = ""
 
-	return &LoginResponse{
+	return &models.LoginResponse{
 		Token: token,
 		User:  user,
 	}, nil
