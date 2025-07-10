@@ -103,10 +103,10 @@ func ValidatePassword(password string) error {
 func ValidateRole(role string) error {
 	role = strings.TrimSpace(strings.ToLower(role))
 	if role == "" {
-		return nil // Empty role will default to rider
+		return nil // Will default to rider
 	}
 	if !models.IsValidRole(role) {
-		return errors.New("role must be one of: rider, driver, admin")
+		return errors.New("invalid role; must be rider, driver, or admin")
 	}
 	return nil
 }

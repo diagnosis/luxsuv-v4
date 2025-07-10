@@ -33,8 +33,6 @@ func (h *AuthHandler) Register(c echo.Context) error {
 		})
 	}
 
-	h.logger.Info(fmt.Sprintf("Registration request received: username=%s, email=%s, role=%s", req.Username, req.Email, req.Role))
-
 	user, err := h.authService.Register(&req)
 	if err != nil {
 		h.logger.Warn(fmt.Sprintf("Registration failed: %s", err.Error()))
