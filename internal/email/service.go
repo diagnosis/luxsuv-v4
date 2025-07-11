@@ -2,7 +2,7 @@ package email
 
 import (
 	"fmt"
-	"strconv"
+	"crypto/tls"
 
 	"github.com/diagnosis/luxsuv-v4/internal/logger"
 	"gopkg.in/gomail.v2"
@@ -95,6 +95,8 @@ func (s *Service) SendPasswordResetEmail(to, resetToken string) error {
 
 // sendEmail sends an email using SMTP
 func (s *Service) sendEmail(to, subject, body string) error {
+	s.logger.Info(fmt.Sprintf("Attempting to send email to %s via %s:%d", to, s.host, s.port))
+	
 	m := gomail.NewMessage()
 	m.SetHeader("From", s.from)
 	m.SetHeader("To", to)
@@ -102,13 +104,18 @@ func (s *Service) sendEmail(to, subject, body string) error {
 	m.SetBody("text/html", body)
 
 	d := gomail.NewDialer(s.host, s.port, s.username, s.password)
+	
+	// Configure TLS
+	d.TLSConfig = &tls.Config{InsecureSkipVerify: false}
+	
+	s.logger.Info(fmt.Sprintf("Connecting to SMTP server %s:%d with username %s", s.host, s.port, s.username))
 
 	if err := d.DialAndSend(m); err != nil {
-		s.logger.Err(fmt.Sprintf("Failed to send email to %s: %s", to, err.Error()))
+		s.logger.Err(fmt.Sprintf("Failed to send email to %s via %s:%d - Error: %s", to, s.host, s.port, err.Error()))
 		return fmt.Errorf("failed to send email: %w", err)
 	}
 
-	s.logger.Info(fmt.Sprintf("Email sent successfully to %s", to))
+	s.logger.Info(fmt.Sprintf("Email sent successfully to %s via %s:%d", to, s.host, s.port))
 	return nil
 }
 

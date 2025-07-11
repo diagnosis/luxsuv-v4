@@ -169,13 +169,18 @@ func (h *PasswordHandler) ResetPasswordRequest(c echo.Context) error {
 	
 	// Send email if email service is configured
 	if h.emailService != nil {
+		h.logger.Info(fmt.Sprintf("Attempting to send password reset email to %s", email))
 		if err := h.emailService.SendPasswordResetEmail(email, resetToken); err != nil {
 			h.logger.Err(fmt.Sprintf("Failed to send password reset email to %s: %s", email, err.Error()))
-			return c.JSON(http.StatusInternalServerError, map[string]string{
-				"error": "failed to send password reset email",
+			// Don't fail the request if email fails, but log it
+			h.logger.Warn("Email service failed, falling back to token response")
+			return c.JSON(http.StatusOK, map[string]interface{}{
+				"message": "password reset token generated (email service failed)",
+				"reset_token": resetToken,
 			})
 		}
 		
+		h.logger.Info(fmt.Sprintf("Password reset email sent successfully to %s", email))
 		return c.JSON(http.StatusOK, map[string]string{
 			"message": "if the email exists, a password reset link has been sent",
 		})
@@ -183,7 +188,7 @@ func (h *PasswordHandler) ResetPasswordRequest(c echo.Context) error {
 		// In development mode without email service, return the token
 		h.logger.Warn("Email service not configured, returning reset token in response")
 		return c.JSON(http.StatusOK, map[string]interface{}{
-			"message": "password reset token generated (email service not configured)",
+			"message": "password reset token generated (email service disabled)",
 			"reset_token": resetToken,
 		})
 	}

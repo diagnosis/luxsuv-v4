@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/diagnosis/luxsuv-v4/internal/auth"
@@ -75,7 +76,7 @@ func main() {
 	
 	// Initialize email service
 	var emailService *email.Service
-	if cfg.SMTPHost != "" {
+	if cfg.SMTPHost != "" && cfg.SMTPUsername != "" && cfg.SMTPPassword != "" {
 		emailConfig := email.Config{
 			Host:     cfg.SMTPHost,
 			Port:     cfg.SMTPPort,
@@ -85,11 +86,14 @@ func main() {
 		}
 		emailService = email.NewService(emailConfig, log)
 		log.Info("Email service initialized")
+		log.Info("SMTP Host: " + cfg.SMTPHost)
+		log.Info("SMTP Port: " + strconv.Itoa(cfg.SMTPPort))
+		log.Info("SMTP From: " + cfg.SMTPFrom)
 	} else {
-		log.Warn("Email service disabled - SMTP configuration missing")
+		log.Warn("Email service disabled - SMTP configuration incomplete")
+		log.Warn("Please configure SMTP_HOST, SMTP_USERNAME, SMTP_PASSWORD, and SMTP_FROM in .env file")
 	}
 	
-	authHandler := handlers.NewAuthHandler(authService, log)
 	authHandler := handlers.NewAuthHandler(authService, emailService, log)
 	userHandler := handlers.NewUserHandler(authService, userRepo, log)
 	passwordHandler := handlers.NewPasswordHandler(authService, userRepo, emailService, log)
