@@ -1,6 +1,8 @@
 module github.com/diagnosis/luxsuv-v4
 
-go 1.21
+go 1.23.0
+
+toolchain go1.24.4
 
 require (
 	github.com/golang-jwt/jwt/v5 v5.2.2
@@ -10,7 +12,6 @@ require (
 	github.com/lib/pq v1.10.9
 	github.com/pressly/goose/v3 v3.24.3
 	golang.org/x/crypto v0.39.0
-	golang.org/x/time v0.8.0
 )
 
 require (
@@ -26,4 +27,5 @@ require (
 	golang.org/x/sync v0.16.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
 	golang.org/x/text v0.27.0 // indirect
+	golang.org/x/time v0.11.0 // indirect
 )
