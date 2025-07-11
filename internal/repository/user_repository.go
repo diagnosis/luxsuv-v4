@@ -181,15 +181,35 @@ func (r *UserRepository) UpdatePassword(userID int64, hashedPassword string) err
 
 // StoreResetToken stores a password reset token for a user
 func (r *UserRepository) StoreResetToken(userID int64, token string) error {
+	// First, let's check if the user exists
+	var exists bool
+	checkQuery := `SELECT EXISTS(SELECT 1 FROM users WHERE id = $1)`
+	if err := r.db.Get(&exists, checkQuery, userID); err != nil {
+		return fmt.Errorf("failed to check if user exists: %w", err)
+	}
+	if !exists {
+		return fmt.Errorf("user with ID %d does not exist", userID)
+	}
+
 	query := `
 		INSERT INTO password_reset_tokens (user_id, token, expires_at, created_at)
 		VALUES ($1, $2, NOW() + INTERVAL '1 hour', NOW())
 		ON CONFLICT (user_id) 
 		DO UPDATE SET token = $2, expires_at = NOW() + INTERVAL '1 hour', created_at = NOW()`
 	
-	_, err := r.db.Exec(query, userID, token)
+	result, err := r.db.Exec(query, userID, token)
 	if err != nil {
 		return fmt.Errorf("failed to store reset token: %w", err)
+	}
+
+	// Check if the operation affected any rows
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return fmt.Errorf("failed to get rows affected: %w", err)
+	}
+	
+	if rowsAffected == 0 {
+		return fmt.Errorf("no rows affected when storing reset token")
 	}
 
 	return nil

@@ -156,13 +156,13 @@ func (h *PasswordHandler) ResetPasswordRequest(c echo.Context) error {
 
 	// Store reset token in database
 	if err := h.userRepo.StoreResetToken(user.ID, resetToken); err != nil {
-		h.logger.Err(fmt.Sprintf("Failed to store reset token for user %d: %s", user.ID, err.Error()))
+		h.logger.Err(fmt.Sprintf("Failed to store reset token for user %d (%s): %s", user.ID, email, err.Error()))
 		return c.JSON(http.StatusInternalServerError, map[string]string{
 			"error": "failed to process reset request",
 		})
 	}
 
-	h.logger.Info(fmt.Sprintf("Password reset token generated for user %s", email))
+	h.logger.Info(fmt.Sprintf("Password reset token generated successfully for user %s (ID: %d)", email, user.ID))
 	
 	// In development, return the token. In production, send via email
 	return c.JSON(http.StatusOK, map[string]interface{}{
