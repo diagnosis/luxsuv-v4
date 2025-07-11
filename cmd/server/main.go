@@ -76,22 +76,19 @@ func main() {
 	
 	// Initialize email service
 	var emailService *email.Service
-	if cfg.SMTPHost != "" && cfg.SMTPUsername != "" && cfg.SMTPPassword != "" {
+	if cfg.MailerSendAPIKey != "" && cfg.MailerSendFromEmail != "" {
 		emailConfig := email.Config{
-			Host:     cfg.SMTPHost,
-			Port:     cfg.SMTPPort,
-			Username: cfg.SMTPUsername,
-			Password: cfg.SMTPPassword,
-			From:     cfg.SMTPFrom,
+			APIKey:    cfg.MailerSendAPIKey,
+			FromEmail: cfg.MailerSendFromEmail,
+			FromName:  cfg.MailerSendFromName,
 		}
 		emailService = email.NewService(emailConfig, log)
 		log.Info("Email service initialized")
-		log.Info("SMTP Host: " + cfg.SMTPHost)
-		log.Info("SMTP Port: " + strconv.Itoa(cfg.SMTPPort))
-		log.Info("SMTP From: " + cfg.SMTPFrom)
+		log.Info("MailerSend From Email: " + cfg.MailerSendFromEmail)
+		log.Info("MailerSend From Name: " + cfg.MailerSendFromName)
 	} else {
-		log.Warn("Email service disabled - SMTP configuration incomplete")
-		log.Warn("Please configure SMTP_HOST, SMTP_USERNAME, SMTP_PASSWORD, and SMTP_FROM in .env file")
+		log.Warn("Email service disabled - MailerSend configuration incomplete")
+		log.Warn("Please configure MAILERSEND_API_KEY and MAILERSEND_FROM_EMAIL in .env file")
 	}
 	
 	authHandler := handlers.NewAuthHandler(authService, emailService, log)
