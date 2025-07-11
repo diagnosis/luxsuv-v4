@@ -4,11 +4,14 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
+	"database/sql"
 
 	"github.com/diagnosis/luxsuv-v4/internal/auth"
 	"github.com/diagnosis/luxsuv-v4/internal/logger"
 	"github.com/diagnosis/luxsuv-v4/internal/models"
 	"github.com/diagnosis/luxsuv-v4/internal/repository"
+	"github.com/diagnosis/luxsuv-v4/internal/validation"
 	"github.com/labstack/echo/v4"
 )
 
@@ -73,6 +76,41 @@ func (h *UserHandler) ListUsers(c echo.Context) error {
 
 	h.logger.Info(fmt.Sprintf("Listed %d users (page %d)", len(users), page))
 	return c.JSON(http.StatusOK, response)
+}
+
+// GetUserByEmail handles retrieving a user by email (admin only)
+func (h *UserHandler) GetUserByEmail(c echo.Context) error {
+	email := c.QueryParam("email")
+	if email == "" {
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"error": "email parameter is required",
+		})
+	}
+
+	// Validate email format
+	email = strings.TrimSpace(strings.ToLower(email))
+	if err := validation.ValidateEmail(email); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"error": err.Error(),
+		})
+	}
+
+	user, err := h.userRepo.GetUserByEmail(email)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return c.JSON(http.StatusNotFound, map[string]string{
+				"error": "user not found",
+			})
+		}
+		h.logger.Err(fmt.Sprintf("Failed to get user by email %s: %s", email, err.Error()))
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"error": "failed to retrieve user",
+		})
+	}
+
+	// Remove password from response
+	user.Password = ""
+	return c.JSON(http.StatusOK, user)
 }
 
 // GetUserByID handles retrieving a specific user by ID (admin only)

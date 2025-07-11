@@ -166,6 +166,7 @@ func main() {
 	
 	// User management endpoints
 	adminGroup.GET("/users", userHandler.ListUsers)
+	adminGroup.GET("/users/by-email", userHandler.GetUserByEmail)
 	adminGroup.GET("/users/:id", userHandler.GetUserByID)
 	adminGroup.PUT("/users/:id/role", userHandler.UpdateUserRole)
 	adminGroup.DELETE("/users/:id", authHandler.DeleteUser)
@@ -180,6 +181,7 @@ func main() {
 	log.Info("  GET  /users/me (protected)")
 	log.Info("  PUT  /users/me/password (protected)")
 	log.Info("  GET  /admin/users (admin only)")
+	log.Info("  GET  /admin/users/by-email?email=user@example.com (admin only)")
 	log.Info("  GET  /admin/users/:id (admin only)")
 	log.Info("  PUT  /admin/users/:id/role (admin only)")
 	log.Info("  DELETE /admin/users/:id (admin only)")
