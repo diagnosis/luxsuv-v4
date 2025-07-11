@@ -15,6 +15,13 @@ type Config struct {
 	Environment    string
 	LogLevel       string
 	MaxConnections int
+	
+	// Email configuration
+	SMTPHost     string
+	SMTPPort     int
+	SMTPUsername string
+	SMTPPassword string
+	SMTPFrom     string
 }
 
 func LoadConfig(log *logger.Logger) (*Config, error) {
@@ -40,6 +47,21 @@ func LoadConfig(log *logger.Logger) (*Config, error) {
 	}
 	cfg.MaxConnections = maxConn
 
+	// Parse SMTP port
+	smtpPortStr := getEnvWithDefault("SMTP_PORT", "587")
+	smtpPort, err := strconv.Atoi(smtpPortStr)
+	if err != nil {
+		log.Warn("Invalid SMTP_PORT value, using default: " + err.Error())
+		smtpPort = 587
+	}
+	
+	// Email configuration
+	cfg.SMTPHost = getEnvWithDefault("SMTP_HOST", "")
+	cfg.SMTPPort = smtpPort
+	cfg.SMTPUsername = getEnvWithDefault("SMTP_USERNAME", "")
+	cfg.SMTPPassword = getEnvWithDefault("SMTP_PASSWORD", "")
+	cfg.SMTPFrom = getEnvWithDefault("SMTP_FROM", "")
+
 	// Validate required fields
 	if cfg.DatabaseURL == "" {
 		log.Err("DATABASE_URL environment variable is required")
@@ -62,6 +84,16 @@ func LoadConfig(log *logger.Logger) (*Config, error) {
 	log.Info("Port: " + cfg.Port)
 	log.Info("Log Level: " + cfg.LogLevel)
 	log.Info("Max DB Connections: " + strconv.Itoa(cfg.MaxConnections))
+	
+	// Log email configuration (without sensitive data)
+	if cfg.SMTPHost != "" {
+		log.Info("SMTP Host: " + cfg.SMTPHost)
+		log.Info("SMTP Port: " + strconv.Itoa(cfg.SMTPPort))
+		log.Info("SMTP From: " + cfg.SMTPFrom)
+		log.Info("Email service enabled")
+	} else {
+		log.Warn("Email service not configured - SMTP_HOST not set")
+	}
 
 	return cfg, nil
 }

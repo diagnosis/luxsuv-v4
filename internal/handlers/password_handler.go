@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/diagnosis/luxsuv-v4/internal/auth"
+	"github.com/diagnosis/luxsuv-v4/internal/email"
 	"github.com/diagnosis/luxsuv-v4/internal/logger"
 	"github.com/diagnosis/luxsuv-v4/internal/repository"
 	"github.com/diagnosis/luxsuv-v4/internal/validation"
@@ -16,13 +17,15 @@ import (
 type PasswordHandler struct {
 	authService *auth.Service
 	userRepo    *repository.UserRepository
+	emailService *email.Service
 	logger      *logger.Logger
 }
 
-func NewPasswordHandler(authService *auth.Service, userRepo *repository.UserRepository, logger *logger.Logger) *PasswordHandler {
+func NewPasswordHandler(authService *auth.Service, userRepo *repository.UserRepository, emailService *email.Service, logger *logger.Logger) *PasswordHandler {
 	return &PasswordHandler{
 		authService: authService,
 		userRepo:    userRepo,
+		emailService: emailService,
 		logger:      logger,
 	}
 }
@@ -164,11 +167,26 @@ func (h *PasswordHandler) ResetPasswordRequest(c echo.Context) error {
 
 	h.logger.Info(fmt.Sprintf("Password reset token generated successfully for user %s (ID: %d)", email, user.ID))
 	
-	// In development, return the token. In production, send via email
-	return c.JSON(http.StatusOK, map[string]interface{}{
-		"message": "password reset token generated",
-		"reset_token": resetToken, // Remove this in production
-	})
+	// Send email if email service is configured
+	if h.emailService != nil {
+		if err := h.emailService.SendPasswordResetEmail(email, resetToken); err != nil {
+			h.logger.Err(fmt.Sprintf("Failed to send password reset email to %s: %s", email, err.Error()))
+			return c.JSON(http.StatusInternalServerError, map[string]string{
+				"error": "failed to send password reset email",
+			})
+		}
+		
+		return c.JSON(http.StatusOK, map[string]string{
+			"message": "if the email exists, a password reset link has been sent",
+		})
+	} else {
+		// In development mode without email service, return the token
+		h.logger.Warn("Email service not configured, returning reset token in response")
+		return c.JSON(http.StatusOK, map[string]interface{}{
+			"message": "password reset token generated (email service not configured)",
+			"reset_token": resetToken,
+		})
+	}
 }
 
 // ResetPassword handles password reset with token

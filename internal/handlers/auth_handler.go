@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/diagnosis/luxsuv-v4/internal/auth"
+	"github.com/diagnosis/luxsuv-v4/internal/email"
 	"github.com/diagnosis/luxsuv-v4/internal/logger"
 	"github.com/diagnosis/luxsuv-v4/internal/models"
 	"github.com/labstack/echo/v4"
@@ -13,12 +14,14 @@ import (
 
 type AuthHandler struct {
 	authService *auth.Service
+	emailService *email.Service
 	logger      *logger.Logger
 }
 
-func NewAuthHandler(authService *auth.Service, logger *logger.Logger) *AuthHandler {
+func NewAuthHandler(authService *auth.Service, emailService *email.Service, logger *logger.Logger) *AuthHandler {
 	return &AuthHandler{
 		authService: authService,
+		emailService: emailService,
 		logger:      logger,
 	}
 }
@@ -42,6 +45,15 @@ func (h *AuthHandler) Register(c echo.Context) error {
 	}
 
 	h.logger.Info(fmt.Sprintf("User registered successfully: %s", user.Email))
+	
+	// Send welcome email if email service is configured
+	if h.emailService != nil {
+		if err := h.emailService.SendWelcomeEmail(user.Email, user.Username); err != nil {
+			h.logger.Warn(fmt.Sprintf("Failed to send welcome email to %s: %s", user.Email, err.Error()))
+			// Don't fail registration if email fails
+		}
+	}
+	
 	return c.JSON(http.StatusCreated, map[string]interface{}{
 		"message": "user registered successfully",
 		"user":    user,

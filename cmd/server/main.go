@@ -6,6 +6,7 @@ import (
 
 	"github.com/diagnosis/luxsuv-v4/internal/auth"
 	"github.com/diagnosis/luxsuv-v4/internal/config"
+	"github.com/diagnosis/luxsuv-v4/internal/email"
 	"github.com/diagnosis/luxsuv-v4/internal/handlers"
 	"github.com/diagnosis/luxsuv-v4/internal/logger"
 	"github.com/diagnosis/luxsuv-v4/internal/middleware"
@@ -71,9 +72,27 @@ func main() {
 	// Initialize repositories and services
 	userRepo := repository.NewUserRepository(db)
 	authService := auth.NewService(userRepo, cfg.JWTSecret, log)
+	
+	// Initialize email service
+	var emailService *email.Service
+	if cfg.SMTPHost != "" {
+		emailConfig := email.Config{
+			Host:     cfg.SMTPHost,
+			Port:     cfg.SMTPPort,
+			Username: cfg.SMTPUsername,
+			Password: cfg.SMTPPassword,
+			From:     cfg.SMTPFrom,
+		}
+		emailService = email.NewService(emailConfig, log)
+		log.Info("Email service initialized")
+	} else {
+		log.Warn("Email service disabled - SMTP configuration missing")
+	}
+	
 	authHandler := handlers.NewAuthHandler(authService, log)
+	authHandler := handlers.NewAuthHandler(authService, emailService, log)
 	userHandler := handlers.NewUserHandler(authService, userRepo, log)
-	passwordHandler := handlers.NewPasswordHandler(authService, userRepo, log)
+	passwordHandler := handlers.NewPasswordHandler(authService, userRepo, emailService, log)
 	authMiddleware := middleware.NewAuthMiddleware(authService, log)
 
 	// Set up Echo server
