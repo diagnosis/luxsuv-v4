@@ -275,3 +275,124 @@ INFO: 2025/07/10 20:52:40 logger.go:42:   GET  /admin/users/:id (admin only)
 INFO: 2025/07/10 20:52:40 logger.go:42:   PUT  /admin/users/:id/role (admin only)
 INFO: 2025/07/10 20:52:40 logger.go:42:   DELETE /admin/users/:id (admin only)
 INFO: 2025/07/10 20:53:07 logger.go:42: Password reset token generated successfully for user demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/10 21:21:36 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 21:21:36 logger.go:42: Environment: development
+INFO: 2025/07/10 21:21:36 logger.go:42: Port: 8080
+INFO: 2025/07/10 21:21:36 logger.go:42: Log Level: info
+INFO: 2025/07/10 21:21:36 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 21:21:36 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 21:21:37 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/10 21:21:37 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 21:21:37 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 21:21:37 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 21:21:37 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 21:21:37 logger.go:42: Available endpoints:
+INFO: 2025/07/10 21:21:37 logger.go:42:   GET  /health
+INFO: 2025/07/10 21:21:37 logger.go:42:   POST /register
+INFO: 2025/07/10 21:21:37 logger.go:42:   POST /login
+INFO: 2025/07/10 21:21:37 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 21:21:37 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 21:21:37 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 21:21:37 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 21:21:37 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 21:21:37 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/10 21:21:37 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 21:21:37 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 21:21:37 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/10 21:21:45 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 21:21:45 logger.go:42: Environment: development
+INFO: 2025/07/10 21:21:45 logger.go:42: Port: 8080
+INFO: 2025/07/10 21:21:45 logger.go:42: Log Level: info
+INFO: 2025/07/10 21:21:45 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 21:21:45 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 21:21:45 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/10 21:21:45 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 21:21:45 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 21:21:45 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 21:21:45 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 21:21:45 logger.go:42: Available endpoints:
+INFO: 2025/07/10 21:21:45 logger.go:42:   GET  /health
+INFO: 2025/07/10 21:21:45 logger.go:42:   POST /register
+INFO: 2025/07/10 21:21:45 logger.go:42:   POST /login
+INFO: 2025/07/10 21:21:45 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 21:21:45 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 21:21:45 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 21:21:45 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 21:21:45 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 21:21:45 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/10 21:21:45 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 21:21:45 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 21:21:45 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/10 21:51:59 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 21:51:59 logger.go:42: Environment: development
+INFO: 2025/07/10 21:51:59 logger.go:42: Port: 8080
+INFO: 2025/07/10 21:51:59 logger.go:42: Log Level: info
+INFO: 2025/07/10 21:51:59 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 21:51:59 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 21:51:59 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/10 21:51:59 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 21:52:00 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 21:52:00 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 21:52:00 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 21:52:00 logger.go:42: Available endpoints:
+INFO: 2025/07/10 21:52:00 logger.go:42:   GET  /health
+INFO: 2025/07/10 21:52:00 logger.go:42:   POST /register
+INFO: 2025/07/10 21:52:00 logger.go:42:   POST /login
+INFO: 2025/07/10 21:52:00 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 21:52:00 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 21:52:00 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 21:52:00 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 21:52:00 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 21:52:00 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/10 21:52:00 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 21:52:00 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 21:52:00 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/10 21:55:20 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 21:55:20 logger.go:42: Environment: development
+INFO: 2025/07/10 21:55:20 logger.go:42: Port: 8080
+INFO: 2025/07/10 21:55:20 logger.go:42: Log Level: info
+INFO: 2025/07/10 21:55:20 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 21:55:20 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 21:55:21 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/10 21:55:21 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 21:55:21 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 21:55:21 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 21:55:21 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 21:55:21 logger.go:42: Available endpoints:
+INFO: 2025/07/10 21:55:21 logger.go:42:   GET  /health
+INFO: 2025/07/10 21:55:21 logger.go:42:   POST /register
+INFO: 2025/07/10 21:55:21 logger.go:42:   POST /login
+INFO: 2025/07/10 21:55:21 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 21:55:21 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 21:55:21 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 21:55:21 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 21:55:21 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 21:55:21 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/10 21:55:21 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 21:55:21 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 21:55:21 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/10 21:55:52 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 21:55:52 logger.go:42: Environment: development
+INFO: 2025/07/10 21:55:52 logger.go:42: Port: 8080
+INFO: 2025/07/10 21:55:52 logger.go:42: Log Level: info
+INFO: 2025/07/10 21:55:52 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 21:55:52 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 21:55:52 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/10 21:55:52 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 21:55:52 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 21:55:52 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 21:55:52 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 21:55:52 logger.go:42: Available endpoints:
+INFO: 2025/07/10 21:55:52 logger.go:42:   GET  /health
+INFO: 2025/07/10 21:55:52 logger.go:42:   POST /register
+INFO: 2025/07/10 21:55:52 logger.go:42:   POST /login
+INFO: 2025/07/10 21:55:52 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 21:55:52 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 21:55:52 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 21:55:52 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 21:55:52 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 21:55:52 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/10 21:55:52 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 21:55:52 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 21:55:52 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/10 21:55:58 logger.go:42: Password reset token generated successfully for user demirkansafa@gmail.com (ID: 45)
