@@ -4,6 +4,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"path/filepath"
 )
 
 type Logger struct {
@@ -14,11 +15,21 @@ type Logger struct {
 }
 
 func NewLogger(logfilePath string) (*Logger, error) {
+	// Create logs directory if it doesn't exist
+	logDir := filepath.Dir(logfilePath)
+	if logDir != "." && logDir != "" {
+		if err := os.MkdirAll(logDir, 0755); err != nil {
+			return nil, err
+		}
+	}
+
 	file, err := os.OpenFile(logfilePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		return nil, err
 	}
+
 	multiWriter := io.MultiWriter(os.Stdout, file)
+	
 	return &Logger{
 		info: log.New(multiWriter, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile),
 		err:  log.New(multiWriter, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile),
@@ -39,8 +50,14 @@ func (l *Logger) Warn(msg string) {
 	l.warn.Printf("%s", msg)
 }
 
-func (l *Logger) Close() {
-	if err := l.file.Close(); err != nil {
-		log.Printf("Error closing log file: %v", err)
+func (l *Logger) Debug(msg string) {
+	// For now, treat debug as info
+	l.info.Printf("DEBUG: %s", msg)
+}
+
+func (l *Logger) Close() error {
+	if l.file != nil {
+		return l.file.Close()
 	}
+	return nil
 }

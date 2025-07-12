@@ -1,0 +1,783 @@
+INFO: 2025/07/10 11:59:32 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 11:59:32 logger.go:42: Environment: development
+INFO: 2025/07/10 11:59:32 logger.go:42: Port: 8080
+INFO: 2025/07/10 11:59:32 logger.go:42: Log Level: info
+INFO: 2025/07/10 11:59:32 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 11:59:32 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 11:59:33 logger.go:42: goose: no migrations to run. current version: 20250710012701
+INFO: 2025/07/10 11:59:33 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 11:59:33 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 11:59:33 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 11:59:33 logger.go:42: Available endpoints:
+INFO: 2025/07/10 11:59:33 logger.go:42:   GET  /health
+INFO: 2025/07/10 11:59:33 logger.go:42:   POST /register
+INFO: 2025/07/10 11:59:33 logger.go:42:   POST /login
+INFO: 2025/07/10 11:59:33 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 11:59:33 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/10 12:00:25 logger.go:42: Registration attempt - Username: test, Email: invalid, Role: rider
+WARN: 2025/07/10 12:00:25 logger.go:50: Registration validation failed: invalid email format
+WARN: 2025/07/10 12:00:25 logger.go:50: Registration failed: invalid email format
+INFO: 2025/07/10 12:00:55 logger.go:42: Registration attempt - Username: test2, Email: test2@example.com, Role: rider
+WARN: 2025/07/10 12:00:55 logger.go:50: Registration validation failed: password must be at least 8 characters long
+WARN: 2025/07/10 12:00:55 logger.go:50: Registration failed: password must be at least 8 characters long
+INFO: 2025/07/10 12:01:06 logger.go:42: Registration attempt - Username: test3, Email: test3@example.com, Role: invalid
+WARN: 2025/07/10 12:01:06 logger.go:50: Registration validation failed: invalid role; must be rider, driver, or admin
+WARN: 2025/07/10 12:01:06 logger.go:50: Registration failed: invalid role; must be rider, driver, or admin
+INFO: 2025/07/10 12:01:27 logger.go:42: Registration attempt - Username: validuser, Email: valid@example.com, Role: rider
+INFO: 2025/07/10 12:01:28 logger.go:42: User registered successfully: validuser (valid@example.com)
+INFO: 2025/07/10 12:01:28 logger.go:42: User registered successfully: valid@example.com
+INFO: 2025/07/10 12:12:09 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 12:12:09 logger.go:42: Environment: development
+INFO: 2025/07/10 12:12:09 logger.go:42: Port: 8080
+INFO: 2025/07/10 12:12:09 logger.go:42: Log Level: info
+INFO: 2025/07/10 12:12:09 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 12:12:09 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 12:12:10 logger.go:42: goose: no migrations to run. current version: 20250710012701
+INFO: 2025/07/10 12:12:10 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 12:12:11 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 12:12:11 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 12:12:11 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 12:12:11 logger.go:42: Available endpoints:
+INFO: 2025/07/10 12:12:11 logger.go:42:   GET  /health
+INFO: 2025/07/10 12:12:11 logger.go:42:   POST /register
+INFO: 2025/07/10 12:12:11 logger.go:42:   POST /login
+INFO: 2025/07/10 12:12:11 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 12:12:11 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 12:12:11 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 12:12:11 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 12:12:11 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 12:12:11 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 12:12:11 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 12:12:11 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/10 13:04:44 logger.go:42: Login attempt for email: demirkansafa@gmail.com
+WARN: 2025/07/10 13:04:45 logger.go:50: Login failed: user not found - demirkansafa@gmail.com
+WARN: 2025/07/10 13:04:45 logger.go:50: Login failed: invalid email or password
+INFO: 2025/07/10 13:06:05 logger.go:42: Registration attempt - Username: , Email: demirkansafa@gmail.com, Role: rider
+WARN: 2025/07/10 13:06:05 logger.go:50: Registration validation failed: username is required
+WARN: 2025/07/10 13:06:05 logger.go:50: Registration failed: username is required
+INFO: 2025/07/10 13:06:26 logger.go:42: Registration attempt - Username: , Email: demirkansafa@gmail.com, Role: rider
+WARN: 2025/07/10 13:06:26 logger.go:50: Registration validation failed: username is required
+WARN: 2025/07/10 13:06:26 logger.go:50: Registration failed: username is required
+INFO: 2025/07/10 13:09:23 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 13:09:23 logger.go:42: Environment: development
+INFO: 2025/07/10 13:09:23 logger.go:42: Port: 8080
+INFO: 2025/07/10 13:09:23 logger.go:42: Log Level: info
+INFO: 2025/07/10 13:09:23 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 13:09:23 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 13:09:24 logger.go:42: goose: no migrations to run. current version: 20250710012701
+INFO: 2025/07/10 13:09:24 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 13:09:24 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 13:09:24 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 13:09:24 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 13:09:24 logger.go:42: Available endpoints:
+INFO: 2025/07/10 13:09:24 logger.go:42:   GET  /health
+INFO: 2025/07/10 13:09:24 logger.go:42:   POST /register
+INFO: 2025/07/10 13:09:24 logger.go:42:   POST /login
+INFO: 2025/07/10 13:09:24 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 13:09:24 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 13:09:24 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 13:09:24 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 13:09:24 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 13:09:24 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 13:09:24 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 13:09:24 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/10 13:09:29 logger.go:42: Registration attempt - Username: , Email: demirkansafa@gmail.com, Role: rider
+WARN: 2025/07/10 13:09:29 logger.go:50: Registration validation failed: username is required
+WARN: 2025/07/10 13:09:29 logger.go:50: Registration failed: username is required
+INFO: 2025/07/10 13:25:21 logger.go:42: Registration attempt - Username: maho-aga, Email: demirkansafa@gmail.com, Role: rider
+WARN: 2025/07/10 13:25:21 logger.go:50: Registration validation failed: username can only contain letters, numbers, and underscores
+WARN: 2025/07/10 13:25:21 logger.go:50: Registration failed: username can only contain letters, numbers, and underscores
+INFO: 2025/07/10 13:25:47 logger.go:42: Registration attempt - Username: maho-aga, Email: demirkansafa@gmail.com, Role: rider
+WARN: 2025/07/10 13:25:47 logger.go:50: Registration validation failed: username can only contain letters, numbers, and underscores
+WARN: 2025/07/10 13:25:47 logger.go:50: Registration failed: username can only contain letters, numbers, and underscores
+INFO: 2025/07/10 13:26:01 logger.go:42: Registration attempt - Username: mahoaga, Email: demirkansafa@gmail.com, Role: rider
+INFO: 2025/07/10 13:26:02 logger.go:42: User registered successfully: mahoaga (demirkansafa@gmail.com)
+INFO: 2025/07/10 13:26:02 logger.go:42: User registered successfully: demirkansafa@gmail.com
+INFO: 2025/07/10 13:27:04 logger.go:42: Login attempt for email: demirkansafa@gmail.com
+WARN: 2025/07/10 13:27:04 logger.go:50: Login failed: invalid password for demirkansafa@gmail.com
+WARN: 2025/07/10 13:27:04 logger.go:50: Login failed: invalid email or password
+INFO: 2025/07/10 13:27:43 logger.go:42: Login attempt for email: demirkansafa@gmail.com
+INFO: 2025/07/10 13:27:43 logger.go:42: User logged in successfully: demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/10 13:27:43 logger.go:42: User logged in successfully: demirkansafa@gmail.com
+INFO: 2025/07/10 18:59:01 logger.go:42: Login attempt for email: d@d
+WARN: 2025/07/10 18:59:01 logger.go:50: Login failed: user not found - d@d
+WARN: 2025/07/10 18:59:01 logger.go:50: Login failed: invalid email or password
+INFO: 2025/07/10 19:06:35 logger.go:42: Login attempt for email: s@s
+WARN: 2025/07/10 19:06:36 logger.go:50: Login failed: user not found - s@s
+WARN: 2025/07/10 19:06:36 logger.go:50: Login failed: invalid email or password
+INFO: 2025/07/10 19:07:48 logger.go:42: Login attempt for email: demirkansafa@gmail.com
+WARN: 2025/07/10 19:07:48 logger.go:50: Login failed: invalid password for demirkansafa@gmail.com
+WARN: 2025/07/10 19:07:48 logger.go:50: Login failed: invalid email or password
+INFO: 2025/07/10 19:07:51 logger.go:42: Login attempt for email: demirkansafa@gmail.com
+WARN: 2025/07/10 19:07:52 logger.go:50: Login failed: invalid password for demirkansafa@gmail.com
+WARN: 2025/07/10 19:07:52 logger.go:50: Login failed: invalid email or password
+INFO: 2025/07/10 19:08:20 logger.go:42: Login attempt for email: demirkansafa@gmail.com
+WARN: 2025/07/10 19:08:20 logger.go:50: Login failed: invalid password for demirkansafa@gmail.com
+WARN: 2025/07/10 19:08:20 logger.go:50: Login failed: invalid email or password
+INFO: 2025/07/10 19:09:12 logger.go:42: Registration attempt - Username: testuser, Email: test@test.com, Role: rider
+INFO: 2025/07/10 19:09:12 logger.go:42: User registered successfully: testuser (test@test.com)
+INFO: 2025/07/10 19:09:12 logger.go:42: User registered successfully: test@test.com
+INFO: 2025/07/10 19:09:35 logger.go:42: Login attempt for email: test@test.com
+INFO: 2025/07/10 19:09:35 logger.go:42: User logged in successfully: test@test.com (ID: 46)
+INFO: 2025/07/10 19:09:35 logger.go:42: User logged in successfully: test@test.com
+INFO: 2025/07/10 19:58:33 logger.go:42: Authenticated user: 46 (role: rider)
+INFO: 2025/07/10 19:58:33 logger.go:42: Authenticated user: 46 (role: rider)
+ERROR: 2025/07/10 19:58:44 logger.go:46: Failed to store reset token for user 45: failed to store reset token: pq: relation "password_reset_tokens" does not exist
+ERROR: 2025/07/10 20:34:53 logger.go:46: Failed to store reset token for user 45: failed to store reset token: pq: relation "password_reset_tokens" does not exist
+ERROR: 2025/07/10 20:36:06 logger.go:46: Failed to store reset token for user 45: failed to store reset token: pq: relation "password_reset_tokens" does not exist
+INFO: 2025/07/10 20:40:46 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 20:40:46 logger.go:42: Environment: development
+INFO: 2025/07/10 20:40:46 logger.go:42: Port: 8080
+INFO: 2025/07/10 20:40:46 logger.go:42: Log Level: info
+INFO: 2025/07/10 20:40:46 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 20:40:46 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 20:40:46 logger.go:42: goose: no migrations to run. current version: 20250710012701
+INFO: 2025/07/10 20:40:46 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 20:40:47 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 20:40:47 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 20:40:47 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 20:40:47 logger.go:42: Available endpoints:
+INFO: 2025/07/10 20:40:47 logger.go:42:   GET  /health
+INFO: 2025/07/10 20:40:47 logger.go:42:   POST /register
+INFO: 2025/07/10 20:40:47 logger.go:42:   POST /login
+INFO: 2025/07/10 20:40:47 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 20:40:47 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 20:40:47 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 20:40:47 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 20:40:47 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 20:40:47 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/10 20:40:47 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 20:40:47 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 20:40:47 logger.go:42:   DELETE /admin/users/:id (admin only)
+ERROR: 2025/07/10 20:41:07 logger.go:46: Failed to store reset token for user 45 (demirkansafa@gmail.com): failed to store reset token: pq: relation "password_reset_tokens" does not exist
+INFO: 2025/07/10 20:42:14 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 20:42:14 logger.go:42: Environment: development
+INFO: 2025/07/10 20:42:14 logger.go:42: Port: 8080
+INFO: 2025/07/10 20:42:14 logger.go:42: Log Level: info
+INFO: 2025/07/10 20:42:14 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 20:42:14 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 20:42:14 logger.go:42: goose: no migrations to run. current version: 20250710012701
+INFO: 2025/07/10 20:42:14 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 20:42:14 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 20:42:14 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 20:42:14 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 20:42:14 logger.go:42: Available endpoints:
+INFO: 2025/07/10 20:42:14 logger.go:42:   GET  /health
+INFO: 2025/07/10 20:42:14 logger.go:42:   POST /register
+INFO: 2025/07/10 20:42:14 logger.go:42:   POST /login
+INFO: 2025/07/10 20:42:14 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 20:42:14 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 20:42:14 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 20:42:14 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 20:42:14 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 20:42:14 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/10 20:42:14 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 20:42:14 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 20:42:14 logger.go:42:   DELETE /admin/users/:id (admin only)
+ERROR: 2025/07/10 20:45:29 logger.go:46: Failed to store reset token for user 45 (demirkansafa@gmail.com): failed to store reset token: pq: relation "password_reset_tokens" does not exist
+INFO: 2025/07/10 20:46:55 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 20:46:55 logger.go:42: Environment: development
+INFO: 2025/07/10 20:46:55 logger.go:42: Port: 8080
+INFO: 2025/07/10 20:46:55 logger.go:42: Log Level: info
+INFO: 2025/07/10 20:46:55 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 20:46:55 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 20:46:55 logger.go:42: goose: no migrations to run. current version: 20250710012701
+INFO: 2025/07/10 20:46:55 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 20:46:55 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 20:46:55 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 20:46:55 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 20:46:55 logger.go:42: Available endpoints:
+INFO: 2025/07/10 20:46:55 logger.go:42:   GET  /health
+INFO: 2025/07/10 20:46:55 logger.go:42:   POST /register
+INFO: 2025/07/10 20:46:55 logger.go:42:   POST /login
+INFO: 2025/07/10 20:46:55 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 20:46:55 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 20:46:55 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 20:46:55 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 20:46:55 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 20:46:55 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/10 20:46:55 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 20:46:55 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 20:46:55 logger.go:42:   DELETE /admin/users/:id (admin only)
+ERROR: 2025/07/10 20:46:59 logger.go:46: Failed to store reset token for user 45 (demirkansafa@gmail.com): failed to store reset token: pq: relation "password_reset_tokens" does not exist
+INFO: 2025/07/10 20:47:35 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 20:47:35 logger.go:42: Environment: development
+INFO: 2025/07/10 20:47:35 logger.go:42: Port: 8080
+INFO: 2025/07/10 20:47:35 logger.go:42: Log Level: info
+INFO: 2025/07/10 20:47:35 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 20:47:35 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 20:47:36 logger.go:42: goose: no migrations to run. current version: 20250710012701
+INFO: 2025/07/10 20:47:36 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 20:47:36 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 20:47:36 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 20:47:36 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 20:47:36 logger.go:42: Available endpoints:
+INFO: 2025/07/10 20:47:36 logger.go:42:   GET  /health
+INFO: 2025/07/10 20:47:36 logger.go:42:   POST /register
+INFO: 2025/07/10 20:47:36 logger.go:42:   POST /login
+INFO: 2025/07/10 20:47:36 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 20:47:36 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 20:47:36 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 20:47:36 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 20:47:36 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 20:47:36 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/10 20:47:36 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 20:47:36 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 20:47:36 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/10 20:50:46 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 20:50:46 logger.go:42: Environment: development
+INFO: 2025/07/10 20:50:46 logger.go:42: Port: 8080
+INFO: 2025/07/10 20:50:46 logger.go:42: Log Level: info
+INFO: 2025/07/10 20:50:46 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 20:50:46 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 20:50:46 logger.go:42: goose: no migrations to run. current version: 20250710012701
+INFO: 2025/07/10 20:50:46 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 20:50:47 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 20:50:47 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 20:50:47 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 20:50:47 logger.go:42: Available endpoints:
+INFO: 2025/07/10 20:50:47 logger.go:42:   GET  /health
+INFO: 2025/07/10 20:50:47 logger.go:42:   POST /register
+INFO: 2025/07/10 20:50:47 logger.go:42:   POST /login
+INFO: 2025/07/10 20:50:47 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 20:50:47 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 20:50:47 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 20:50:47 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 20:50:47 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 20:50:47 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/10 20:50:47 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 20:50:47 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 20:50:47 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/10 20:52:39 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 20:52:39 logger.go:42: Environment: development
+INFO: 2025/07/10 20:52:39 logger.go:42: Port: 8080
+INFO: 2025/07/10 20:52:39 logger.go:42: Log Level: info
+INFO: 2025/07/10 20:52:39 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 20:52:39 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 20:52:39 logger.go:42: OK   20250711035107_ivory_shore.sql (236.43ms)
+INFO: 2025/07/10 20:52:39 logger.go:42: OK   20250711035111_white_spring.sql (169.48ms)
+INFO: 2025/07/10 20:52:39 logger.go:42: goose: successfully migrated database to version: 20250711035111
+INFO: 2025/07/10 20:52:39 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 20:52:40 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 20:52:40 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 20:52:40 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 20:52:40 logger.go:42: Available endpoints:
+INFO: 2025/07/10 20:52:40 logger.go:42:   GET  /health
+INFO: 2025/07/10 20:52:40 logger.go:42:   POST /register
+INFO: 2025/07/10 20:52:40 logger.go:42:   POST /login
+INFO: 2025/07/10 20:52:40 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 20:52:40 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 20:52:40 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 20:52:40 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 20:52:40 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 20:52:40 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/10 20:52:40 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 20:52:40 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 20:52:40 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/10 20:53:07 logger.go:42: Password reset token generated successfully for user demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/10 21:21:36 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 21:21:36 logger.go:42: Environment: development
+INFO: 2025/07/10 21:21:36 logger.go:42: Port: 8080
+INFO: 2025/07/10 21:21:36 logger.go:42: Log Level: info
+INFO: 2025/07/10 21:21:36 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 21:21:36 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 21:21:37 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/10 21:21:37 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 21:21:37 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 21:21:37 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 21:21:37 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 21:21:37 logger.go:42: Available endpoints:
+INFO: 2025/07/10 21:21:37 logger.go:42:   GET  /health
+INFO: 2025/07/10 21:21:37 logger.go:42:   POST /register
+INFO: 2025/07/10 21:21:37 logger.go:42:   POST /login
+INFO: 2025/07/10 21:21:37 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 21:21:37 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 21:21:37 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 21:21:37 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 21:21:37 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 21:21:37 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/10 21:21:37 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 21:21:37 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 21:21:37 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/10 21:21:45 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 21:21:45 logger.go:42: Environment: development
+INFO: 2025/07/10 21:21:45 logger.go:42: Port: 8080
+INFO: 2025/07/10 21:21:45 logger.go:42: Log Level: info
+INFO: 2025/07/10 21:21:45 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 21:21:45 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 21:21:45 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/10 21:21:45 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 21:21:45 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 21:21:45 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 21:21:45 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 21:21:45 logger.go:42: Available endpoints:
+INFO: 2025/07/10 21:21:45 logger.go:42:   GET  /health
+INFO: 2025/07/10 21:21:45 logger.go:42:   POST /register
+INFO: 2025/07/10 21:21:45 logger.go:42:   POST /login
+INFO: 2025/07/10 21:21:45 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 21:21:45 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 21:21:45 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 21:21:45 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 21:21:45 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 21:21:45 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/10 21:21:45 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 21:21:45 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 21:21:45 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/10 21:51:59 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 21:51:59 logger.go:42: Environment: development
+INFO: 2025/07/10 21:51:59 logger.go:42: Port: 8080
+INFO: 2025/07/10 21:51:59 logger.go:42: Log Level: info
+INFO: 2025/07/10 21:51:59 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 21:51:59 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 21:51:59 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/10 21:51:59 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 21:52:00 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 21:52:00 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 21:52:00 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 21:52:00 logger.go:42: Available endpoints:
+INFO: 2025/07/10 21:52:00 logger.go:42:   GET  /health
+INFO: 2025/07/10 21:52:00 logger.go:42:   POST /register
+INFO: 2025/07/10 21:52:00 logger.go:42:   POST /login
+INFO: 2025/07/10 21:52:00 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 21:52:00 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 21:52:00 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 21:52:00 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 21:52:00 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 21:52:00 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/10 21:52:00 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 21:52:00 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 21:52:00 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/10 21:55:20 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 21:55:20 logger.go:42: Environment: development
+INFO: 2025/07/10 21:55:20 logger.go:42: Port: 8080
+INFO: 2025/07/10 21:55:20 logger.go:42: Log Level: info
+INFO: 2025/07/10 21:55:20 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 21:55:20 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 21:55:21 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/10 21:55:21 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 21:55:21 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 21:55:21 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 21:55:21 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 21:55:21 logger.go:42: Available endpoints:
+INFO: 2025/07/10 21:55:21 logger.go:42:   GET  /health
+INFO: 2025/07/10 21:55:21 logger.go:42:   POST /register
+INFO: 2025/07/10 21:55:21 logger.go:42:   POST /login
+INFO: 2025/07/10 21:55:21 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 21:55:21 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 21:55:21 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 21:55:21 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 21:55:21 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 21:55:21 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/10 21:55:21 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 21:55:21 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 21:55:21 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/10 21:55:52 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 21:55:52 logger.go:42: Environment: development
+INFO: 2025/07/10 21:55:52 logger.go:42: Port: 8080
+INFO: 2025/07/10 21:55:52 logger.go:42: Log Level: info
+INFO: 2025/07/10 21:55:52 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 21:55:52 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 21:55:52 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/10 21:55:52 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 21:55:52 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 21:55:52 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 21:55:52 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 21:55:52 logger.go:42: Available endpoints:
+INFO: 2025/07/10 21:55:52 logger.go:42:   GET  /health
+INFO: 2025/07/10 21:55:52 logger.go:42:   POST /register
+INFO: 2025/07/10 21:55:52 logger.go:42:   POST /login
+INFO: 2025/07/10 21:55:52 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 21:55:52 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 21:55:52 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 21:55:52 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 21:55:52 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 21:55:52 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/10 21:55:52 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 21:55:52 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 21:55:52 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/10 21:55:58 logger.go:42: Password reset token generated successfully for user demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/10 22:17:02 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 22:17:02 logger.go:42: Environment: development
+INFO: 2025/07/10 22:17:02 logger.go:42: Port: 8080
+INFO: 2025/07/10 22:17:02 logger.go:42: Log Level: info
+INFO: 2025/07/10 22:17:02 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 22:17:02 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 22:17:03 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/10 22:17:03 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 22:17:03 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 22:17:03 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 22:17:03 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 22:17:03 logger.go:42: Available endpoints:
+INFO: 2025/07/10 22:17:03 logger.go:42:   GET  /health
+INFO: 2025/07/10 22:17:03 logger.go:42:   POST /register
+INFO: 2025/07/10 22:17:03 logger.go:42:   POST /login
+INFO: 2025/07/10 22:17:03 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 22:17:03 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 22:17:03 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 22:17:03 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 22:17:03 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 22:17:03 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/10 22:17:03 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 22:17:03 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 22:17:03 logger.go:42:   DELETE /admin/users/:id (admin only)
+ERROR: 2025/07/10 22:17:03 logger.go:46: Failed to start server: listen tcp :8080: bind: address already in use
+INFO: 2025/07/10 22:17:20 logger.go:42: Password reset token generated successfully for user demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/10 22:23:01 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 22:23:01 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 22:23:01 logger.go:42: Environment: development
+INFO: 2025/07/10 22:23:01 logger.go:42: Port: 8080
+INFO: 2025/07/10 22:23:01 logger.go:42: Log Level: info
+INFO: 2025/07/10 22:23:01 logger.go:42: Environment: development
+INFO: 2025/07/10 22:23:01 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 22:23:01 logger.go:42: Port: 8080
+INFO: 2025/07/10 22:23:01 logger.go:42: MailerSend From Email: test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/10 22:23:01 logger.go:42: Log Level: info
+INFO: 2025/07/10 22:23:01 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/10 22:23:01 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 22:23:01 logger.go:42: Email service enabled
+INFO: 2025/07/10 22:23:01 logger.go:42: MailerSend From Email: test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/10 22:23:01 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 22:23:01 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/10 22:23:01 logger.go:42: Email service enabled
+INFO: 2025/07/10 22:23:01 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 22:23:02 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/10 22:23:02 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/10 22:23:02 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 22:23:02 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 22:23:02 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 22:23:02 logger.go:42: Email service initialized
+INFO: 2025/07/10 22:23:02 logger.go:42: MailerSend From Email: test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/10 22:23:02 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/10 22:23:02 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 22:23:02 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 22:23:02 logger.go:42: Available endpoints:
+INFO: 2025/07/10 22:23:02 logger.go:42:   GET  /health
+INFO: 2025/07/10 22:23:02 logger.go:42:   POST /register
+INFO: 2025/07/10 22:23:02 logger.go:42:   POST /login
+INFO: 2025/07/10 22:23:02 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 22:23:02 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 22:23:02 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 22:23:02 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 22:23:02 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 22:23:02 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/10 22:23:02 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 22:23:02 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 22:23:02 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/10 22:23:02 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 22:23:02 logger.go:42: Email service initialized
+INFO: 2025/07/10 22:23:02 logger.go:42: MailerSend From Email: test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/10 22:23:02 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/10 22:23:02 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 22:23:02 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 22:23:02 logger.go:42: Available endpoints:
+INFO: 2025/07/10 22:23:02 logger.go:42:   GET  /health
+INFO: 2025/07/10 22:23:02 logger.go:42:   POST /register
+INFO: 2025/07/10 22:23:02 logger.go:42:   POST /login
+INFO: 2025/07/10 22:23:02 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 22:23:02 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 22:23:02 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 22:23:02 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 22:23:02 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 22:23:02 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/10 22:23:02 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 22:23:02 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 22:23:02 logger.go:42:   DELETE /admin/users/:id (admin only)
+ERROR: 2025/07/10 22:23:02 logger.go:46: Failed to start server: listen tcp :8080: bind: address already in use
+INFO: 2025/07/10 22:23:37 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 22:23:37 logger.go:42: Environment: development
+INFO: 2025/07/10 22:23:37 logger.go:42: Port: 8080
+INFO: 2025/07/10 22:23:37 logger.go:42: Log Level: info
+INFO: 2025/07/10 22:23:37 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 22:23:37 logger.go:42: MailerSend From Email: test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/10 22:23:37 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/10 22:23:37 logger.go:42: Email service enabled
+INFO: 2025/07/10 22:23:37 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 22:23:38 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/10 22:23:38 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 22:23:38 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 22:23:38 logger.go:42: Email service initialized
+INFO: 2025/07/10 22:23:38 logger.go:42: MailerSend From Email: test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/10 22:23:38 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/10 22:23:38 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 22:23:38 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 22:23:38 logger.go:42: Available endpoints:
+INFO: 2025/07/10 22:23:38 logger.go:42:   GET  /health
+INFO: 2025/07/10 22:23:38 logger.go:42:   POST /register
+INFO: 2025/07/10 22:23:38 logger.go:42:   POST /login
+INFO: 2025/07/10 22:23:38 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 22:23:38 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 22:23:38 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 22:23:38 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 22:23:38 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 22:23:38 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/10 22:23:38 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 22:23:38 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 22:23:38 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/10 22:23:45 logger.go:42: Password reset token generated successfully for user demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/10 22:23:45 logger.go:42: Attempting to send password reset email to demirkansafa@gmail.com
+INFO: 2025/07/10 22:23:45 logger.go:42: Attempting to send email to demirkansafa@gmail.com via MailerSend
+INFO: 2025/07/10 22:23:45 logger.go:42: Sending email via MailerSend API to demirkansafa@gmail.com
+ERROR: 2025/07/10 22:23:46 logger.go:46: Failed to send email to demirkansafa@gmail.com via MailerSend - Error: POST https://api.mailersend.com/v1/email: 422 The from.email must be a valid email address. #MS42208
+ERROR: 2025/07/10 22:23:46 logger.go:46: Failed to send password reset email to demirkansafa@gmail.com: failed to send email: POST https://api.mailersend.com/v1/email: 422 The from.email must be a valid email address. #MS42208
+WARN: 2025/07/10 22:23:46 logger.go:50: Email service failed, falling back to token response
+INFO: 2025/07/10 22:31:26 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 22:31:26 logger.go:42: Environment: development
+INFO: 2025/07/10 22:31:26 logger.go:42: Port: 8080
+INFO: 2025/07/10 22:31:26 logger.go:42: Log Level: info
+INFO: 2025/07/10 22:31:26 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 22:31:26 logger.go:42: MailerSend From Email: demirkns@gmail.com
+INFO: 2025/07/10 22:31:26 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/10 22:31:26 logger.go:42: Email service enabled
+INFO: 2025/07/10 22:31:26 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 22:31:27 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/10 22:31:27 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 22:31:27 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 22:31:27 logger.go:42: Email service initialized
+INFO: 2025/07/10 22:31:27 logger.go:42: MailerSend From Email: demirkns@gmail.com
+INFO: 2025/07/10 22:31:27 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/10 22:31:27 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 22:31:27 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 22:31:27 logger.go:42: Available endpoints:
+INFO: 2025/07/10 22:31:27 logger.go:42:   GET  /health
+INFO: 2025/07/10 22:31:27 logger.go:42:   POST /register
+INFO: 2025/07/10 22:31:27 logger.go:42:   POST /login
+INFO: 2025/07/10 22:31:27 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 22:31:27 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 22:31:27 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 22:31:27 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 22:31:27 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 22:31:27 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/10 22:31:27 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 22:31:27 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 22:31:27 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/10 22:31:32 logger.go:42: Password reset token generated successfully for user demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/10 22:31:32 logger.go:42: Attempting to send password reset email to demirkansafa@gmail.com
+INFO: 2025/07/10 22:31:32 logger.go:42: Attempting to send email to demirkansafa@gmail.com via MailerSend
+INFO: 2025/07/10 22:31:32 logger.go:42: Sending email via MailerSend API to demirkansafa@gmail.com
+ERROR: 2025/07/10 22:31:32 logger.go:46: Failed to send email to demirkansafa@gmail.com via MailerSend - Error: POST https://api.mailersend.com/v1/email: 422 The from.email domain must be verified in your account to send emails. #MS42207
+ERROR: 2025/07/10 22:31:32 logger.go:46: Failed to send password reset email to demirkansafa@gmail.com: failed to send email: POST https://api.mailersend.com/v1/email: 422 The from.email domain must be verified in your account to send emails. #MS42207
+WARN: 2025/07/10 22:31:32 logger.go:50: Email service failed, falling back to token response
+INFO: 2025/07/10 23:02:29 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 23:02:29 logger.go:42: Environment: development
+INFO: 2025/07/10 23:02:29 logger.go:42: Port: 8080
+INFO: 2025/07/10 23:02:29 logger.go:42: Log Level: info
+INFO: 2025/07/10 23:02:29 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 23:02:29 logger.go:42: MailerSend From Email: test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/10 23:02:29 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/10 23:02:29 logger.go:42: Email service enabled
+INFO: 2025/07/10 23:02:29 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 23:02:30 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/10 23:02:30 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 23:02:30 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 23:02:30 logger.go:42: Email service initialized
+INFO: 2025/07/10 23:02:30 logger.go:42: MailerSend From Email: test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/10 23:02:30 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/10 23:02:30 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 23:02:30 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 23:02:30 logger.go:42: Available endpoints:
+INFO: 2025/07/10 23:02:30 logger.go:42:   GET  /health
+INFO: 2025/07/10 23:02:30 logger.go:42:   POST /register
+INFO: 2025/07/10 23:02:30 logger.go:42:   POST /login
+INFO: 2025/07/10 23:02:30 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 23:02:30 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 23:02:30 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 23:02:30 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 23:02:30 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 23:02:30 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/10 23:02:30 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 23:02:30 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 23:02:30 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/10 23:02:36 logger.go:42: Password reset token generated successfully for user demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/10 23:02:36 logger.go:42: Attempting to send password reset email to demirkansafa@gmail.com
+INFO: 2025/07/10 23:02:36 logger.go:42: Attempting to send email to demirkansafa@gmail.com via MailerSend
+INFO: 2025/07/10 23:02:36 logger.go:42: Sending email via MailerSend API to demirkansafa@gmail.com
+ERROR: 2025/07/10 23:02:37 logger.go:46: Failed to send email to demirkansafa@gmail.com via MailerSend - Error: POST https://api.mailersend.com/v1/email: 422 The from.email must be a valid email address. #MS42208
+ERROR: 2025/07/10 23:02:37 logger.go:46: Failed to send password reset email to demirkansafa@gmail.com: failed to send email: POST https://api.mailersend.com/v1/email: 422 The from.email must be a valid email address. #MS42208
+WARN: 2025/07/10 23:02:37 logger.go:50: Email service failed, falling back to token response
+INFO: 2025/07/10 23:04:35 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 23:04:35 logger.go:42: Environment: development
+INFO: 2025/07/10 23:04:35 logger.go:42: Port: 8080
+INFO: 2025/07/10 23:04:35 logger.go:42: Log Level: info
+INFO: 2025/07/10 23:04:35 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/10 23:04:35 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/10 23:04:35 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/10 23:04:35 logger.go:42: Email service enabled
+INFO: 2025/07/10 23:04:35 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/10 23:04:35 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/10 23:04:35 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/10 23:04:35 logger.go:42: Successfully connected to database
+INFO: 2025/07/10 23:04:35 logger.go:42: Email service initialized
+INFO: 2025/07/10 23:04:35 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/10 23:04:35 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/10 23:04:35 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/10 23:04:35 logger.go:42: Starting server on port 8080
+INFO: 2025/07/10 23:04:35 logger.go:42: Available endpoints:
+INFO: 2025/07/10 23:04:35 logger.go:42:   GET  /health
+INFO: 2025/07/10 23:04:35 logger.go:42:   POST /register
+INFO: 2025/07/10 23:04:35 logger.go:42:   POST /login
+INFO: 2025/07/10 23:04:35 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/10 23:04:35 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/10 23:04:35 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/10 23:04:35 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/10 23:04:35 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/10 23:04:35 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/10 23:04:35 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/10 23:04:35 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/10 23:04:35 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/10 23:04:44 logger.go:42: Password reset token generated successfully for user demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/10 23:04:44 logger.go:42: Attempting to send password reset email to demirkansafa@gmail.com
+INFO: 2025/07/10 23:04:44 logger.go:42: Attempting to send email to demirkansafa@gmail.com via MailerSend
+INFO: 2025/07/10 23:04:44 logger.go:42: Sending email via MailerSend API to demirkansafa@gmail.com
+INFO: 2025/07/10 23:04:44 logger.go:42: Email sent successfully to demirkansafa@gmail.com via MailerSend (Message ID: 6870a97ccb387e79c4bb75ff)
+INFO: 2025/07/10 23:04:44 logger.go:42: Password reset email sent successfully to demirkansafa@gmail.com
+INFO: 2025/07/11 00:05:31 logger.go:42: Password reset token generated successfully for user demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/11 00:05:31 logger.go:42: Attempting to send password reset email to demirkansafa@gmail.com
+INFO: 2025/07/11 00:05:31 logger.go:42: Attempting to send email to demirkansafa@gmail.com via MailerSend
+INFO: 2025/07/11 00:05:31 logger.go:42: Sending email via MailerSend API to demirkansafa@gmail.com
+INFO: 2025/07/11 00:05:32 logger.go:42: Email sent successfully to demirkansafa@gmail.com via MailerSend (Message ID: 6870b7bcc02e55cdae16dca1)
+INFO: 2025/07/11 00:05:32 logger.go:42: Password reset email sent successfully to demirkansafa@gmail.com
+INFO: 2025/07/11 00:09:23 logger.go:42: Password reset token generated successfully for user demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/11 00:09:23 logger.go:42: Attempting to send password reset email to demirkansafa@gmail.com
+INFO: 2025/07/11 00:09:23 logger.go:42: Attempting to send email to demirkansafa@gmail.com via MailerSend
+INFO: 2025/07/11 00:09:23 logger.go:42: Sending email via MailerSend API to demirkansafa@gmail.com
+INFO: 2025/07/11 00:09:24 logger.go:42: Email sent successfully to demirkansafa@gmail.com via MailerSend (Message ID: 6870b8a3b99b620d5021fec0)
+INFO: 2025/07/11 00:09:24 logger.go:42: Password reset email sent successfully to demirkansafa@gmail.com
+INFO: 2025/07/11 00:09:49 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/11 00:09:49 logger.go:42: Environment: development
+INFO: 2025/07/11 00:09:49 logger.go:42: Port: 8080
+INFO: 2025/07/11 00:09:49 logger.go:42: Log Level: info
+INFO: 2025/07/11 00:09:49 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/11 00:09:49 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/11 00:09:49 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/11 00:09:49 logger.go:42: Email service enabled
+INFO: 2025/07/11 00:09:49 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/11 00:09:52 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/11 00:09:52 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/11 00:09:55 logger.go:42: Successfully connected to database
+INFO: 2025/07/11 00:09:55 logger.go:42: Email service initialized
+INFO: 2025/07/11 00:09:55 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/11 00:09:55 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/11 00:09:55 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/11 00:09:55 logger.go:42: Starting server on port 8080
+INFO: 2025/07/11 00:09:55 logger.go:42: Available endpoints:
+INFO: 2025/07/11 00:09:55 logger.go:42:   GET  /health
+INFO: 2025/07/11 00:09:55 logger.go:42:   POST /register
+INFO: 2025/07/11 00:09:55 logger.go:42:   POST /login
+INFO: 2025/07/11 00:09:55 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/11 00:09:55 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/11 00:09:55 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/11 00:09:55 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/11 00:09:55 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/11 00:09:55 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/11 00:09:55 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/11 00:09:55 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/11 00:09:55 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/11 00:10:08 logger.go:42: Password reset token generated successfully for user demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/11 00:10:08 logger.go:42: Attempting to send password reset email to demirkansafa@gmail.com
+INFO: 2025/07/11 00:10:08 logger.go:42: Attempting to send email to demirkansafa@gmail.com via MailerSend
+INFO: 2025/07/11 00:10:08 logger.go:42: Sending email via MailerSend API to demirkansafa@gmail.com
+INFO: 2025/07/11 00:10:08 logger.go:42: Email sent successfully to demirkansafa@gmail.com via MailerSend (Message ID: 6870b8d02cf4bdc64fa3f3fc)
+INFO: 2025/07/11 00:10:08 logger.go:42: Password reset email sent successfully to demirkansafa@gmail.com
+INFO: 2025/07/11 00:32:00 logger.go:42: Password reset token generated successfully for user demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/11 00:32:00 logger.go:42: Attempting to send password reset email to demirkansafa@gmail.com
+INFO: 2025/07/11 00:32:00 logger.go:42: Attempting to send email to demirkansafa@gmail.com via MailerSend
+INFO: 2025/07/11 00:32:00 logger.go:42: Sending email via MailerSend API to demirkansafa@gmail.com
+INFO: 2025/07/11 00:32:01 logger.go:42: Email sent successfully to demirkansafa@gmail.com via MailerSend (Message ID: 6870bdf11502c12206c2f0f1)
+INFO: 2025/07/11 00:32:01 logger.go:42: Password reset email sent successfully to demirkansafa@gmail.com
+INFO: 2025/07/11 00:33:24 logger.go:42: Password reset successfully for user 45
+WARN: 2025/07/11 00:33:52 logger.go:50: Missing Authorization header
+INFO: 2025/07/11 00:34:41 logger.go:42: Login attempt for email: demirkansafa@gmail.com
+INFO: 2025/07/11 00:34:42 logger.go:42: User logged in successfully: demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/11 00:34:42 logger.go:42: User logged in successfully: demirkansafa@gmail.com
+WARN: 2025/07/11 00:51:41 logger.go:50: Missing Authorization header
+INFO: 2025/07/11 01:08:39 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/11 01:08:39 logger.go:42: Environment: development
+INFO: 2025/07/11 01:08:39 logger.go:42: Port: 8080
+INFO: 2025/07/11 01:08:39 logger.go:42: Log Level: info
+INFO: 2025/07/11 01:08:39 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/11 01:08:39 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/11 01:08:39 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/11 01:08:39 logger.go:42: Email service enabled
+INFO: 2025/07/11 01:08:39 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/11 01:08:40 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/11 01:08:40 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/11 01:08:40 logger.go:42: Successfully connected to database
+INFO: 2025/07/11 01:08:40 logger.go:42: Email service initialized
+INFO: 2025/07/11 01:08:40 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/11 01:08:40 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/11 01:08:40 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/11 01:08:40 logger.go:42: Starting server on port 8080
+INFO: 2025/07/11 01:08:40 logger.go:42: Available endpoints:
+INFO: 2025/07/11 01:08:40 logger.go:42:   GET  /health
+INFO: 2025/07/11 01:08:40 logger.go:42:   POST /register
+INFO: 2025/07/11 01:08:40 logger.go:42:   POST /login
+INFO: 2025/07/11 01:08:40 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/11 01:08:40 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/11 01:08:40 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/11 01:08:40 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/11 01:08:40 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/11 01:08:40 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/11 01:08:40 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/11 01:08:40 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/11 01:08:40 logger.go:42:   DELETE /admin/users/:id (admin only)
+WARN: 2025/07/11 01:17:59 logger.go:50: Missing Authorization header
+WARN: 2025/07/11 01:19:07 logger.go:50: Missing Authorization header
+WARN: 2025/07/11 01:24:47 logger.go:50: Missing Authorization header
+WARN: 2025/07/11 01:25:12 logger.go:50: Missing Authorization header
+INFO: 2025/07/11 01:37:31 logger.go:42: Login attempt for email: demirkansafa@gmail.com
+WARN: 2025/07/11 01:37:32 logger.go:50: Login failed: invalid password for demirkansafa@gmail.com
+WARN: 2025/07/11 01:37:32 logger.go:50: Login failed: invalid email or password
+INFO: 2025/07/11 01:40:03 logger.go:42: Registration attempt - Username: balikcihasa, Email: demirkansafa@gmail.com, Role: rider
+WARN: 2025/07/11 01:40:03 logger.go:50: Registration failed: email already exists - demirkansafa@gmail.com
+WARN: 2025/07/11 01:40:03 logger.go:50: Registration failed: email already exists
+INFO: 2025/07/11 01:40:21 logger.go:42: Registration attempt - Username: balikcihasa, Email: demirkan@gmail.com, Role: rider
+INFO: 2025/07/11 01:40:21 logger.go:42: User registered successfully: balikcihasa (demirkan@gmail.com)
+INFO: 2025/07/11 01:40:21 logger.go:42: User registered successfully: demirkan@gmail.com
+INFO: 2025/07/11 01:40:21 logger.go:42: Attempting to send email to demirkan@gmail.com via MailerSend
+INFO: 2025/07/11 01:40:21 logger.go:42: Sending email via MailerSend API to demirkan@gmail.com
+ERROR: 2025/07/11 01:40:22 logger.go:46: Failed to send email to demirkan@gmail.com via MailerSend - Error: POST https://api.mailersend.com/v1/email: 422 Trial accounts can only send emails to the administrator's email. #MS42225
+WARN: 2025/07/11 01:40:22 logger.go:50: Failed to send welcome email to demirkan@gmail.com: failed to send email: POST https://api.mailersend.com/v1/email: 422 Trial accounts can only send emails to the administrator's email. #MS42225
+INFO: 2025/07/11 01:40:39 logger.go:42: Login attempt for email: demirkan@gmail.com
+INFO: 2025/07/11 01:40:39 logger.go:42: User logged in successfully: demirkan@gmail.com (ID: 47)
+INFO: 2025/07/11 01:40:39 logger.go:42: User logged in successfully: demirkan@gmail.com
+INFO: 2025/07/11 01:49:59 logger.go:42: Password reset token generated successfully for user demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/11 01:49:59 logger.go:42: Attempting to send password reset email to demirkansafa@gmail.com
+INFO: 2025/07/11 01:49:59 logger.go:42: Attempting to send email to demirkansafa@gmail.com via MailerSend
+INFO: 2025/07/11 01:49:59 logger.go:42: Sending email via MailerSend API to demirkansafa@gmail.com
+INFO: 2025/07/11 01:50:00 logger.go:42: Email sent successfully to demirkansafa@gmail.com via MailerSend (Message ID: 6870d0385d0cace64a0aeac3)
+INFO: 2025/07/11 01:50:00 logger.go:42: Password reset email sent successfully to demirkansafa@gmail.com
+INFO: 2025/07/11 01:50:40 logger.go:42: Password reset successfully for user 45
+INFO: 2025/07/11 01:50:58 logger.go:42: Login attempt for email: demirkansafa@gmail.com
+INFO: 2025/07/11 01:50:58 logger.go:42: User logged in successfully: demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/11 01:50:58 logger.go:42: User logged in successfully: demirkansafa@gmail.com
+INFO: 2025/07/11 12:54:03 logger.go:42: Login attempt for email: demirkansafa@gmail.com
+INFO: 2025/07/11 12:54:04 logger.go:42: User logged in successfully: demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/11 12:54:04 logger.go:42: User logged in successfully: demirkansafa@gmail.com
+INFO: 2025/07/11 16:56:44 logger.go:42: Login attempt for email: demirkansafa@gmail.com
+WARN: 2025/07/11 16:56:45 logger.go:50: Login failed: invalid password for demirkansafa@gmail.com
+WARN: 2025/07/11 16:56:45 logger.go:50: Login failed: invalid email or password
+INFO: 2025/07/11 16:57:10 logger.go:42: Login attempt for email: demirkansafa@gmail.com
+INFO: 2025/07/11 16:57:11 logger.go:42: User logged in successfully: demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/11 16:57:11 logger.go:42: User logged in successfully: demirkansafa@gmail.com
+INFO: 2025/07/11 21:38:24 logger.go:42: Login attempt for email: demirkan@gmail.com
+WARN: 2025/07/11 21:38:25 logger.go:50: Login failed: invalid password for demirkan@gmail.com
+WARN: 2025/07/11 21:38:25 logger.go:50: Login failed: invalid email or password
+INFO: 2025/07/11 21:38:34 logger.go:42: Login attempt for email: demirkansafa@gmail.com
+INFO: 2025/07/11 21:38:34 logger.go:42: User logged in successfully: demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/11 21:38:34 logger.go:42: User logged in successfully: demirkansafa@gmail.com
+INFO: 2025/07/12 00:11:27 logger.go:42: Password reset token generated successfully for user demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/12 00:11:27 logger.go:42: Attempting to send password reset email to demirkansafa@gmail.com
+INFO: 2025/07/12 00:11:27 logger.go:42: Attempting to send email to demirkansafa@gmail.com via MailerSend
+INFO: 2025/07/12 00:11:27 logger.go:42: Sending email via MailerSend API to demirkansafa@gmail.com
+INFO: 2025/07/12 00:11:28 logger.go:42: Email sent successfully to demirkansafa@gmail.com via MailerSend (Message ID: 68720aa030bf02a460ac184b)
+INFO: 2025/07/12 00:11:28 logger.go:42: Password reset email sent successfully to demirkansafa@gmail.com
+INFO: 2025/07/12 00:14:45 logger.go:42: Password reset successfully for user 45
+INFO: 2025/07/12 00:15:01 logger.go:42: Login attempt for email: demirkansafa@gmail.com
+INFO: 2025/07/12 00:15:01 logger.go:42: User logged in successfully: demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/12 00:15:01 logger.go:42: User logged in successfully: demirkansafa@gmail.com
+INFO: 2025/07/12 00:15:55 logger.go:42: Login attempt for email: demirkansafa@gmail.com
+WARN: 2025/07/12 00:15:55 logger.go:50: Login failed: invalid password for demirkansafa@gmail.com
+WARN: 2025/07/12 00:15:55 logger.go:50: Login failed: invalid email or password
+INFO: 2025/07/12 00:15:58 logger.go:42: Login attempt for email: demirkansafa@gmail.com
+INFO: 2025/07/12 00:15:58 logger.go:42: User logged in successfully: demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/12 00:15:58 logger.go:42: User logged in successfully: demirkansafa@gmail.com
