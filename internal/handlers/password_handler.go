@@ -15,18 +15,18 @@ import (
 )
 
 type PasswordHandler struct {
-	authService *auth.Service
-	userRepo    *repository.UserRepository
+	authService  *auth.Service
+	userRepo     *repository.UserRepository
 	emailService *email.Service
-	logger      *logger.Logger
+	logger       *logger.Logger
 }
 
 func NewPasswordHandler(authService *auth.Service, userRepo *repository.UserRepository, emailService *email.Service, logger *logger.Logger) *PasswordHandler {
 	return &PasswordHandler{
-		authService: authService,
-		userRepo:    userRepo,
+		authService:  authService,
+		userRepo:     userRepo,
 		emailService: emailService,
-		logger:      logger,
+		logger:       logger,
 	}
 }
 
@@ -166,7 +166,7 @@ func (h *PasswordHandler) ResetPasswordRequest(c echo.Context) error {
 	}
 
 	h.logger.Info(fmt.Sprintf("Password reset token generated successfully for user %s (ID: %d)", email, user.ID))
-	
+
 	// Send email if email service is configured
 	if h.emailService != nil {
 		h.logger.Info(fmt.Sprintf("Attempting to send password reset email to %s", email))
@@ -175,11 +175,11 @@ func (h *PasswordHandler) ResetPasswordRequest(c echo.Context) error {
 			// Don't fail the request if email fails, but log it
 			h.logger.Warn("Email service failed, falling back to token response")
 			return c.JSON(http.StatusOK, map[string]interface{}{
-				"message": "password reset token generated (email service failed)",
+				"message":     "password reset token generated (email service failed)",
 				"reset_token": resetToken,
 			})
 		}
-		
+
 		h.logger.Info(fmt.Sprintf("Password reset email sent successfully to %s", email))
 		return c.JSON(http.StatusOK, map[string]string{
 			"message": "if the email exists, a password reset link has been sent",
@@ -188,7 +188,7 @@ func (h *PasswordHandler) ResetPasswordRequest(c echo.Context) error {
 		// In development mode without email service, return the token
 		h.logger.Warn("Email service not configured, returning reset token in response")
 		return c.JSON(http.StatusOK, map[string]interface{}{
-			"message": "password reset token generated (email service disabled)",
+			"message":     "password reset token generated (email service disabled)",
 			"reset_token": resetToken,
 		})
 	}

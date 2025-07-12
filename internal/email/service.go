@@ -24,7 +24,7 @@ type Config struct {
 
 func NewService(config Config, logger *logger.Logger) *Service {
 	client := mailersend.NewMailersend(config.APIKey)
-	
+
 	return &Service{
 		client:    client,
 		fromEmail: config.FromEmail,
@@ -36,10 +36,10 @@ func NewService(config Config, logger *logger.Logger) *Service {
 // SendPasswordResetEmail sends a password reset email using MailerSend
 func (s *Service) SendPasswordResetEmail(to, resetToken string) error {
 	subject := "Password Reset Request - LuxSUV"
-	
+
 	// Create the reset URL (you'll need to adjust this based on your frontend URL)
-	resetURL := fmt.Sprintf("http://localhost:3000/reset-password?token=%s", resetToken)
-	
+	resetURL := fmt.Sprintf("http://localhost:5173/reset-password?token=%s", resetToken)
+
 	html := fmt.Sprintf(`
 <!DOCTYPE html>
 <html>
@@ -189,7 +189,7 @@ This is an automated message, please do not reply.
 // SendWelcomeEmail sends a welcome email to new users
 func (s *Service) SendWelcomeEmail(to, username string) error {
 	subject := "Welcome to LuxSUV - Your Premium Ride Experience Awaits!"
-	
+
 	html := fmt.Sprintf(`
 <!DOCTYPE html>
 <html>
@@ -358,7 +358,7 @@ This is an automated message, please do not reply.
 // sendEmail sends an email using MailerSend API
 func (s *Service) sendEmail(to, subject, html, text string) error {
 	s.logger.Info(fmt.Sprintf("Attempting to send email to %s via MailerSend", to))
-	
+
 	ctx := context.Background()
 	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
 	defer cancel()

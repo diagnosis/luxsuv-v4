@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 	"time"
 
 	"github.com/diagnosis/luxsuv-v4/internal/auth"
@@ -73,7 +72,7 @@ func main() {
 	// Initialize repositories and services
 	userRepo := repository.NewUserRepository(db)
 	authService := auth.NewService(userRepo, cfg.JWTSecret, log)
-	
+
 	// Initialize email service
 	var emailService *email.Service
 	if cfg.MailerSendAPIKey != "" && cfg.MailerSendFromEmail != "" {
@@ -90,7 +89,7 @@ func main() {
 		log.Warn("Email service disabled - MailerSend configuration incomplete")
 		log.Warn("Please configure MAILERSEND_API_KEY and MAILERSEND_FROM_EMAIL in .env file")
 	}
-	
+
 	authHandler := handlers.NewAuthHandler(authService, emailService, log)
 	userHandler := handlers.NewUserHandler(authService, userRepo, log)
 	passwordHandler := handlers.NewPasswordHandler(authService, userRepo, emailService, log)
@@ -106,7 +105,7 @@ func main() {
 	// Global middleware
 	e.Use(echomiddleware.Logger())
 	e.Use(echomiddleware.Recover())
-	
+
 	// Enhanced CORS configuration
 	if cfg.Environment == "development" {
 		e.Use(echomiddleware.CORSWithConfig(middleware.DevelopmentCORSConfig()))
@@ -115,16 +114,16 @@ func main() {
 		e.Use(echomiddleware.CORSWithConfig(middleware.CORSConfig()))
 		log.Info("Using production CORS configuration")
 	}
-	
+
 	e.Use(echomiddleware.Secure())
 
 	// Configure rate limiter
 	generalRateLimiterConfig := echomiddleware.RateLimiterConfig{
 		Store: echomiddleware.NewRateLimiterMemoryStoreWithConfig(
 			echomiddleware.RateLimiterMemoryStoreConfig{
-				Rate:      5,                   // 5 requests per second
-				Burst:     10,                  // Allow burst of 10 requests
-				ExpiresIn: 3 * time.Minute,     // Clean up expired entries
+				Rate:      5,               // 5 requests per second
+				Burst:     10,              // Allow burst of 10 requests
+				ExpiresIn: 3 * time.Minute, // Clean up expired entries
 			},
 		),
 		IdentifierExtractor: func(ctx echo.Context) (string, error) {
@@ -139,9 +138,9 @@ func main() {
 	authRateLimiterConfig := echomiddleware.RateLimiterConfig{
 		Store: echomiddleware.NewRateLimiterMemoryStoreWithConfig(
 			echomiddleware.RateLimiterMemoryStoreConfig{
-				Rate:      2,                   // 2 requests per second
-				Burst:     5,                   // Allow burst of 5 requests
-				ExpiresIn: 5 * time.Minute,     // Clean up expired entries
+				Rate:      2,               // 2 requests per second
+				Burst:     5,               // Allow burst of 5 requests
+				ExpiresIn: 5 * time.Minute, // Clean up expired entries
 			},
 		),
 		IdentifierExtractor: func(ctx echo.Context) (string, error) {
@@ -183,7 +182,7 @@ func main() {
 	adminGroup := e.Group("/admin")
 	adminGroup.Use(authMiddleware.RequireAuth())
 	adminGroup.Use(authMiddleware.RequireAdmin())
-	
+
 	// User management endpoints
 	adminGroup.GET("/users", userHandler.ListUsers)
 	adminGroup.GET("/users/by-email", userHandler.GetUserByEmail)
