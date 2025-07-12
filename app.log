@@ -765,3 +765,19 @@ WARN: 2025/07/11 21:38:25 logger.go:50: Login failed: invalid email or password
 INFO: 2025/07/11 21:38:34 logger.go:42: Login attempt for email: demirkansafa@gmail.com
 INFO: 2025/07/11 21:38:34 logger.go:42: User logged in successfully: demirkansafa@gmail.com (ID: 45)
 INFO: 2025/07/11 21:38:34 logger.go:42: User logged in successfully: demirkansafa@gmail.com
+INFO: 2025/07/12 00:11:27 logger.go:42: Password reset token generated successfully for user demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/12 00:11:27 logger.go:42: Attempting to send password reset email to demirkansafa@gmail.com
+INFO: 2025/07/12 00:11:27 logger.go:42: Attempting to send email to demirkansafa@gmail.com via MailerSend
+INFO: 2025/07/12 00:11:27 logger.go:42: Sending email via MailerSend API to demirkansafa@gmail.com
+INFO: 2025/07/12 00:11:28 logger.go:42: Email sent successfully to demirkansafa@gmail.com via MailerSend (Message ID: 68720aa030bf02a460ac184b)
+INFO: 2025/07/12 00:11:28 logger.go:42: Password reset email sent successfully to demirkansafa@gmail.com
+INFO: 2025/07/12 00:14:45 logger.go:42: Password reset successfully for user 45
+INFO: 2025/07/12 00:15:01 logger.go:42: Login attempt for email: demirkansafa@gmail.com
+INFO: 2025/07/12 00:15:01 logger.go:42: User logged in successfully: demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/12 00:15:01 logger.go:42: User logged in successfully: demirkansafa@gmail.com
+INFO: 2025/07/12 00:15:55 logger.go:42: Login attempt for email: demirkansafa@gmail.com
+WARN: 2025/07/12 00:15:55 logger.go:50: Login failed: invalid password for demirkansafa@gmail.com
+WARN: 2025/07/12 00:15:55 logger.go:50: Login failed: invalid email or password
+INFO: 2025/07/12 00:15:58 logger.go:42: Login attempt for email: demirkansafa@gmail.com
+INFO: 2025/07/12 00:15:58 logger.go:42: User logged in successfully: demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/12 00:15:58 logger.go:42: User logged in successfully: demirkansafa@gmail.com
