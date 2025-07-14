@@ -121,6 +121,11 @@ func (m *AuthMiddleware) RequireAdmin() echo.MiddlewareFunc {
 	}
 }
 
+// RequireDriver middleware ensures only drivers can access the endpoint
+func (m *AuthMiddleware) RequireDriver() echo.MiddlewareFunc {
+	return m.RequireRole("driver")
+}
+
 // RequireRole middleware ensures user has specific role
 func (m *AuthMiddleware) RequireRole(requiredRole string) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {

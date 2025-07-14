@@ -74,7 +74,7 @@ func (h *BookRideHandler) Accept(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": "invalid booking ID"})
 	}
 
-	driverID, ok := c.Get("driver_id").(int64)
+	driverID, ok := c.Get("user_id").(int64)
 	if !ok {
 		return c.JSON(http.StatusUnauthorized, map[string]string{"error": "driver not authorized"})
 	}
@@ -93,7 +93,7 @@ func (h *BookRideHandler) Accept(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]string{"message": "booking accepted successfully"})
 }
 
-func (h *BookRideHandler) Reject(c echo.Context) error {
+func (h *BookRideHandler) GetByUserID(c echo.Context) error {
 	userID, ok := c.Get("user_id").(int64)
 	if !ok {
 		return c.JSON(http.StatusUnauthorized, map[string]string{"error": "user not authorized"})
@@ -102,6 +102,7 @@ func (h *BookRideHandler) Reject(c echo.Context) error {
 	bookings, err := h.repo.GetByUserID(c.Request().Context(), userID)
 	if err != nil {
 		h.logger.Err(fmt.Sprintf("Failed to get bookings by user id %d: %s", userID, err.Error()))
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "error getting bookings by user id"})
 	}
 	h.logger.Info(fmt.Sprintf("Retrieved %d bookings for user id %d", len(bookings), userID))
 	return c.JSON(http.StatusOK, bookings)
