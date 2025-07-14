@@ -781,3 +781,1270 @@ WARN: 2025/07/12 00:15:55 logger.go:50: Login failed: invalid email or password
 INFO: 2025/07/12 00:15:58 logger.go:42: Login attempt for email: demirkansafa@gmail.com
 INFO: 2025/07/12 00:15:58 logger.go:42: User logged in successfully: demirkansafa@gmail.com (ID: 45)
 INFO: 2025/07/12 00:15:58 logger.go:42: User logged in successfully: demirkansafa@gmail.com
+WARN: 2025/07/12 00:49:13 logger.go:50: No .env file found, using environment variables: open .env: no such file or directory
+ERROR: 2025/07/12 00:49:13 logger.go:46: DATABASE_URL environment variable is required
+ERROR: 2025/07/12 00:49:13 logger.go:46: Failed to load config: DATABASE_URL is required
+ERROR: 2025/07/12 00:58:12 logger.go:46: JWT_SECRET must be at least 32 characters long
+ERROR: 2025/07/12 00:58:12 logger.go:46: Failed to load config: JWT_SECRET must be at least 32 characters long
+INFO: 2025/07/12 00:59:06 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 00:59:06 logger.go:42: Environment: development
+INFO: 2025/07/12 00:59:06 logger.go:42: Port: 8080
+INFO: 2025/07/12 00:59:06 logger.go:42: Log Level: info
+INFO: 2025/07/12 00:59:06 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/12 00:59:06 logger.go:42: MailerSend From Email: noreply@est-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 00:59:06 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 00:59:06 logger.go:42: Email service enabled
+INFO: 2025/07/12 00:59:06 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 00:59:06 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/12 00:59:06 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/12 00:59:07 logger.go:42: Successfully connected to database
+INFO: 2025/07/12 00:59:07 logger.go:42: Email service initialized
+INFO: 2025/07/12 00:59:07 logger.go:42: MailerSend From Email: noreply@est-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 00:59:07 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 00:59:07 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/12 00:59:07 logger.go:42: Starting server on port 8080
+INFO: 2025/07/12 00:59:07 logger.go:42: Available endpoints:
+INFO: 2025/07/12 00:59:07 logger.go:42:   GET  /health
+INFO: 2025/07/12 00:59:07 logger.go:42:   POST /register
+INFO: 2025/07/12 00:59:07 logger.go:42:   POST /login
+INFO: 2025/07/12 00:59:07 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/12 00:59:07 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/12 00:59:07 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/12 00:59:07 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/12 00:59:07 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/12 00:59:07 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/12 00:59:07 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/12 00:59:07 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/12 00:59:07 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/12 01:06:09 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:06:09 logger.go:42: Environment: development
+INFO: 2025/07/12 01:06:09 logger.go:42: Port: 8080
+INFO: 2025/07/12 01:06:09 logger.go:42: Log Level: info
+INFO: 2025/07/12 01:06:09 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/12 01:06:09 logger.go:42: MailerSend From Email: noreply@est-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:06:09 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:06:09 logger.go:42: Email service enabled
+INFO: 2025/07/12 01:06:09 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:06:09 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/12 01:06:09 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/12 01:06:09 logger.go:42: Successfully connected to database
+INFO: 2025/07/12 01:06:09 logger.go:42: Email service initialized
+INFO: 2025/07/12 01:06:09 logger.go:42: MailerSend From Email: noreply@est-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:06:09 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:06:09 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/12 01:06:09 logger.go:42: Starting server on port 8080
+INFO: 2025/07/12 01:06:09 logger.go:42: Available endpoints:
+INFO: 2025/07/12 01:06:09 logger.go:42:   GET  /health
+INFO: 2025/07/12 01:06:09 logger.go:42:   POST /register
+INFO: 2025/07/12 01:06:09 logger.go:42:   POST /login
+INFO: 2025/07/12 01:06:09 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/12 01:06:09 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/12 01:06:09 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/12 01:06:09 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/12 01:06:09 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/12 01:06:09 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/12 01:06:09 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/12 01:06:09 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/12 01:06:09 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/12 01:06:35 logger.go:42: Login attempt for email: demirkansafa@gmail.com
+INFO: 2025/07/12 01:06:35 logger.go:42: User logged in successfully: demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/12 01:06:35 logger.go:42: User logged in successfully: demirkansafa@gmail.com
+INFO: 2025/07/12 01:07:22 logger.go:42: Registration attempt - Username: salih abi, Email: demirkansafa+09@gmail.com, Role: rider
+WARN: 2025/07/12 01:07:22 logger.go:50: Registration validation failed: username can only contain letters, numbers, and underscores
+WARN: 2025/07/12 01:07:22 logger.go:50: Registration failed: username can only contain letters, numbers, and underscores
+INFO: 2025/07/12 01:07:28 logger.go:42: Registration attempt - Username: salihabi, Email: demirkansafa+09@gmail.com, Role: rider
+INFO: 2025/07/12 01:07:28 logger.go:42: User registered successfully: salihabi (demirkansafa+09@gmail.com)
+INFO: 2025/07/12 01:07:28 logger.go:42: User registered successfully: demirkansafa+09@gmail.com
+INFO: 2025/07/12 01:07:28 logger.go:42: Attempting to send email to demirkansafa+09@gmail.com via MailerSend
+INFO: 2025/07/12 01:07:28 logger.go:42: Sending email via MailerSend API to demirkansafa+09@gmail.com
+ERROR: 2025/07/12 01:07:29 logger.go:46: Failed to send email to demirkansafa+09@gmail.com via MailerSend - Error: POST https://api.mailersend.com/v1/email: 422 Trial accounts can only send emails to the administrator's email. #MS42225 (and 1 more error)
+WARN: 2025/07/12 01:07:29 logger.go:50: Failed to send welcome email to demirkansafa+09@gmail.com: failed to send email: POST https://api.mailersend.com/v1/email: 422 Trial accounts can only send emails to the administrator's email. #MS42225 (and 1 more error)
+INFO: 2025/07/12 01:08:35 logger.go:42: Password reset token generated successfully for user demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/12 01:08:35 logger.go:42: Attempting to send password reset email to demirkansafa@gmail.com
+INFO: 2025/07/12 01:08:35 logger.go:42: Attempting to send email to demirkansafa@gmail.com via MailerSend
+INFO: 2025/07/12 01:08:35 logger.go:42: Sending email via MailerSend API to demirkansafa@gmail.com
+ERROR: 2025/07/12 01:08:36 logger.go:46: Failed to send email to demirkansafa@gmail.com via MailerSend - Error: POST https://api.mailersend.com/v1/email: 422 The from.email domain must be verified in your account to send emails. #MS42207
+ERROR: 2025/07/12 01:08:36 logger.go:46: Failed to send password reset email to demirkansafa@gmail.com: failed to send email: POST https://api.mailersend.com/v1/email: 422 The from.email domain must be verified in your account to send emails. #MS42207
+WARN: 2025/07/12 01:08:36 logger.go:50: Email service failed, falling back to token response
+INFO: 2025/07/12 01:09:34 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:09:34 logger.go:42: Environment: development
+INFO: 2025/07/12 01:09:34 logger.go:42: Port: 8080
+INFO: 2025/07/12 01:09:34 logger.go:42: Log Level: info
+INFO: 2025/07/12 01:09:34 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/12 01:09:34 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:09:34 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:09:34 logger.go:42: Email service enabled
+INFO: 2025/07/12 01:09:34 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:09:35 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/12 01:09:35 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/12 01:09:35 logger.go:42: Successfully connected to database
+INFO: 2025/07/12 01:09:35 logger.go:42: Email service initialized
+INFO: 2025/07/12 01:09:35 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:09:35 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:09:35 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/12 01:09:35 logger.go:42: Starting server on port 8080
+INFO: 2025/07/12 01:09:35 logger.go:42: Available endpoints:
+INFO: 2025/07/12 01:09:35 logger.go:42:   GET  /health
+INFO: 2025/07/12 01:09:35 logger.go:42:   POST /register
+INFO: 2025/07/12 01:09:35 logger.go:42:   POST /login
+INFO: 2025/07/12 01:09:35 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/12 01:09:35 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/12 01:09:35 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/12 01:09:35 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/12 01:09:35 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/12 01:09:35 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/12 01:09:35 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/12 01:09:35 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/12 01:09:35 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/12 01:09:40 logger.go:42: Password reset token generated successfully for user demirkansafa@gmail.com (ID: 45)
+INFO: 2025/07/12 01:09:40 logger.go:42: Attempting to send password reset email to demirkansafa@gmail.com
+INFO: 2025/07/12 01:09:40 logger.go:42: Attempting to send email to demirkansafa@gmail.com via MailerSend
+INFO: 2025/07/12 01:09:40 logger.go:42: Sending email via MailerSend API to demirkansafa@gmail.com
+INFO: 2025/07/12 01:09:41 logger.go:42: Email sent successfully to demirkansafa@gmail.com via MailerSend (Message ID: 68721845dc90a8e4288a3ab3)
+INFO: 2025/07/12 01:09:41 logger.go:42: Password reset email sent successfully to demirkansafa@gmail.com
+INFO: 2025/07/12 01:10:48 logger.go:42: Registration attempt - Username: suluman, Email: demirkansafa+01@gmail.com, Role: rider
+INFO: 2025/07/12 01:10:48 logger.go:42: User registered successfully: suluman (demirkansafa+01@gmail.com)
+INFO: 2025/07/12 01:10:48 logger.go:42: User registered successfully: demirkansafa+01@gmail.com
+INFO: 2025/07/12 01:10:48 logger.go:42: Attempting to send email to demirkansafa+01@gmail.com via MailerSend
+INFO: 2025/07/12 01:10:48 logger.go:42: Sending email via MailerSend API to demirkansafa+01@gmail.com
+ERROR: 2025/07/12 01:10:48 logger.go:46: Failed to send email to demirkansafa+01@gmail.com via MailerSend - Error: POST https://api.mailersend.com/v1/email: 422 Trial accounts can only send emails to the administrator's email. #MS42225
+WARN: 2025/07/12 01:10:48 logger.go:50: Failed to send welcome email to demirkansafa+01@gmail.com: failed to send email: POST https://api.mailersend.com/v1/email: 422 Trial accounts can only send emails to the administrator's email. #MS42225
+INFO: 2025/07/12 01:12:47 logger.go:42: Registration attempt - Username: safa, Email: demirkansafa@gmail.com, Role: rider
+INFO: 2025/07/12 01:12:48 logger.go:42: User registered successfully: safa (demirkansafa@gmail.com)
+INFO: 2025/07/12 01:12:48 logger.go:42: User registered successfully: demirkansafa@gmail.com
+INFO: 2025/07/12 01:12:48 logger.go:42: Attempting to send email to demirkansafa@gmail.com via MailerSend
+INFO: 2025/07/12 01:12:48 logger.go:42: Sending email via MailerSend API to demirkansafa@gmail.com
+INFO: 2025/07/12 01:12:48 logger.go:42: Email sent successfully to demirkansafa@gmail.com via MailerSend (Message ID: 68721900537c2113b420fb64)
+INFO: 2025/07/12 01:32:44 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:32:44 logger.go:42: Environment: development
+INFO: 2025/07/12 01:32:44 logger.go:42: Port: 8080
+INFO: 2025/07/12 01:32:44 logger.go:42: Log Level: info
+INFO: 2025/07/12 01:32:44 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/12 01:32:44 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:32:44 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:32:44 logger.go:42: Email service enabled
+INFO: 2025/07/12 01:32:44 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:32:44 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/12 01:32:44 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/12 01:32:45 logger.go:42: Successfully connected to database
+INFO: 2025/07/12 01:32:45 logger.go:42: Email service initialized
+INFO: 2025/07/12 01:32:45 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:32:45 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:32:45 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/12 01:32:45 logger.go:42: Starting server on port 8080
+INFO: 2025/07/12 01:32:45 logger.go:42: Available endpoints:
+INFO: 2025/07/12 01:32:45 logger.go:42:   GET  /health
+INFO: 2025/07/12 01:32:45 logger.go:42:   POST /register
+INFO: 2025/07/12 01:32:45 logger.go:42:   POST /login
+INFO: 2025/07/12 01:32:45 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/12 01:32:45 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/12 01:32:45 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/12 01:32:45 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/12 01:32:45 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/12 01:32:45 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/12 01:32:45 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/12 01:32:45 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/12 01:32:45 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/12 01:36:39 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:36:39 logger.go:42: Environment: development
+INFO: 2025/07/12 01:36:39 logger.go:42: Port: 8080
+INFO: 2025/07/12 01:36:39 logger.go:42: Log Level: info
+INFO: 2025/07/12 01:36:39 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/12 01:36:39 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:36:39 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:36:39 logger.go:42: Email service enabled
+INFO: 2025/07/12 01:36:39 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:36:39 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/12 01:36:39 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/12 01:36:39 logger.go:42: Successfully connected to database
+INFO: 2025/07/12 01:36:39 logger.go:42: Email service initialized
+INFO: 2025/07/12 01:36:39 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:36:39 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:36:39 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/12 01:36:39 logger.go:42: Starting server on port 8080
+INFO: 2025/07/12 01:36:39 logger.go:42: Available endpoints:
+INFO: 2025/07/12 01:36:39 logger.go:42:   GET  /health
+INFO: 2025/07/12 01:36:39 logger.go:42:   POST /register
+INFO: 2025/07/12 01:36:39 logger.go:42:   POST /login
+INFO: 2025/07/12 01:36:39 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/12 01:36:39 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/12 01:36:39 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/12 01:36:39 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/12 01:36:39 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/12 01:36:39 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/12 01:36:39 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/12 01:36:39 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/12 01:36:39 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/12 01:37:54 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:37:54 logger.go:42: Environment: development
+INFO: 2025/07/12 01:37:54 logger.go:42: Port: 8080
+INFO: 2025/07/12 01:37:54 logger.go:42: Log Level: info
+INFO: 2025/07/12 01:37:54 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/12 01:37:54 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:37:54 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:37:54 logger.go:42: Email service enabled
+INFO: 2025/07/12 01:37:54 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:37:54 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/12 01:37:54 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/12 01:37:55 logger.go:42: Successfully connected to database
+INFO: 2025/07/12 01:37:55 logger.go:42: Email service initialized
+INFO: 2025/07/12 01:37:55 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:37:55 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:37:55 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/12 01:37:55 logger.go:42: Starting server on port 8080
+INFO: 2025/07/12 01:37:55 logger.go:42: Available endpoints:
+INFO: 2025/07/12 01:37:55 logger.go:42:   GET  /health
+INFO: 2025/07/12 01:37:55 logger.go:42:   POST /register
+INFO: 2025/07/12 01:37:55 logger.go:42:   POST /login
+INFO: 2025/07/12 01:37:55 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/12 01:37:55 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/12 01:37:55 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/12 01:37:55 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/12 01:37:55 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/12 01:37:55 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/12 01:37:55 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/12 01:37:55 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/12 01:37:55 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/12 01:39:21 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:39:21 logger.go:42: Environment: development
+INFO: 2025/07/12 01:39:21 logger.go:42: Port: 8080
+INFO: 2025/07/12 01:39:21 logger.go:42: Log Level: info
+INFO: 2025/07/12 01:39:21 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/12 01:39:21 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:39:21 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:39:21 logger.go:42: Email service enabled
+INFO: 2025/07/12 01:39:21 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:39:21 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/12 01:39:21 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/12 01:39:21 logger.go:42: Successfully connected to database
+INFO: 2025/07/12 01:39:21 logger.go:42: Email service initialized
+INFO: 2025/07/12 01:39:21 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:39:21 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:39:21 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/12 01:39:21 logger.go:42: Starting server on port 8080
+INFO: 2025/07/12 01:39:21 logger.go:42: Available endpoints:
+INFO: 2025/07/12 01:39:21 logger.go:42:   GET  /health
+INFO: 2025/07/12 01:39:21 logger.go:42:   POST /register
+INFO: 2025/07/12 01:39:21 logger.go:42:   POST /login
+INFO: 2025/07/12 01:39:21 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/12 01:39:21 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/12 01:39:21 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/12 01:39:21 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/12 01:39:21 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/12 01:39:21 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/12 01:39:21 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/12 01:39:21 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/12 01:39:21 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/12 01:39:26 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:39:26 logger.go:42: Environment: development
+INFO: 2025/07/12 01:39:26 logger.go:42: Port: 8080
+INFO: 2025/07/12 01:39:26 logger.go:42: Log Level: info
+INFO: 2025/07/12 01:39:26 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/12 01:39:26 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:39:26 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:39:26 logger.go:42: Email service enabled
+INFO: 2025/07/12 01:39:26 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:39:27 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/12 01:39:27 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/12 01:39:27 logger.go:42: Successfully connected to database
+INFO: 2025/07/12 01:39:27 logger.go:42: Email service initialized
+INFO: 2025/07/12 01:39:27 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:39:27 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:39:27 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/12 01:39:27 logger.go:42: Starting server on port 8080
+INFO: 2025/07/12 01:39:27 logger.go:42: Available endpoints:
+INFO: 2025/07/12 01:39:27 logger.go:42:   GET  /health
+INFO: 2025/07/12 01:39:27 logger.go:42:   POST /register
+INFO: 2025/07/12 01:39:27 logger.go:42:   POST /login
+INFO: 2025/07/12 01:39:27 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/12 01:39:27 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/12 01:39:27 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/12 01:39:27 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/12 01:39:27 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/12 01:39:27 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/12 01:39:27 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/12 01:39:27 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/12 01:39:27 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/12 01:41:07 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:41:07 logger.go:42: Environment: development
+INFO: 2025/07/12 01:41:07 logger.go:42: Port: 8080
+INFO: 2025/07/12 01:41:07 logger.go:42: Log Level: info
+INFO: 2025/07/12 01:41:07 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/12 01:41:07 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:41:07 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:41:07 logger.go:42: Email service enabled
+INFO: 2025/07/12 01:41:07 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:41:07 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/12 01:41:07 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/12 01:41:07 logger.go:42: Successfully connected to database
+INFO: 2025/07/12 01:41:07 logger.go:42: Email service initialized
+INFO: 2025/07/12 01:41:07 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:41:07 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:41:07 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/12 01:41:07 logger.go:42: Starting server on port 8080
+INFO: 2025/07/12 01:41:07 logger.go:42: Available endpoints:
+INFO: 2025/07/12 01:41:07 logger.go:42:   GET  /health
+INFO: 2025/07/12 01:41:07 logger.go:42:   POST /register
+INFO: 2025/07/12 01:41:07 logger.go:42:   POST /login
+INFO: 2025/07/12 01:41:07 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/12 01:41:07 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/12 01:41:07 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/12 01:41:07 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/12 01:41:07 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/12 01:41:07 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/12 01:41:07 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/12 01:41:07 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/12 01:41:07 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/12 01:43:40 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:43:40 logger.go:42: Environment: development
+INFO: 2025/07/12 01:43:40 logger.go:42: Port: 8080
+INFO: 2025/07/12 01:43:40 logger.go:42: Log Level: info
+INFO: 2025/07/12 01:43:40 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/12 01:43:40 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:43:40 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:43:40 logger.go:42: Email service enabled
+INFO: 2025/07/12 01:43:40 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:43:40 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/12 01:43:40 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/12 01:43:40 logger.go:42: Successfully connected to database
+INFO: 2025/07/12 01:43:40 logger.go:42: Email service initialized
+INFO: 2025/07/12 01:43:40 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:43:40 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:43:40 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/12 01:43:40 logger.go:42: Starting server on port 8080
+INFO: 2025/07/12 01:43:40 logger.go:42: Available endpoints:
+INFO: 2025/07/12 01:43:40 logger.go:42:   GET  /health
+INFO: 2025/07/12 01:43:40 logger.go:42:   POST /register
+INFO: 2025/07/12 01:43:40 logger.go:42:   POST /login
+INFO: 2025/07/12 01:43:40 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/12 01:43:40 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/12 01:43:40 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/12 01:43:40 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/12 01:43:40 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/12 01:43:40 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/12 01:43:40 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/12 01:43:40 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/12 01:43:40 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/12 01:48:11 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:48:11 logger.go:42: Environment: development
+INFO: 2025/07/12 01:48:11 logger.go:42: Port: 8080
+INFO: 2025/07/12 01:48:11 logger.go:42: Log Level: info
+INFO: 2025/07/12 01:48:11 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/12 01:48:11 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:48:11 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:48:11 logger.go:42: Email service enabled
+INFO: 2025/07/12 01:48:11 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:48:12 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/12 01:48:12 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/12 01:48:12 logger.go:42: Successfully connected to database
+INFO: 2025/07/12 01:48:12 logger.go:42: Email service initialized
+INFO: 2025/07/12 01:48:12 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:48:12 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:48:12 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/12 01:48:12 logger.go:42: Starting server on port 8080
+INFO: 2025/07/12 01:48:12 logger.go:42: Available endpoints:
+INFO: 2025/07/12 01:48:12 logger.go:42:   GET  /health
+INFO: 2025/07/12 01:48:12 logger.go:42:   POST /register
+INFO: 2025/07/12 01:48:12 logger.go:42:   POST /login
+INFO: 2025/07/12 01:48:12 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/12 01:48:12 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/12 01:48:12 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/12 01:48:12 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/12 01:48:12 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/12 01:48:12 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/12 01:48:12 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/12 01:48:12 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/12 01:48:12 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/12 01:49:06 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:49:06 logger.go:42: Environment: development
+INFO: 2025/07/12 01:49:06 logger.go:42: Port: 8080
+INFO: 2025/07/12 01:49:06 logger.go:42: Log Level: info
+INFO: 2025/07/12 01:49:06 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/12 01:49:06 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:49:06 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:49:06 logger.go:42: Email service enabled
+INFO: 2025/07/12 01:49:06 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:49:06 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/12 01:49:06 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/12 01:49:07 logger.go:42: Successfully connected to database
+INFO: 2025/07/12 01:49:07 logger.go:42: Email service initialized
+INFO: 2025/07/12 01:49:07 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:49:07 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:49:07 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/12 01:49:07 logger.go:42: Starting server on port 8080
+INFO: 2025/07/12 01:49:07 logger.go:42: Available endpoints:
+INFO: 2025/07/12 01:49:07 logger.go:42:   GET  /health
+INFO: 2025/07/12 01:49:07 logger.go:42:   POST /register
+INFO: 2025/07/12 01:49:07 logger.go:42:   POST /login
+INFO: 2025/07/12 01:49:07 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/12 01:49:07 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/12 01:49:07 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/12 01:49:07 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/12 01:49:07 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/12 01:49:07 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/12 01:49:07 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/12 01:49:07 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/12 01:49:07 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/12 01:53:55 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:53:55 logger.go:42: Environment: development
+INFO: 2025/07/12 01:53:55 logger.go:42: Port: 8080
+INFO: 2025/07/12 01:53:55 logger.go:42: Log Level: info
+INFO: 2025/07/12 01:53:55 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/12 01:53:55 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:53:55 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:53:55 logger.go:42: Email service enabled
+INFO: 2025/07/12 01:53:55 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 01:53:55 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/12 01:53:55 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/12 01:53:55 logger.go:42: Successfully connected to database
+INFO: 2025/07/12 01:53:55 logger.go:42: Email service initialized
+INFO: 2025/07/12 01:53:55 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 01:53:55 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 01:53:55 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/12 01:53:55 logger.go:42: Starting server on port 8080
+INFO: 2025/07/12 01:53:55 logger.go:42: Available endpoints:
+INFO: 2025/07/12 01:53:55 logger.go:42:   GET  /health
+INFO: 2025/07/12 01:53:55 logger.go:42:   POST /register
+INFO: 2025/07/12 01:53:55 logger.go:42:   POST /login
+INFO: 2025/07/12 01:53:55 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/12 01:53:55 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/12 01:53:55 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/12 01:53:55 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/12 01:53:55 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/12 01:53:55 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/12 01:53:55 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/12 01:53:55 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/12 01:53:55 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/12 03:32:01 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 03:32:01 logger.go:42: Environment: development
+INFO: 2025/07/12 03:32:01 logger.go:42: Port: 8080
+INFO: 2025/07/12 03:32:01 logger.go:42: Log Level: info
+INFO: 2025/07/12 03:32:01 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/12 03:32:01 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 03:32:01 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 03:32:01 logger.go:42: Email service enabled
+INFO: 2025/07/12 03:32:01 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 03:32:02 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/12 03:32:02 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/12 03:32:02 logger.go:42: Successfully connected to database
+INFO: 2025/07/12 03:32:02 logger.go:42: Email service initialized
+INFO: 2025/07/12 03:32:02 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 03:32:02 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 03:32:02 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/12 03:32:02 logger.go:42: Starting server on port 8080
+INFO: 2025/07/12 03:32:02 logger.go:42: Available endpoints:
+INFO: 2025/07/12 03:32:02 logger.go:42:   GET  /health
+INFO: 2025/07/12 03:32:02 logger.go:42:   POST /register
+INFO: 2025/07/12 03:32:02 logger.go:42:   POST /login
+INFO: 2025/07/12 03:32:02 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/12 03:32:02 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/12 03:32:02 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/12 03:32:02 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/12 03:32:02 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/12 03:32:02 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/12 03:32:02 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/12 03:32:02 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/12 03:32:02 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/12 03:35:14 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 03:35:14 logger.go:42: Environment: development
+INFO: 2025/07/12 03:35:14 logger.go:42: Port: 8080
+INFO: 2025/07/12 03:35:14 logger.go:42: Log Level: info
+INFO: 2025/07/12 03:35:14 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/12 03:35:14 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 03:35:14 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 03:35:14 logger.go:42: Email service enabled
+INFO: 2025/07/12 03:35:14 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 03:35:15 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/12 03:35:15 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/12 03:35:15 logger.go:42: Successfully connected to database
+INFO: 2025/07/12 03:35:15 logger.go:42: Email service initialized
+INFO: 2025/07/12 03:35:15 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 03:35:15 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 03:35:15 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/12 03:35:15 logger.go:42: Starting server on port 8080
+INFO: 2025/07/12 03:35:15 logger.go:42: Available endpoints:
+INFO: 2025/07/12 03:35:15 logger.go:42:   GET  /health
+INFO: 2025/07/12 03:35:15 logger.go:42:   POST /register
+INFO: 2025/07/12 03:35:15 logger.go:42:   POST /login
+INFO: 2025/07/12 03:35:15 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/12 03:35:15 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/12 03:35:15 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/12 03:35:15 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/12 03:35:15 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/12 03:35:15 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/12 03:35:15 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/12 03:35:15 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/12 03:35:15 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/12 03:40:10 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 03:40:10 logger.go:42: Environment: development
+INFO: 2025/07/12 03:40:10 logger.go:42: Port: 8080
+INFO: 2025/07/12 03:40:10 logger.go:42: Log Level: info
+INFO: 2025/07/12 03:40:10 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/12 03:40:10 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 03:40:10 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 03:40:10 logger.go:42: Email service enabled
+INFO: 2025/07/12 03:40:10 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 03:40:10 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/12 03:40:10 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/12 03:40:10 logger.go:42: Successfully connected to database
+INFO: 2025/07/12 03:40:10 logger.go:42: Email service initialized
+INFO: 2025/07/12 03:40:10 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 03:40:10 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 03:40:10 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/12 03:40:10 logger.go:42: Starting server on port 8080
+INFO: 2025/07/12 03:40:10 logger.go:42: Available endpoints:
+INFO: 2025/07/12 03:40:10 logger.go:42:   GET  /health
+INFO: 2025/07/12 03:40:10 logger.go:42:   POST /register
+INFO: 2025/07/12 03:40:10 logger.go:42:   POST /login
+INFO: 2025/07/12 03:40:10 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/12 03:40:10 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/12 03:40:10 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/12 03:40:10 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/12 03:40:10 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/12 03:40:10 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/12 03:40:10 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/12 03:40:10 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/12 03:40:10 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/12 03:48:00 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 03:48:00 logger.go:42: Environment: development
+INFO: 2025/07/12 03:48:00 logger.go:42: Port: 8080
+INFO: 2025/07/12 03:48:00 logger.go:42: Log Level: info
+INFO: 2025/07/12 03:48:00 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/12 03:48:00 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 03:48:00 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 03:48:00 logger.go:42: Email service enabled
+INFO: 2025/07/12 03:48:00 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 03:48:01 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/12 03:48:01 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/12 03:48:01 logger.go:42: Successfully connected to database
+INFO: 2025/07/12 03:48:01 logger.go:42: Email service initialized
+INFO: 2025/07/12 03:48:01 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 03:48:01 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 03:48:01 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/12 03:48:01 logger.go:42: Starting server on port 8080
+INFO: 2025/07/12 03:48:01 logger.go:42: Available endpoints:
+INFO: 2025/07/12 03:48:01 logger.go:42:   GET  /health
+INFO: 2025/07/12 03:48:01 logger.go:42:   POST /register
+INFO: 2025/07/12 03:48:01 logger.go:42:   POST /login
+INFO: 2025/07/12 03:48:01 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/12 03:48:01 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/12 03:48:01 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/12 03:48:01 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/12 03:48:01 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/12 03:48:01 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/12 03:48:01 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/12 03:48:01 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/12 03:48:01 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/12 03:48:46 logger.go:42: Login attempt for email: demirkansafa@gmail.com
+INFO: 2025/07/12 03:48:46 logger.go:42: User logged in successfully: demirkansafa@gmail.com (ID: 50)
+INFO: 2025/07/12 03:48:46 logger.go:42: User logged in successfully: demirkansafa@gmail.com
+INFO: 2025/07/12 03:49:08 logger.go:42: Login attempt for email: dsds@sddsd
+WARN: 2025/07/12 03:49:08 logger.go:50: Login failed: user not found - dsds@sddsd
+WARN: 2025/07/12 03:49:08 logger.go:50: Login failed: invalid email or password
+INFO: 2025/07/12 03:49:18 logger.go:42: Password reset token generated successfully for user demirkansafa@gmail.com (ID: 50)
+INFO: 2025/07/12 03:49:18 logger.go:42: Attempting to send password reset email to demirkansafa@gmail.com
+INFO: 2025/07/12 03:49:18 logger.go:42: Attempting to send email to demirkansafa@gmail.com via MailerSend
+INFO: 2025/07/12 03:49:18 logger.go:42: Sending email via MailerSend API to demirkansafa@gmail.com
+INFO: 2025/07/12 03:49:18 logger.go:42: Email sent successfully to demirkansafa@gmail.com via MailerSend (Message ID: 68723dae26d5d85989ddfb41)
+INFO: 2025/07/12 03:49:18 logger.go:42: Password reset email sent successfully to demirkansafa@gmail.com
+INFO: 2025/07/12 03:51:34 logger.go:42: Password reset successfully for user 50
+INFO: 2025/07/12 03:53:24 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 03:53:24 logger.go:42: Environment: development
+INFO: 2025/07/12 03:53:24 logger.go:42: Port: 8080
+INFO: 2025/07/12 03:53:24 logger.go:42: Log Level: info
+INFO: 2025/07/12 03:53:24 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/12 03:53:24 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 03:53:24 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 03:53:24 logger.go:42: Email service enabled
+INFO: 2025/07/12 03:53:24 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/12 03:53:25 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/12 03:53:25 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/12 03:53:25 logger.go:42: Successfully connected to database
+INFO: 2025/07/12 03:53:25 logger.go:42: Email service initialized
+INFO: 2025/07/12 03:53:25 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/12 03:53:25 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/12 03:53:25 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/12 03:53:25 logger.go:42: Starting server on port 8080
+INFO: 2025/07/12 03:53:25 logger.go:42: Available endpoints:
+INFO: 2025/07/12 03:53:25 logger.go:42:   GET  /health
+INFO: 2025/07/12 03:53:25 logger.go:42:   POST /register
+INFO: 2025/07/12 03:53:25 logger.go:42:   POST /login
+INFO: 2025/07/12 03:53:25 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/12 03:53:25 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/12 03:53:25 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/12 03:53:25 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/12 03:53:25 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/12 03:53:25 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/12 03:53:25 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/12 03:53:25 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/12 03:53:25 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/13 19:44:46 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 19:44:46 logger.go:42: Environment: development
+INFO: 2025/07/13 19:44:46 logger.go:42: Port: 8080
+INFO: 2025/07/13 19:44:46 logger.go:42: Log Level: info
+INFO: 2025/07/13 19:44:46 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/13 19:44:46 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 19:44:46 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 19:44:46 logger.go:42: Email service enabled
+INFO: 2025/07/13 19:44:46 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 19:44:49 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/13 19:44:49 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/13 19:44:49 logger.go:42: Successfully connected to database
+INFO: 2025/07/13 19:44:49 logger.go:42: Email service initialized
+INFO: 2025/07/13 19:44:49 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 19:44:49 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 19:44:49 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/13 19:44:49 logger.go:42: Starting server on port 8080
+INFO: 2025/07/13 19:44:49 logger.go:42: Available endpoints:
+INFO: 2025/07/13 19:44:49 logger.go:42:   GET  /health
+INFO: 2025/07/13 19:44:49 logger.go:42:   POST /register
+INFO: 2025/07/13 19:44:49 logger.go:42:   POST /login
+INFO: 2025/07/13 19:44:49 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/13 19:44:49 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/13 19:44:49 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/13 19:44:49 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/13 19:44:49 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/13 19:44:49 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/13 19:44:49 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/13 19:44:49 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/13 19:44:49 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/13 19:44:53 logger.go:42: Password reset token generated successfully for user demirkansafa@gmail.com (ID: 50)
+INFO: 2025/07/13 19:44:53 logger.go:42: Attempting to send password reset email to demirkansafa@gmail.com
+INFO: 2025/07/13 19:44:53 logger.go:42: Attempting to send email to demirkansafa@gmail.com via MailerSend
+INFO: 2025/07/13 19:44:54 logger.go:42: Sending email via MailerSend API to demirkansafa@gmail.com
+INFO: 2025/07/13 19:44:55 logger.go:42: Email sent successfully to demirkansafa@gmail.com via MailerSend (Message ID: 68746f2686f64c4a9d590330)
+INFO: 2025/07/13 19:44:55 logger.go:42: Password reset email sent successfully to demirkansafa@gmail.com
+INFO: 2025/07/13 19:46:20 logger.go:42: Password reset successfully for user 50
+INFO: 2025/07/13 19:46:32 logger.go:42: Login attempt for email: demirkansafa@gmail.com
+INFO: 2025/07/13 19:46:32 logger.go:42: User logged in successfully: demirkansafa@gmail.com (ID: 50)
+INFO: 2025/07/13 19:46:32 logger.go:42: User logged in successfully: demirkansafa@gmail.com
+INFO: 2025/07/13 21:49:06 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 21:49:06 logger.go:42: Environment: development
+INFO: 2025/07/13 21:49:06 logger.go:42: Port: 8080
+INFO: 2025/07/13 21:49:06 logger.go:42: Log Level: info
+INFO: 2025/07/13 21:49:06 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/13 21:49:06 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 21:49:06 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 21:49:06 logger.go:42: Email service enabled
+INFO: 2025/07/13 21:49:06 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 21:49:07 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/13 21:49:07 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/13 21:49:07 logger.go:42: Successfully connected to database
+INFO: 2025/07/13 21:49:07 logger.go:42: Email service initialized
+INFO: 2025/07/13 21:49:07 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 21:49:07 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 21:49:07 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/13 21:49:07 logger.go:42: Starting server on port 8080
+INFO: 2025/07/13 21:49:07 logger.go:42: Available endpoints:
+INFO: 2025/07/13 21:49:07 logger.go:42:   GET  /health
+INFO: 2025/07/13 21:49:07 logger.go:42:   POST /register
+INFO: 2025/07/13 21:49:07 logger.go:42:   POST /login
+INFO: 2025/07/13 21:49:07 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/13 21:49:07 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/13 21:49:07 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/13 21:49:07 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/13 21:49:07 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/13 21:49:07 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/13 21:49:07 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/13 21:49:07 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/13 21:49:07 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/13 23:22:23 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 23:22:23 logger.go:42: Environment: development
+INFO: 2025/07/13 23:22:23 logger.go:42: Port: 8080
+INFO: 2025/07/13 23:22:23 logger.go:42: Log Level: info
+INFO: 2025/07/13 23:22:23 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/13 23:22:23 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 23:22:23 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 23:22:23 logger.go:42: Email service enabled
+INFO: 2025/07/13 23:22:23 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 23:22:27 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/13 23:22:27 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/13 23:22:30 logger.go:42: Successfully connected to database
+INFO: 2025/07/13 23:22:30 logger.go:42: Email service initialized
+INFO: 2025/07/13 23:22:30 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 23:22:30 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 23:22:30 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/13 23:22:30 logger.go:42: Starting server on port 8080
+INFO: 2025/07/13 23:22:30 logger.go:42: Available endpoints:
+INFO: 2025/07/13 23:22:30 logger.go:42:   GET  /health
+INFO: 2025/07/13 23:22:30 logger.go:42:   POST /register
+INFO: 2025/07/13 23:22:30 logger.go:42:   POST /login
+INFO: 2025/07/13 23:22:30 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/13 23:22:30 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/13 23:22:30 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/13 23:22:30 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/13 23:22:30 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/13 23:22:30 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/13 23:22:30 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/13 23:22:30 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/13 23:22:30 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/13 23:25:53 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 23:25:53 logger.go:42: Environment: development
+INFO: 2025/07/13 23:25:53 logger.go:42: Port: 8080
+INFO: 2025/07/13 23:25:53 logger.go:42: Log Level: info
+INFO: 2025/07/13 23:25:53 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/13 23:25:53 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 23:25:53 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 23:25:53 logger.go:42: Email service enabled
+INFO: 2025/07/13 23:25:53 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 23:25:57 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/13 23:25:57 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/13 23:26:00 logger.go:42: Successfully connected to database
+INFO: 2025/07/13 23:26:00 logger.go:42: Email service initialized
+INFO: 2025/07/13 23:26:00 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 23:26:00 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 23:26:00 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/13 23:26:00 logger.go:42: Starting server on port 8080
+INFO: 2025/07/13 23:26:00 logger.go:42: Available endpoints:
+INFO: 2025/07/13 23:26:00 logger.go:42:   GET  /health
+INFO: 2025/07/13 23:26:00 logger.go:42:   POST /register
+INFO: 2025/07/13 23:26:00 logger.go:42:   POST /login
+INFO: 2025/07/13 23:26:00 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/13 23:26:00 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/13 23:26:00 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/13 23:26:00 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/13 23:26:00 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/13 23:26:00 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/13 23:26:00 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/13 23:26:00 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/13 23:26:00 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/13 23:28:03 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 23:28:03 logger.go:42: Environment: development
+INFO: 2025/07/13 23:28:03 logger.go:42: Port: 8080
+INFO: 2025/07/13 23:28:03 logger.go:42: Log Level: info
+INFO: 2025/07/13 23:28:03 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/13 23:28:03 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 23:28:03 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 23:28:03 logger.go:42: Email service enabled
+INFO: 2025/07/13 23:28:03 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 23:28:06 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/13 23:28:06 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/13 23:28:09 logger.go:42: Successfully connected to database
+INFO: 2025/07/13 23:28:09 logger.go:42: Email service initialized
+INFO: 2025/07/13 23:28:09 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 23:28:09 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 23:28:09 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/13 23:28:09 logger.go:42: Starting server on port 8080
+INFO: 2025/07/13 23:28:09 logger.go:42: Available endpoints:
+INFO: 2025/07/13 23:28:09 logger.go:42:   GET  /health
+INFO: 2025/07/13 23:28:09 logger.go:42:   POST /register
+INFO: 2025/07/13 23:28:09 logger.go:42:   POST /login
+INFO: 2025/07/13 23:28:09 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/13 23:28:09 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/13 23:28:09 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/13 23:28:09 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/13 23:28:09 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/13 23:28:09 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/13 23:28:09 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/13 23:28:09 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/13 23:28:09 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/13 23:34:54 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 23:34:54 logger.go:42: Environment: development
+INFO: 2025/07/13 23:34:54 logger.go:42: Port: 8080
+INFO: 2025/07/13 23:34:54 logger.go:42: Log Level: info
+INFO: 2025/07/13 23:34:54 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/13 23:34:54 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 23:34:54 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 23:34:54 logger.go:42: Email service enabled
+INFO: 2025/07/13 23:34:54 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 23:34:58 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/13 23:34:58 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/13 23:35:00 logger.go:42: Successfully connected to database
+INFO: 2025/07/13 23:35:00 logger.go:42: Email service initialized
+INFO: 2025/07/13 23:35:00 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 23:35:00 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 23:35:00 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/13 23:35:00 logger.go:42: Starting server on port 8080
+INFO: 2025/07/13 23:35:00 logger.go:42: Available endpoints:
+INFO: 2025/07/13 23:35:00 logger.go:42:   GET  /health
+INFO: 2025/07/13 23:35:00 logger.go:42:   POST /register
+INFO: 2025/07/13 23:35:00 logger.go:42:   POST /login
+INFO: 2025/07/13 23:35:00 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/13 23:35:00 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/13 23:35:00 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/13 23:35:00 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/13 23:35:00 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/13 23:35:00 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/13 23:35:00 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/13 23:35:00 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/13 23:35:00 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/13 23:35:09 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 23:35:09 logger.go:42: Environment: development
+INFO: 2025/07/13 23:35:09 logger.go:42: Port: 8080
+INFO: 2025/07/13 23:35:09 logger.go:42: Log Level: info
+INFO: 2025/07/13 23:35:09 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/13 23:35:09 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 23:35:09 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 23:35:09 logger.go:42: Email service enabled
+INFO: 2025/07/13 23:35:09 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 23:35:12 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/13 23:35:12 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/13 23:35:15 logger.go:42: Successfully connected to database
+INFO: 2025/07/13 23:35:15 logger.go:42: Email service initialized
+INFO: 2025/07/13 23:35:15 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 23:35:15 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 23:35:15 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/13 23:35:15 logger.go:42: Starting server on port 8080
+INFO: 2025/07/13 23:35:15 logger.go:42: Available endpoints:
+INFO: 2025/07/13 23:35:15 logger.go:42:   GET  /health
+INFO: 2025/07/13 23:35:15 logger.go:42:   POST /register
+INFO: 2025/07/13 23:35:15 logger.go:42:   POST /login
+INFO: 2025/07/13 23:35:15 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/13 23:35:15 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/13 23:35:15 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/13 23:35:15 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/13 23:35:15 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/13 23:35:15 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/13 23:35:15 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/13 23:35:15 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/13 23:35:15 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/13 23:37:51 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 23:37:51 logger.go:42: Environment: development
+INFO: 2025/07/13 23:37:51 logger.go:42: Port: 8080
+INFO: 2025/07/13 23:37:51 logger.go:42: Log Level: info
+INFO: 2025/07/13 23:37:51 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/13 23:37:51 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 23:37:51 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 23:37:51 logger.go:42: Email service enabled
+INFO: 2025/07/13 23:37:51 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 23:37:54 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/13 23:37:54 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/13 23:37:57 logger.go:42: Successfully connected to database
+INFO: 2025/07/13 23:37:57 logger.go:42: Email service initialized
+INFO: 2025/07/13 23:37:57 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 23:37:57 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 23:37:57 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/13 23:37:57 logger.go:42: Starting server on port 8080
+INFO: 2025/07/13 23:37:57 logger.go:42: Available endpoints:
+INFO: 2025/07/13 23:37:57 logger.go:42:   GET  /health
+INFO: 2025/07/13 23:37:57 logger.go:42:   POST /register
+INFO: 2025/07/13 23:37:57 logger.go:42:   POST /login
+INFO: 2025/07/13 23:37:57 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/13 23:37:57 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/13 23:37:57 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/13 23:37:57 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/13 23:37:57 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/13 23:37:57 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/13 23:37:57 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/13 23:37:57 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/13 23:37:57 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/13 23:38:12 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 23:38:12 logger.go:42: Environment: development
+INFO: 2025/07/13 23:38:12 logger.go:42: Port: 8080
+INFO: 2025/07/13 23:38:12 logger.go:42: Log Level: info
+INFO: 2025/07/13 23:38:12 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/13 23:38:12 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 23:38:12 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 23:38:12 logger.go:42: Email service enabled
+INFO: 2025/07/13 23:38:12 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 23:38:16 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/13 23:38:16 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/13 23:38:19 logger.go:42: Successfully connected to database
+INFO: 2025/07/13 23:38:19 logger.go:42: Email service initialized
+INFO: 2025/07/13 23:38:19 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 23:38:19 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 23:38:19 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/13 23:38:19 logger.go:42: Starting server on port 8080
+INFO: 2025/07/13 23:38:19 logger.go:42: Available endpoints:
+INFO: 2025/07/13 23:38:19 logger.go:42:   GET  /health
+INFO: 2025/07/13 23:38:19 logger.go:42:   POST /register
+INFO: 2025/07/13 23:38:19 logger.go:42:   POST /login
+INFO: 2025/07/13 23:38:19 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/13 23:38:19 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/13 23:38:19 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/13 23:38:19 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/13 23:38:19 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/13 23:38:19 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/13 23:38:19 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/13 23:38:19 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/13 23:38:19 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/13 23:41:45 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 23:41:45 logger.go:42: Environment: development
+INFO: 2025/07/13 23:41:45 logger.go:42: Port: 8080
+INFO: 2025/07/13 23:41:45 logger.go:42: Log Level: info
+INFO: 2025/07/13 23:41:45 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/13 23:41:45 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 23:41:45 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 23:41:45 logger.go:42: Email service enabled
+INFO: 2025/07/13 23:41:45 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 23:41:49 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/13 23:41:49 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/13 23:41:51 logger.go:42: Successfully connected to database
+INFO: 2025/07/13 23:41:51 logger.go:42: Email service initialized
+INFO: 2025/07/13 23:41:51 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 23:41:51 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 23:41:51 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/13 23:41:51 logger.go:42: Starting server on port 8080
+INFO: 2025/07/13 23:41:51 logger.go:42: Available endpoints:
+INFO: 2025/07/13 23:41:51 logger.go:42:   GET  /health
+INFO: 2025/07/13 23:41:51 logger.go:42:   POST /register
+INFO: 2025/07/13 23:41:51 logger.go:42:   POST /login
+INFO: 2025/07/13 23:41:51 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/13 23:41:51 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/13 23:41:51 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/13 23:41:51 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/13 23:41:51 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/13 23:41:51 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/13 23:41:51 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/13 23:41:51 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/13 23:41:51 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/13 23:54:02 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 23:54:02 logger.go:42: Environment: development
+INFO: 2025/07/13 23:54:02 logger.go:42: Port: 8080
+INFO: 2025/07/13 23:54:02 logger.go:42: Log Level: info
+INFO: 2025/07/13 23:54:02 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/13 23:54:02 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 23:54:02 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 23:54:02 logger.go:42: Email service enabled
+INFO: 2025/07/13 23:54:02 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 23:54:06 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/13 23:54:06 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/13 23:54:09 logger.go:42: Successfully connected to database
+INFO: 2025/07/13 23:54:09 logger.go:42: Email service initialized
+INFO: 2025/07/13 23:54:09 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 23:54:09 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 23:54:09 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/13 23:54:09 logger.go:42: Starting server on port 8080
+INFO: 2025/07/13 23:54:09 logger.go:42: Available endpoints:
+INFO: 2025/07/13 23:54:09 logger.go:42:   GET  /health
+INFO: 2025/07/13 23:54:09 logger.go:42:   POST /register
+INFO: 2025/07/13 23:54:09 logger.go:42:   POST /login
+INFO: 2025/07/13 23:54:09 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/13 23:54:09 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/13 23:54:09 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/13 23:54:09 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/13 23:54:09 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/13 23:54:09 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/13 23:54:09 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/13 23:54:09 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/13 23:54:09 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/13 23:58:45 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 23:58:45 logger.go:42: Environment: development
+INFO: 2025/07/13 23:58:45 logger.go:42: Port: 8080
+INFO: 2025/07/13 23:58:45 logger.go:42: Log Level: info
+INFO: 2025/07/13 23:58:45 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/13 23:58:45 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 23:58:45 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 23:58:45 logger.go:42: Email service enabled
+INFO: 2025/07/13 23:58:45 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 23:58:49 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/13 23:58:49 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/13 23:58:51 logger.go:42: Successfully connected to database
+INFO: 2025/07/13 23:58:51 logger.go:42: Email service initialized
+INFO: 2025/07/13 23:58:51 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 23:58:51 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 23:58:51 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/13 23:58:51 logger.go:42: Starting server on port 8080
+INFO: 2025/07/13 23:58:51 logger.go:42: Available endpoints:
+INFO: 2025/07/13 23:58:51 logger.go:42:   GET  /health
+INFO: 2025/07/13 23:58:51 logger.go:42:   POST /register
+INFO: 2025/07/13 23:58:51 logger.go:42:   POST /login
+INFO: 2025/07/13 23:58:51 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/13 23:58:51 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/13 23:58:51 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/13 23:58:51 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/13 23:58:51 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/13 23:58:51 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/13 23:58:51 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/13 23:58:51 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/13 23:58:51 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/13 23:59:30 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 23:59:30 logger.go:42: Environment: development
+INFO: 2025/07/13 23:59:30 logger.go:42: Port: 8080
+INFO: 2025/07/13 23:59:30 logger.go:42: Log Level: info
+INFO: 2025/07/13 23:59:30 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/13 23:59:30 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 23:59:30 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 23:59:30 logger.go:42: Email service enabled
+INFO: 2025/07/13 23:59:30 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/13 23:59:33 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/13 23:59:33 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/13 23:59:36 logger.go:42: Successfully connected to database
+INFO: 2025/07/13 23:59:36 logger.go:42: Email service initialized
+INFO: 2025/07/13 23:59:36 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/13 23:59:36 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/13 23:59:36 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/13 23:59:36 logger.go:42: Starting server on port 8080
+INFO: 2025/07/13 23:59:36 logger.go:42: Available endpoints:
+INFO: 2025/07/13 23:59:36 logger.go:42:   GET  /health
+INFO: 2025/07/13 23:59:36 logger.go:42:   POST /register
+INFO: 2025/07/13 23:59:36 logger.go:42:   POST /login
+INFO: 2025/07/13 23:59:36 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/13 23:59:36 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/13 23:59:36 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/13 23:59:36 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/13 23:59:36 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/13 23:59:36 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/13 23:59:36 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/13 23:59:36 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/13 23:59:36 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/14 00:21:09 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/14 00:21:09 logger.go:42: Environment: development
+INFO: 2025/07/14 00:21:09 logger.go:42: Port: 8080
+INFO: 2025/07/14 00:21:09 logger.go:42: Log Level: info
+INFO: 2025/07/14 00:21:09 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/14 00:21:09 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/14 00:21:09 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/14 00:21:09 logger.go:42: Email service enabled
+INFO: 2025/07/14 00:21:09 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/14 00:21:14 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/14 00:21:14 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/14 00:21:17 logger.go:42: Successfully connected to database
+INFO: 2025/07/14 00:21:17 logger.go:42: Email service initialized
+INFO: 2025/07/14 00:21:17 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/14 00:21:17 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/14 00:21:17 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/14 00:21:17 logger.go:42: Starting server on port 8080
+INFO: 2025/07/14 00:21:17 logger.go:42: Available endpoints:
+INFO: 2025/07/14 00:21:17 logger.go:42:   GET  /health
+INFO: 2025/07/14 00:21:17 logger.go:42:   POST /register
+INFO: 2025/07/14 00:21:17 logger.go:42:   POST /login
+INFO: 2025/07/14 00:21:17 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/14 00:21:17 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/14 00:21:17 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/14 00:21:17 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/14 00:21:17 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/14 00:21:17 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/14 00:21:17 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/14 00:21:17 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/14 00:21:17 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/14 00:50:17 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/14 00:50:17 logger.go:42: Environment: development
+INFO: 2025/07/14 00:50:17 logger.go:42: Port: 8080
+INFO: 2025/07/14 00:50:17 logger.go:42: Log Level: info
+INFO: 2025/07/14 00:50:17 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/14 00:50:17 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/14 00:50:17 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/14 00:50:17 logger.go:42: Email service enabled
+INFO: 2025/07/14 00:50:17 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/14 00:50:21 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/14 00:50:21 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/14 00:50:24 logger.go:42: Successfully connected to database
+INFO: 2025/07/14 00:50:24 logger.go:42: Email service initialized
+INFO: 2025/07/14 00:50:24 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/14 00:50:24 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/14 00:50:24 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/14 00:50:24 logger.go:42: Starting server on port 8080
+INFO: 2025/07/14 00:50:24 logger.go:42: Available endpoints:
+INFO: 2025/07/14 00:50:24 logger.go:42:   GET  /health
+INFO: 2025/07/14 00:50:24 logger.go:42:   POST /register
+INFO: 2025/07/14 00:50:24 logger.go:42:   POST /login
+INFO: 2025/07/14 00:50:24 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/14 00:50:24 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/14 00:50:24 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/14 00:50:24 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/14 00:50:24 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/14 00:50:24 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/14 00:50:24 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/14 00:50:24 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/14 00:50:24 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/14 00:57:31 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/14 00:57:31 logger.go:42: Environment: development
+INFO: 2025/07/14 00:57:31 logger.go:42: Port: 8080
+INFO: 2025/07/14 00:57:31 logger.go:42: Log Level: info
+INFO: 2025/07/14 00:57:31 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/14 00:57:31 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/14 00:57:31 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/14 00:57:31 logger.go:42: Email service enabled
+INFO: 2025/07/14 00:57:31 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/14 00:57:34 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/14 00:57:34 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/14 00:57:37 logger.go:42: Successfully connected to database
+INFO: 2025/07/14 00:57:37 logger.go:42: Email service initialized
+INFO: 2025/07/14 00:57:37 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/14 00:57:37 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/14 00:57:37 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/14 00:57:37 logger.go:42: Starting server on port 8080
+INFO: 2025/07/14 00:57:37 logger.go:42: Available endpoints:
+INFO: 2025/07/14 00:57:37 logger.go:42:   GET  /health
+INFO: 2025/07/14 00:57:37 logger.go:42:   POST /register
+INFO: 2025/07/14 00:57:37 logger.go:42:   POST /login
+INFO: 2025/07/14 00:57:37 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/14 00:57:37 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/14 00:57:37 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/14 00:57:37 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/14 00:57:37 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/14 00:57:37 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/14 00:57:37 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/14 00:57:37 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/14 00:57:37 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/14 01:02:26 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/14 01:02:26 logger.go:42: Environment: development
+INFO: 2025/07/14 01:02:26 logger.go:42: Port: 8080
+INFO: 2025/07/14 01:02:26 logger.go:42: Log Level: info
+INFO: 2025/07/14 01:02:26 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/14 01:02:26 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/14 01:02:26 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/14 01:02:26 logger.go:42: Email service enabled
+INFO: 2025/07/14 01:02:26 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/14 01:02:29 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/14 01:02:29 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/14 01:02:32 logger.go:42: Successfully connected to database
+INFO: 2025/07/14 01:02:32 logger.go:42: Email service initialized
+INFO: 2025/07/14 01:02:32 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/14 01:02:32 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/14 01:02:32 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/14 01:02:32 logger.go:42: Starting server on port 8080
+INFO: 2025/07/14 01:02:32 logger.go:42: Available endpoints:
+INFO: 2025/07/14 01:02:32 logger.go:42:   GET  /health
+INFO: 2025/07/14 01:02:32 logger.go:42:   POST /register
+INFO: 2025/07/14 01:02:32 logger.go:42:   POST /login
+INFO: 2025/07/14 01:02:32 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/14 01:02:32 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/14 01:02:32 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/14 01:02:32 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/14 01:02:32 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/14 01:02:32 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/14 01:02:32 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/14 01:02:32 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/14 01:02:32 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/14 01:05:49 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/14 01:05:49 logger.go:42: Environment: development
+INFO: 2025/07/14 01:05:49 logger.go:42: Port: 8080
+INFO: 2025/07/14 01:05:49 logger.go:42: Log Level: info
+INFO: 2025/07/14 01:05:49 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/14 01:05:49 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/14 01:05:49 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/14 01:05:49 logger.go:42: Email service enabled
+INFO: 2025/07/14 01:05:49 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/14 01:05:53 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/14 01:05:53 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/14 01:05:56 logger.go:42: Successfully connected to database
+INFO: 2025/07/14 01:05:56 logger.go:42: Email service initialized
+INFO: 2025/07/14 01:05:56 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/14 01:05:56 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/14 01:05:56 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/14 01:05:56 logger.go:42: Starting server on port 8080
+INFO: 2025/07/14 01:05:56 logger.go:42: Available endpoints:
+INFO: 2025/07/14 01:05:56 logger.go:42:   GET  /health
+INFO: 2025/07/14 01:05:56 logger.go:42:   POST /register
+INFO: 2025/07/14 01:05:56 logger.go:42:   POST /login
+INFO: 2025/07/14 01:05:56 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/14 01:05:56 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/14 01:05:56 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/14 01:05:56 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/14 01:05:56 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/14 01:05:56 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/14 01:05:56 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/14 01:05:56 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/14 01:05:56 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/14 01:07:08 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/14 01:07:08 logger.go:42: Environment: development
+INFO: 2025/07/14 01:07:08 logger.go:42: Port: 8080
+INFO: 2025/07/14 01:07:08 logger.go:42: Log Level: info
+INFO: 2025/07/14 01:07:08 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/14 01:07:08 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/14 01:07:08 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/14 01:07:08 logger.go:42: Email service enabled
+INFO: 2025/07/14 01:07:08 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/14 01:07:11 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/14 01:07:11 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/14 01:07:14 logger.go:42: Successfully connected to database
+INFO: 2025/07/14 01:07:14 logger.go:42: Email service initialized
+INFO: 2025/07/14 01:07:14 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/14 01:07:14 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/14 01:07:14 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/14 01:07:14 logger.go:42: Starting server on port 8080
+INFO: 2025/07/14 01:07:14 logger.go:42: Available endpoints:
+INFO: 2025/07/14 01:07:14 logger.go:42:   GET  /health
+INFO: 2025/07/14 01:07:14 logger.go:42:   POST /register
+INFO: 2025/07/14 01:07:14 logger.go:42:   POST /login
+INFO: 2025/07/14 01:07:14 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/14 01:07:14 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/14 01:07:14 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/14 01:07:14 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/14 01:07:14 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/14 01:07:14 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/14 01:07:14 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/14 01:07:14 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/14 01:07:14 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/14 01:08:45 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/14 01:08:45 logger.go:42: Environment: development
+INFO: 2025/07/14 01:08:45 logger.go:42: Port: 8080
+INFO: 2025/07/14 01:08:45 logger.go:42: Log Level: info
+INFO: 2025/07/14 01:08:45 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/14 01:08:45 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/14 01:08:45 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/14 01:08:45 logger.go:42: Email service enabled
+INFO: 2025/07/14 01:08:45 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/14 01:08:48 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/14 01:08:48 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/14 01:08:51 logger.go:42: Successfully connected to database
+INFO: 2025/07/14 01:08:51 logger.go:42: Email service initialized
+INFO: 2025/07/14 01:08:51 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/14 01:08:51 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/14 01:08:51 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/14 01:08:51 logger.go:42: Starting server on port 8080
+INFO: 2025/07/14 01:08:51 logger.go:42: Available endpoints:
+INFO: 2025/07/14 01:08:51 logger.go:42:   GET  /health
+INFO: 2025/07/14 01:08:51 logger.go:42:   POST /register
+INFO: 2025/07/14 01:08:51 logger.go:42:   POST /login
+INFO: 2025/07/14 01:08:51 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/14 01:08:51 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/14 01:08:51 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/14 01:08:51 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/14 01:08:51 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/14 01:08:51 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/14 01:08:51 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/14 01:08:51 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/14 01:08:51 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/14 01:11:21 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/14 01:11:21 logger.go:42: Environment: development
+INFO: 2025/07/14 01:11:21 logger.go:42: Port: 8080
+INFO: 2025/07/14 01:11:21 logger.go:42: Log Level: info
+INFO: 2025/07/14 01:11:21 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/14 01:11:21 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/14 01:11:21 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/14 01:11:21 logger.go:42: Email service enabled
+INFO: 2025/07/14 01:11:21 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/14 01:11:24 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/14 01:11:24 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/14 01:11:27 logger.go:42: Successfully connected to database
+INFO: 2025/07/14 01:11:27 logger.go:42: Email service initialized
+INFO: 2025/07/14 01:11:27 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/14 01:11:27 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/14 01:11:27 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/14 01:11:27 logger.go:42: Starting server on port 8080
+INFO: 2025/07/14 01:11:27 logger.go:42: Available endpoints:
+INFO: 2025/07/14 01:11:27 logger.go:42:   GET  /health
+INFO: 2025/07/14 01:11:27 logger.go:42:   POST /register
+INFO: 2025/07/14 01:11:27 logger.go:42:   POST /login
+INFO: 2025/07/14 01:11:27 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/14 01:11:27 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/14 01:11:27 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/14 01:11:27 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/14 01:11:27 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/14 01:11:27 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/14 01:11:27 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/14 01:11:27 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/14 01:11:27 logger.go:42:   DELETE /admin/users/:id (admin only)
+INFO: 2025/07/14 01:12:56 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/14 01:12:56 logger.go:42: Environment: development
+INFO: 2025/07/14 01:12:56 logger.go:42: Port: 8080
+INFO: 2025/07/14 01:12:56 logger.go:42: Log Level: info
+INFO: 2025/07/14 01:12:56 logger.go:42: Max DB Connections: 25
+INFO: 2025/07/14 01:12:56 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/14 01:12:56 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/14 01:12:56 logger.go:42: Email service enabled
+INFO: 2025/07/14 01:12:56 logger.go:42: Configuration loaded successfully
+INFO: 2025/07/14 01:13:00 logger.go:42: goose: no migrations to run. current version: 20250711035111
+INFO: 2025/07/14 01:13:00 logger.go:42: Database migrations applied successfully
+INFO: 2025/07/14 01:13:03 logger.go:42: Successfully connected to database
+INFO: 2025/07/14 01:13:03 logger.go:42: Email service initialized
+INFO: 2025/07/14 01:13:03 logger.go:42: MailerSend From Email: noreply@test-z0vklo67x6el7qrx.mlsender.net
+INFO: 2025/07/14 01:13:03 logger.go:42: MailerSend From Name: LuxSUV Support
+INFO: 2025/07/14 01:13:03 logger.go:42: Using development CORS configuration (permissive)
+INFO: 2025/07/14 01:13:03 logger.go:42: Starting server on port 8080
+INFO: 2025/07/14 01:13:03 logger.go:42: Available endpoints:
+INFO: 2025/07/14 01:13:03 logger.go:42:   GET  /health
+INFO: 2025/07/14 01:13:03 logger.go:42:   POST /register
+INFO: 2025/07/14 01:13:03 logger.go:42:   POST /login
+INFO: 2025/07/14 01:13:03 logger.go:42:   POST /auth/forgot-password
+INFO: 2025/07/14 01:13:03 logger.go:42:   POST /auth/reset-password
+INFO: 2025/07/14 01:13:03 logger.go:42:   GET  /users/me (protected)
+INFO: 2025/07/14 01:13:03 logger.go:42:   PUT  /users/me/password (protected)
+INFO: 2025/07/14 01:13:03 logger.go:42:   GET  /admin/users (admin only)
+INFO: 2025/07/14 01:13:03 logger.go:42:   GET  /admin/users/by-email?email=user@example.com (admin only)
+INFO: 2025/07/14 01:13:03 logger.go:42:   GET  /admin/users/:id (admin only)
+INFO: 2025/07/14 01:13:03 logger.go:42:   PUT  /admin/users/:id/role (admin only)
+INFO: 2025/07/14 01:13:03 logger.go:42:   DELETE /admin/users/:id (admin only)

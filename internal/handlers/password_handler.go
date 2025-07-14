@@ -16,12 +16,12 @@ import (
 
 type PasswordHandler struct {
 	authService  *auth.Service
-	userRepo     *repository.UserRepository
+	userRepo     repository.UserRepository
 	emailService *email.Service
 	logger       *logger.Logger
 }
 
-func NewPasswordHandler(authService *auth.Service, userRepo *repository.UserRepository, emailService *email.Service, logger *logger.Logger) *PasswordHandler {
+func NewPasswordHandler(authService *auth.Service, userRepo repository.UserRepository, emailService *email.Service, logger *logger.Logger) *PasswordHandler {
 	return &PasswordHandler{
 		authService:  authService,
 		userRepo:     userRepo,
@@ -73,7 +73,7 @@ func (h *PasswordHandler) ChangePassword(c echo.Context) error {
 	}
 
 	// Get user from database
-	user, err := h.userRepo.GetUserByID(userID)
+	user, err := h.userRepo.GetByID(c.Request().Context(), userID)
 	if err != nil {
 		h.logger.Err(fmt.Sprintf("Failed to get user for password change: %s", err.Error()))
 		return c.JSON(http.StatusInternalServerError, map[string]string{
@@ -106,7 +106,7 @@ func (h *PasswordHandler) ChangePassword(c echo.Context) error {
 	}
 
 	// Update password in database
-	if err := h.userRepo.UpdatePassword(userID, string(hashedPassword)); err != nil {
+	if err := h.userRepo.UpdatePassword(c.Request().Context(), userID, string(hashedPassword)); err != nil {
 		h.logger.Err(fmt.Sprintf("Failed to update password for user %d: %s", userID, err.Error()))
 		return c.JSON(http.StatusInternalServerError, map[string]string{
 			"error": "failed to update password",
@@ -139,7 +139,7 @@ func (h *PasswordHandler) ResetPasswordRequest(c echo.Context) error {
 	}
 
 	// Check if user exists
-	user, err := h.userRepo.GetUserByEmail(email)
+	user, err := h.userRepo.GetByEmail(c.Request().Context(), email)
 	if err != nil {
 		// Don't reveal if email exists or not for security
 		h.logger.Warn(fmt.Sprintf("Password reset requested for non-existent email: %s", email))
@@ -158,7 +158,7 @@ func (h *PasswordHandler) ResetPasswordRequest(c echo.Context) error {
 	}
 
 	// Store reset token in database
-	if err := h.userRepo.StoreResetToken(user.ID, resetToken); err != nil {
+	if err := h.userRepo.StoreResetToken(c.Request().Context(), user.ID, resetToken); err != nil {
 		h.logger.Err(fmt.Sprintf("Failed to store reset token for user %d (%s): %s", user.ID, email, err.Error()))
 		return c.JSON(http.StatusInternalServerError, map[string]string{
 			"error": "failed to process reset request",
@@ -233,7 +233,7 @@ func (h *PasswordHandler) ResetPassword(c echo.Context) error {
 	}
 
 	// Update password
-	if err := h.userRepo.UpdatePassword(userID, string(hashedPassword)); err != nil {
+	if err := h.userRepo.UpdatePassword(c.Request().Context(), userID, string(hashedPassword)); err != nil {
 		h.logger.Err(fmt.Sprintf("Failed to update password during reset: %s", err.Error()))
 		return c.JSON(http.StatusInternalServerError, map[string]string{
 			"error": "failed to reset password",
@@ -241,7 +241,7 @@ func (h *PasswordHandler) ResetPassword(c echo.Context) error {
 	}
 
 	// Invalidate reset token
-	if err := h.userRepo.InvalidateResetToken(userID); err != nil {
+	if err := h.userRepo.InvalidateResetToken(c.Request().Context(), userID); err != nil {
 		h.logger.Warn(fmt.Sprintf("Failed to invalidate reset token: %s", err.Error()))
 	}
 

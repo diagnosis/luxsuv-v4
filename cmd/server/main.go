@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/diagnosis/luxsuv-v4/internal/repository/postgres"
 	"time"
 
 	"github.com/diagnosis/luxsuv-v4/internal/auth"
@@ -10,7 +11,6 @@ import (
 	"github.com/diagnosis/luxsuv-v4/internal/handlers"
 	"github.com/diagnosis/luxsuv-v4/internal/logger"
 	"github.com/diagnosis/luxsuv-v4/internal/middleware"
-	"github.com/diagnosis/luxsuv-v4/internal/repository"
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
 	echomiddleware "github.com/labstack/echo/v4/middleware"
@@ -70,7 +70,7 @@ func main() {
 	log.Info("Successfully connected to database")
 
 	// Initialize repositories and services
-	userRepo := repository.NewUserRepository(db)
+	userRepo := postgres.NewUserRepository(db)
 	authService := auth.NewService(userRepo, cfg.JWTSecret, log)
 
 	// Initialize email service
@@ -94,6 +94,10 @@ func main() {
 	userHandler := handlers.NewUserHandler(authService, userRepo, log)
 	passwordHandler := handlers.NewPasswordHandler(authService, userRepo, emailService, log)
 	authMiddleware := middleware.NewAuthMiddleware(authService, log)
+
+	// Initialize book ride repository and handler
+	bookRideRepo := postgres.NewBookRideRepository(db)
+	bookRideHandler := handlers.NewBookRideHandler(bookRideRepo, log)
 
 	// Set up Echo server
 	e := echo.New()
@@ -168,15 +172,15 @@ func main() {
 	authGroup.POST("/register", authHandler.Register)
 	authGroup.POST("/login", authHandler.Login)
 
+	// Password reset routes (public)
+	e.POST("/auth/forgot-password", passwordHandler.ResetPasswordRequest)
+	e.POST("/auth/reset-password", passwordHandler.ResetPassword)
+
 	// Protected routes
 	protectedGroup := e.Group("")
 	protectedGroup.Use(authMiddleware.RequireAuth())
 	protectedGroup.GET("/users/me", authHandler.GetCurrentUser)
 	protectedGroup.PUT("/users/me/password", passwordHandler.ChangePassword)
-
-	// Password reset routes (public)
-	e.POST("/auth/forgot-password", passwordHandler.ResetPasswordRequest)
-	e.POST("/auth/reset-password", passwordHandler.ResetPassword)
 
 	// Admin routes
 	adminGroup := e.Group("/admin")
@@ -189,6 +193,19 @@ func main() {
 	adminGroup.GET("/users/:id", userHandler.GetUserByID)
 	adminGroup.PUT("/users/:id/role", userHandler.UpdateUserRole)
 	adminGroup.DELETE("/users/:id", authHandler.DeleteUser)
+
+	// Book ride routes
+	// Public
+	e.POST("/book-ride", bookRideHandler.Create)
+	e.GET("/bookings/email/:email", bookRideHandler.GetByEmail)
+
+	// Protected (authenticated users)
+	protectedGroup.GET("/bookings/my", bookRideHandler.GetByUserID) // Example for user-specific bookings
+
+	// Driver-protected (add driver role middleware if defined)
+	driverGroup := protectedGroup.Group("/driver")
+	driverGroup.Use(authMiddleware.RequireDriver()) // Assuming you have a RequireDriver middleware; implement if not
+	driverGroup.PUT("/bookings/:id/accept", bookRideHandler.Accept)
 
 	log.Info("Starting server on port " + cfg.Port)
 	log.Info("Available endpoints:")
@@ -204,6 +221,10 @@ func main() {
 	log.Info("  GET  /admin/users/:id (admin only)")
 	log.Info("  PUT  /admin/users/:id/role (admin only)")
 	log.Info("  DELETE /admin/users/:id (admin only)")
+	log.Info("  POST /book-ride (public)")
+	log.Info("  GET  /bookings/email/:email (public)")
+	log.Info("  GET  /bookings/my (protected)")
+	log.Info("  PUT  /driver/bookings/:id/accept (driver only)")
 
 	if err := e.Start(":" + cfg.Port); err != nil {
 		log.Err("Failed to start server: " + err.Error())

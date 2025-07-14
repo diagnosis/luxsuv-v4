@@ -4,6 +4,7 @@ import (
 	"errors"
 	"regexp"
 	"strings"
+	"time"
 	"unicode"
 
 	"github.com/diagnosis/luxsuv-v4/internal/models"
@@ -42,7 +43,7 @@ func ValidateUsername(username string) error {
 	if len(username) > 50 {
 		return errors.New("username must be no more than 50 characters long")
 	}
-	
+
 	// Check for valid characters (alphanumeric and underscore only)
 	for _, char := range username {
 		if !unicode.IsLetter(char) && !unicode.IsDigit(char) && char != '_' {
@@ -120,5 +121,76 @@ func ValidateLoginInput(email, password string) error {
 	if password == "" {
 		return errors.New("password is required")
 	}
+	return nil
+}
+
+// ValidateBookRide validates the book ride data
+func ValidateBookRide(br *models.BookRide) error {
+	if br.YourName = strings.TrimSpace(br.YourName); br.YourName == "" {
+		return errors.New("name is required")
+	}
+	if len(br.YourName) > 100 {
+		return errors.New("name must be no more than 100 characters long")
+	}
+
+	if err := ValidateEmail(br.Email); err != nil {
+		return err
+	}
+
+	if br.PhoneNumber = strings.TrimSpace(br.PhoneNumber); br.PhoneNumber == "" {
+		return errors.New("phone number is required")
+	}
+	if len(br.PhoneNumber) < 7 || len(br.PhoneNumber) > 20 {
+		return errors.New("phone number must be between 7 and 20 characters")
+	}
+
+	if br.RideType = strings.TrimSpace(br.RideType); br.RideType == "" {
+		return errors.New("ride type is required")
+	}
+
+	if br.PickupLocation = strings.TrimSpace(br.PickupLocation); br.PickupLocation == "" {
+		return errors.New("pickup location is required")
+	}
+
+	if br.DropoffLocation = strings.TrimSpace(br.DropoffLocation); br.DropoffLocation == "" {
+		return errors.New("dropoff location is required")
+	}
+
+	if br.Date = strings.TrimSpace(br.Date); br.Date == "" {
+		return errors.New("date is required")
+	}
+	// Basic date validation (assuming YYYY-MM-DD format)
+	if _, err := time.Parse("2006-01-02", br.Date); err != nil {
+		return errors.New("invalid date format; use YYYY-MM-DD")
+	}
+
+	if br.Time = strings.TrimSpace(br.Time); br.Time == "" {
+		return errors.New("time is required")
+	}
+	// Basic time validation (assuming HH:MM format)
+	if _, err := time.Parse("15:04", br.Time); err != nil {
+		return errors.New("invalid time format; use HH:MM")
+	}
+
+	if br.NumberOfPassengers <= 0 {
+		return errors.New("number of passengers must be at least 1")
+	}
+
+	if br.NumberOfLuggage < 0 {
+		return errors.New("number of luggage cannot be negative")
+	}
+
+	if br.AdditionalNotes != "" && len(br.AdditionalNotes) > 500 {
+		return errors.New("additional notes must be no more than 500 characters")
+	}
+
+	// Status defaults are set in DB, but validate if provided
+	if br.BookStatus != "" && br.BookStatus != "Pending" {
+		return errors.New("initial book status must be Pending")
+	}
+	if br.RideStatus != "" && br.RideStatus != "Pending" {
+		return errors.New("initial ride status must be Pending")
+	}
+
 	return nil
 }

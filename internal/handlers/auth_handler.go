@@ -13,16 +13,16 @@ import (
 )
 
 type AuthHandler struct {
-	authService *auth.Service
+	authService  *auth.Service
 	emailService *email.Service
-	logger      *logger.Logger
+	logger       *logger.Logger
 }
 
 func NewAuthHandler(authService *auth.Service, emailService *email.Service, logger *logger.Logger) *AuthHandler {
 	return &AuthHandler{
-		authService: authService,
+		authService:  authService,
 		emailService: emailService,
-		logger:      logger,
+		logger:       logger,
 	}
 }
 
@@ -36,7 +36,7 @@ func (h *AuthHandler) Register(c echo.Context) error {
 		})
 	}
 
-	user, err := h.authService.Register(&req)
+	user, err := h.authService.Register(c.Request().Context(), &req)
 	if err != nil {
 		h.logger.Warn(fmt.Sprintf("Registration failed: %s", err.Error()))
 		return c.JSON(http.StatusBadRequest, map[string]string{
@@ -45,7 +45,7 @@ func (h *AuthHandler) Register(c echo.Context) error {
 	}
 
 	h.logger.Info(fmt.Sprintf("User registered successfully: %s", user.Email))
-	
+
 	// Send welcome email if email service is configured
 	if h.emailService != nil {
 		if err := h.emailService.SendWelcomeEmail(user.Email, user.Username); err != nil {
@@ -53,7 +53,7 @@ func (h *AuthHandler) Register(c echo.Context) error {
 			// Don't fail registration if email fails
 		}
 	}
-	
+
 	return c.JSON(http.StatusCreated, map[string]interface{}{
 		"message": "user registered successfully",
 		"user":    user,
@@ -70,7 +70,7 @@ func (h *AuthHandler) Login(c echo.Context) error {
 		})
 	}
 
-	response, err := h.authService.Login(&req)
+	response, err := h.authService.Login(c.Request().Context(), &req)
 	if err != nil {
 		h.logger.Warn(fmt.Sprintf("Login failed: %s", err.Error()))
 		return c.JSON(http.StatusUnauthorized, map[string]string{
@@ -107,7 +107,7 @@ func (h *AuthHandler) GetCurrentUser(c echo.Context) error {
 		})
 	}
 
-	user, err := h.authService.GetUserByID(userID)
+	user, err := h.authService.GetUserByID(c.Request().Context(), userID)
 	if err != nil {
 		h.logger.Warn(fmt.Sprintf("Failed to get current user: %s", err.Error()))
 		return c.JSON(http.StatusNotFound, map[string]string{
@@ -151,7 +151,7 @@ func (h *AuthHandler) DeleteUser(c echo.Context) error {
 		})
 	}
 
-	if err := h.authService.DeleteUser(userID, adminID); err != nil {
+	if err := h.authService.DeleteUser(c.Request().Context(), userID, adminID); err != nil {
 		h.logger.Warn(fmt.Sprintf("Failed to delete user: %s", err.Error()))
 		return c.JSON(http.StatusBadRequest, map[string]string{
 			"error": err.Error(),

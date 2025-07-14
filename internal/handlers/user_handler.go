@@ -1,11 +1,12 @@
 package handlers
 
 import (
+	"database/sql"
+	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
-	"database/sql"
 
 	"github.com/diagnosis/luxsuv-v4/internal/auth"
 	"github.com/diagnosis/luxsuv-v4/internal/logger"
@@ -17,11 +18,11 @@ import (
 
 type UserHandler struct {
 	authService *auth.Service
-	userRepo    *repository.UserRepository
+	userRepo    repository.UserRepository
 	logger      *logger.Logger
 }
 
-func NewUserHandler(authService *auth.Service, userRepo *repository.UserRepository, logger *logger.Logger) *UserHandler {
+func NewUserHandler(authService *auth.Service, userRepo repository.UserRepository, logger *logger.Logger) *UserHandler {
 	return &UserHandler{
 		authService: authService,
 		userRepo:    userRepo,
@@ -45,7 +46,7 @@ func (h *UserHandler) ListUsers(c echo.Context) error {
 	offset := (page - 1) * limit
 
 	// Get users from database
-	users, err := h.userRepo.ListUsers(limit, offset)
+	users, err := h.userRepo.ListUsers(c.Request().Context(), limit, offset)
 	if err != nil {
 		h.logger.Err(fmt.Sprintf("Failed to list users: %s", err.Error()))
 		return c.JSON(http.StatusInternalServerError, map[string]string{
@@ -54,7 +55,7 @@ func (h *UserHandler) ListUsers(c echo.Context) error {
 	}
 
 	// Get total count for pagination
-	totalCount, err := h.userRepo.CountUsers()
+	totalCount, err := h.userRepo.CountUsers(c.Request().Context())
 	if err != nil {
 		h.logger.Err(fmt.Sprintf("Failed to count users: %s", err.Error()))
 		return c.JSON(http.StatusInternalServerError, map[string]string{
@@ -95,9 +96,9 @@ func (h *UserHandler) GetUserByEmail(c echo.Context) error {
 		})
 	}
 
-	user, err := h.userRepo.GetUserByEmail(email)
+	user, err := h.userRepo.GetByEmail(c.Request().Context(), email)
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err, sql.ErrNoRows) {
 			return c.JSON(http.StatusNotFound, map[string]string{
 				"error": "user not found",
 			})
@@ -123,7 +124,7 @@ func (h *UserHandler) GetUserByID(c echo.Context) error {
 		})
 	}
 
-	user, err := h.authService.GetUserByID(userID)
+	user, err := h.authService.GetUserByID(c.Request().Context(), userID)
 	if err != nil {
 		h.logger.Warn(fmt.Sprintf("Failed to get user by ID %d: %s", userID, err.Error()))
 		return c.JSON(http.StatusNotFound, map[string]string{
@@ -162,7 +163,7 @@ func (h *UserHandler) UpdateUserRole(c echo.Context) error {
 	}
 
 	// Get the user to update
-	user, err := h.userRepo.GetUserByID(userID)
+	user, err := h.userRepo.GetByID(c.Request().Context(), userID)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, map[string]string{
 			"error": "user not found",
@@ -173,7 +174,7 @@ func (h *UserHandler) UpdateUserRole(c echo.Context) error {
 	user.Role = req.Role
 	user.IsAdmin = req.Role == models.RoleAdmin
 
-	if err := h.userRepo.UpdateUserRole(userID, req.Role, user.IsAdmin); err != nil {
+	if err := h.userRepo.UpdateUserRole(c.Request().Context(), userID, req.Role, user.IsAdmin); err != nil {
 		h.logger.Err(fmt.Sprintf("Failed to update user role: %s", err.Error()))
 		return c.JSON(http.StatusInternalServerError, map[string]string{
 			"error": "failed to update user role",
@@ -181,7 +182,7 @@ func (h *UserHandler) UpdateUserRole(c echo.Context) error {
 	}
 
 	h.logger.Info(fmt.Sprintf("User role updated: ID %d, new role: %s", userID, req.Role))
-	
+
 	// Remove password from response
 	user.Password = ""
 	return c.JSON(http.StatusOK, map[string]interface{}{
