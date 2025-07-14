@@ -44,7 +44,7 @@ func main() {
 	defer migrationDB.Close()
 
 	goose.SetLogger(&GooseLogger{log: log})
-	if err := goose.Up(migrationDB.DB, "migrations"); err != nil {
+	if err := goose.Up(migrationDB.DB, "../../migrations"); err != nil {
 		log.Err("Failed to apply migrations: " + err.Error())
 		return
 	}
@@ -196,7 +196,7 @@ func main() {
 
 	// Book ride routes
 	// Public
-	e.POST("/book-ride", bookRideHandler.Create)
+	e.POST("/book-ride", bookRideHandler.Create, authMiddleware.OptionalAuth())
 	e.GET("/bookings/email/:email", bookRideHandler.GetByEmail)
 
 	// Protected (authenticated users)
