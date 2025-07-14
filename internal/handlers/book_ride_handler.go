@@ -30,6 +30,8 @@ func (h *BookRideHandler) Create(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": "invalid request body"})
 	}
 
+	h.logger.Info(fmt.Sprintf("Received booking data: %+v", br))
+
 	//validate input
 	if err := validation.ValidateBookRide(br); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
@@ -37,36 +39,50 @@ func (h *BookRideHandler) Create(c echo.Context) error {
 	
 	// Get user ID from context if user is authenticated
 	userIDClaim := c.Get("user_id")
+	h.logger.Info(fmt.Sprintf("User ID claim from context: %v (type: %T)", userIDClaim, userIDClaim))
+	
 	if userIDClaim != nil {
-		h.logger.Info(fmt.Sprintf("User ID claim found: %v (type: %T)", userIDClaim, userIDClaim))
-		
 		var userID int64
 		switch v := userIDClaim.(type) {
 		case float64:
 			userID = int64(v)
-			br.UserID = &userID
-			h.logger.Info(fmt.Sprintf("User ID set from float64: %d", userID))
 		case int64:
 			userID = v
-			br.UserID = &userID
-			h.logger.Info(fmt.Sprintf("User ID set from int64: %d", userID))
 		case int:
 			userID = int64(v)
-			br.UserID = &userID
-			h.logger.Info(fmt.Sprintf("User ID set from int: %d", userID))
+		case int32:
+			userID = int64(v)
 		default:
 			h.logger.Warn(fmt.Sprintf("Unexpected user_id type: %T, value: %v", userIDClaim, userIDClaim))
+			userID = 0
+		}
+		
+		if userID > 0 {
+			br.UserID = &userID
+			h.logger.Info(fmt.Sprintf("✅ User ID successfully set: %d", userID))
+		} else {
+			h.logger.Warn("❌ Failed to extract valid user ID from claims")
 		}
 	} else {
 		h.logger.Info("No user_id in context - guest booking")
 	}
 	
+	h.logger.Info(fmt.Sprintf("Final booking before DB save - UserID: %v, Name: %s, Email: %s", 
+		func() interface{} {
+			if br.UserID != nil {
+				return *br.UserID
+			}
+			return "nil"
+		}(), br.YourName, br.Email))
+	
 	br.BookStatus = "Pending"
 	br.RideStatus = "Pending"
+	
 	if err := h.repo.Create(c.Request().Context(), br); err != nil {
 		h.logger.Err(fmt.Sprintf("Error creating book ride: %s", err.Error()))
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "error creating book ride"})
 	}
+	
 	h.logger.Info(fmt.Sprintf("Booking created successfully: ID %d", br.ID))
 	return c.JSON(http.StatusCreated, br)
 }
