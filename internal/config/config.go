@@ -2,10 +2,10 @@ package config
 
 import (
 	"errors"
-	"os"
-	"strconv"
 	"github.com/diagnosis/luxsuv-v4/internal/logger"
 	"github.com/joho/godotenv"
+	"os"
+	"strconv"
 )
 
 type Config struct {
@@ -15,16 +15,16 @@ type Config struct {
 	Environment    string
 	LogLevel       string
 	MaxConnections int
-	
+
 	// Email configuration (MailerSend)
-	MailerSendAPIKey   string
+	MailerSendAPIKey    string
 	MailerSendFromEmail string
 	MailerSendFromName  string
 }
 
 func LoadConfig(log *logger.Logger) (*Config, error) {
 	// Try to load .env file, but don't fail if it doesn't exist (for production)
-	if err := godotenv.Load(); err != nil {
+	if err := godotenv.Load("../../.env"); err != nil {
 		log.Warn("No .env file found, using environment variables: " + err.Error())
 	}
 
@@ -72,7 +72,7 @@ func LoadConfig(log *logger.Logger) (*Config, error) {
 	log.Info("Port: " + cfg.Port)
 	log.Info("Log Level: " + cfg.LogLevel)
 	log.Info("Max DB Connections: " + strconv.Itoa(cfg.MaxConnections))
-	
+
 	// Log email configuration (without sensitive API key)
 	if cfg.MailerSendAPIKey != "" {
 		log.Info("MailerSend From Email: " + cfg.MailerSendFromEmail)

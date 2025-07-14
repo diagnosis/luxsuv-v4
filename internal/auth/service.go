@@ -52,7 +52,7 @@ func (s *Service) Register(ctx context.Context, req *models.CreateUserRequest) (
 	}
 
 	// Check if user already exists by email
-	if existingUser, err := s.userRepo.GetByEmail(ctx, email); err == nil {
+	if _, err := s.userRepo.GetByEmail(ctx, email); err == nil {
 		s.logger.Warn(fmt.Sprintf("Registration failed: email already exists - %s", email))
 		return nil, errors.New("email already exists")
 	} else if err != nil && !errors.Is(err, sql.ErrNoRows) {
@@ -61,7 +61,7 @@ func (s *Service) Register(ctx context.Context, req *models.CreateUserRequest) (
 	}
 
 	// Check if user already exists by username
-	if existingUser, err := s.userRepo.GetByUsername(ctx, username); err == nil {
+	if _, err := s.userRepo.GetByUsername(ctx, username); err == nil {
 		s.logger.Warn(fmt.Sprintf("Registration failed: username already exists - %s", username))
 		return nil, errors.New("username already exists")
 	} else if err != nil && !errors.Is(err, sql.ErrNoRows) {

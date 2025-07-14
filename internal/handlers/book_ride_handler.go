@@ -38,6 +38,8 @@ func (h *BookRideHandler) Create(c echo.Context) error {
 	if ok {
 		br.UserID = &userID
 	}
+	br.BookStatus = "Pending"
+	br.RideStatus = "Pending"
 	if err := h.repo.Create(c.Request().Context(), br); err != nil {
 		h.logger.Err(fmt.Sprintf("Error creating book ride: %s", err.Error()))
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "error creating book ride"})

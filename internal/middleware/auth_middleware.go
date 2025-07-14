@@ -161,3 +161,49 @@ func (m *AuthMiddleware) RequireRole(requiredRole string) echo.MiddlewareFunc {
 		}
 	}
 }
+
+// OptionalAuth middleware sets user context if token present, but doesn't require it
+func (m *AuthMiddleware) OptionalAuth() echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			authHeader := c.Request().Header.Get("Authorization")
+			if authHeader == "" || !strings.HasPrefix(authHeader, "Bearer ") {
+				return next(c) // No token, proceed as guest
+			}
+
+			tokenString := strings.TrimPrefix(authHeader, "Bearer ")
+			if tokenString == "" {
+				return next(c)
+			}
+
+			claims, err := m.authService.ValidateJWT(tokenString)
+			if err != nil {
+				return next(c) // Invalid token, proceed as guest
+			}
+
+			userID, ok := claims["user_id"]
+			if !ok {
+				return next(c)
+			}
+
+			role, ok := claims["role"]
+			if !ok {
+				return next(c)
+			}
+
+			isAdmin, ok := claims["is_admin"]
+			if !ok {
+				isAdmin = false
+			}
+
+			c.Set("user_id", userID)
+			c.Set("role", role)
+			c.Set("is_admin", isAdmin)
+			c.Set("username", claims["username"])
+			c.Set("email", claims["email"])
+
+			m.logger.Info(fmt.Sprintf("Authenticated user (optional): %v (role: %v)", userID, role))
+			return next(c)
+		}
+	}
+}
