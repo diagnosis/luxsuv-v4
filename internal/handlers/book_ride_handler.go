@@ -34,10 +34,33 @@ func (h *BookRideHandler) Create(c echo.Context) error {
 	if err := validation.ValidateBookRide(br); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
 	}
-	userID, ok := c.Get("user_id").(int64)
-	if ok {
-		br.UserID = &userID
+	
+	// Get user ID from context if user is authenticated
+	userIDClaim := c.Get("user_id")
+	if userIDClaim != nil {
+		h.logger.Info(fmt.Sprintf("User ID claim found: %v (type: %T)", userIDClaim, userIDClaim))
+		
+		var userID int64
+		switch v := userIDClaim.(type) {
+		case float64:
+			userID = int64(v)
+			br.UserID = &userID
+			h.logger.Info(fmt.Sprintf("User ID set from float64: %d", userID))
+		case int64:
+			userID = v
+			br.UserID = &userID
+			h.logger.Info(fmt.Sprintf("User ID set from int64: %d", userID))
+		case int:
+			userID = int64(v)
+			br.UserID = &userID
+			h.logger.Info(fmt.Sprintf("User ID set from int: %d", userID))
+		default:
+			h.logger.Warn(fmt.Sprintf("Unexpected user_id type: %T, value: %v", userIDClaim, userIDClaim))
+		}
+	} else {
+		h.logger.Info("No user_id in context - guest booking")
 	}
+	
 	br.BookStatus = "Pending"
 	br.RideStatus = "Pending"
 	if err := h.repo.Create(c.Request().Context(), br); err != nil {

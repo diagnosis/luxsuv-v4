@@ -90,7 +90,7 @@ func (m *AuthMiddleware) RequireAuth() echo.MiddlewareFunc {
 			c.Set("username", claims["username"])
 			c.Set("email", claims["email"])
 
-			m.logger.Info(fmt.Sprintf("Authenticated user: %v (role: %v)", userID, role))
+			m.logger.Info(fmt.Sprintf("Authenticated user: %v (type: %T, role: %v)", userID, userID, role))
 			return next(c)
 		}
 	}
@@ -202,7 +202,7 @@ func (m *AuthMiddleware) OptionalAuth() echo.MiddlewareFunc {
 			c.Set("username", claims["username"])
 			c.Set("email", claims["email"])
 
-			m.logger.Info(fmt.Sprintf("Authenticated user (optional): %v (role: %v)", userID, role))
+			m.logger.Info(fmt.Sprintf("Authenticated user (optional): %v (type: %T, role: %v)", userID, userID, role))
 			return next(c)
 		}
 	}
