@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"context"
 	"database/sql"
 	"errors"
 	"fmt"
@@ -16,12 +17,12 @@ import (
 )
 
 type Service struct {
-	userRepo  *repository.UserRepository
+	userRepo  repository.UserRepository
 	jwtSecret string
 	logger    *logger.Logger
 }
 
-func NewService(userRepo *repository.UserRepository, jwtSecret string, logger *logger.Logger) *Service {
+func NewService(userRepo repository.UserRepository, jwtSecret string, logger *logger.Logger) *Service {
 	return &Service{
 		userRepo:  userRepo,
 		jwtSecret: jwtSecret,
@@ -30,7 +31,7 @@ func NewService(userRepo *repository.UserRepository, jwtSecret string, logger *l
 }
 
 // Register creates a new user account
-func (s *Service) Register(req *models.CreateUserRequest) (*models.User, error) {
+func (s *Service) Register(ctx context.Context, req *models.CreateUserRequest) (*models.User, error) {
 	// Normalize inputs
 	username := strings.TrimSpace(req.Username)
 	email := strings.TrimSpace(strings.ToLower(req.Email))
@@ -51,19 +52,19 @@ func (s *Service) Register(req *models.CreateUserRequest) (*models.User, error) 
 	}
 
 	// Check if user already exists by email
-	if existingUser, err := s.userRepo.GetUserByEmail(email); err == nil && existingUser != nil {
+	if _, err := s.userRepo.GetByEmail(ctx, email); err == nil {
 		s.logger.Warn(fmt.Sprintf("Registration failed: email already exists - %s", email))
 		return nil, errors.New("email already exists")
-	} else if err != nil && err != sql.ErrNoRows {
+	} else if err != nil && !errors.Is(err, sql.ErrNoRows) {
 		s.logger.Err(fmt.Sprintf("Database error checking email: %s", err.Error()))
 		return nil, errors.New("registration failed")
 	}
 
 	// Check if user already exists by username
-	if existingUser, err := s.userRepo.GetUserByUsername(username); err == nil && existingUser != nil {
+	if _, err := s.userRepo.GetByUsername(ctx, username); err == nil {
 		s.logger.Warn(fmt.Sprintf("Registration failed: username already exists - %s", username))
 		return nil, errors.New("username already exists")
-	} else if err != nil && err != sql.ErrNoRows {
+	} else if err != nil && !errors.Is(err, sql.ErrNoRows) {
 		s.logger.Err(fmt.Sprintf("Database error checking username: %s", err.Error()))
 		return nil, errors.New("registration failed")
 	}
@@ -84,20 +85,20 @@ func (s *Service) Register(req *models.CreateUserRequest) (*models.User, error) 
 		IsAdmin:  role == models.RoleAdmin,
 	}
 
-	if err := s.userRepo.CreateUser(user); err != nil {
+	if err := s.userRepo.Create(ctx, user); err != nil {
 		s.logger.Err(fmt.Sprintf("Failed to create user %s: %s", username, err.Error()))
 		return nil, errors.New("failed to create user")
 	}
 
 	s.logger.Info(fmt.Sprintf("User registered successfully: %s (%s)", username, email))
-	
+
 	// Remove password from response
 	user.Password = ""
 	return user, nil
 }
 
 // Login authenticates a user and returns a JWT token
-func (s *Service) Login(req *models.LoginRequest) (*models.LoginResponse, error) {
+func (s *Service) Login(ctx context.Context, req *models.LoginRequest) (*models.LoginResponse, error) {
 	// Normalize inputs
 	email := strings.TrimSpace(strings.ToLower(req.Email))
 	password := req.Password
@@ -111,9 +112,9 @@ func (s *Service) Login(req *models.LoginRequest) (*models.LoginResponse, error)
 	}
 
 	// Get user from database
-	user, err := s.userRepo.GetUserByEmail(email)
+	user, err := s.userRepo.GetByEmail(ctx, email)
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err, sql.ErrNoRows) {
 			s.logger.Warn(fmt.Sprintf("Login failed: user not found - %s", email))
 			return nil, errors.New("invalid email or password")
 		}
@@ -146,14 +147,14 @@ func (s *Service) Login(req *models.LoginRequest) (*models.LoginResponse, error)
 }
 
 // GetUserByID retrieves a user by ID
-func (s *Service) GetUserByID(id int64) (*models.User, error) {
+func (s *Service) GetUserByID(ctx context.Context, id int64) (*models.User, error) {
 	if id <= 0 {
 		return nil, errors.New("invalid user ID")
 	}
 
-	user, err := s.userRepo.GetUserByID(id)
+	user, err := s.userRepo.GetByID(ctx, id)
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err, sql.ErrNoRows) {
 			return nil, errors.New("user not found")
 		}
 		s.logger.Err(fmt.Sprintf("Failed to get user by ID %d: %s", id, err.Error()))
@@ -166,9 +167,9 @@ func (s *Service) GetUserByID(id int64) (*models.User, error) {
 }
 
 // DeleteUser deletes a user (admin only)
-func (s *Service) DeleteUser(userID, adminID int64) error {
+func (s *Service) DeleteUser(ctx context.Context, userID, adminID int64) error {
 	// Get admin user to verify permissions
-	admin, err := s.userRepo.GetUserByID(adminID)
+	admin, err := s.userRepo.GetByID(ctx, adminID)
 	if err != nil {
 		return errors.New("admin user not found")
 	}
@@ -183,16 +184,16 @@ func (s *Service) DeleteUser(userID, adminID int64) error {
 	}
 
 	// Check if target user exists
-	targetUser, err := s.userRepo.GetUserByID(userID)
+	targetUser, err := s.userRepo.GetByID(ctx, userID)
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err, sql.ErrNoRows) {
 			return errors.New("user not found")
 		}
 		return errors.New("failed to find user")
 	}
 
 	// Delete the user
-	if err := s.userRepo.DeleteUser(userID); err != nil {
+	if err := s.userRepo.Delete(ctx, userID); err != nil {
 		s.logger.Err(fmt.Sprintf("Failed to delete user %d: %s", userID, err.Error()))
 		return errors.New("failed to delete user")
 	}

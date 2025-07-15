@@ -90,7 +90,7 @@ func (m *AuthMiddleware) RequireAuth() echo.MiddlewareFunc {
 			c.Set("username", claims["username"])
 			c.Set("email", claims["email"])
 
-			m.logger.Info(fmt.Sprintf("Authenticated user: %v (role: %v)", userID, role))
+			m.logger.Info(fmt.Sprintf("Authenticated user: %v (type: %T, role: %v)", userID, userID, role))
 			return next(c)
 		}
 	}
@@ -119,6 +119,11 @@ func (m *AuthMiddleware) RequireAdmin() echo.MiddlewareFunc {
 			return next(c)
 		}
 	}
+}
+
+// RequireDriver middleware ensures only drivers can access the endpoint
+func (m *AuthMiddleware) RequireDriver() echo.MiddlewareFunc {
+	return m.RequireRole("driver")
 }
 
 // RequireRole middleware ensures user has specific role
@@ -152,6 +157,52 @@ func (m *AuthMiddleware) RequireRole(requiredRole string) echo.MiddlewareFunc {
 				})
 			}
 
+			return next(c)
+		}
+	}
+}
+
+// OptionalAuth middleware sets user context if token present, but doesn't require it
+func (m *AuthMiddleware) OptionalAuth() echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			authHeader := c.Request().Header.Get("Authorization")
+			if authHeader == "" || !strings.HasPrefix(authHeader, "Bearer ") {
+				return next(c) // No token, proceed as guest
+			}
+
+			tokenString := strings.TrimPrefix(authHeader, "Bearer ")
+			if tokenString == "" {
+				return next(c)
+			}
+
+			claims, err := m.authService.ValidateJWT(tokenString)
+			if err != nil {
+				return next(c) // Invalid token, proceed as guest
+			}
+
+			userID, ok := claims["user_id"]
+			if !ok {
+				return next(c)
+			}
+
+			role, ok := claims["role"]
+			if !ok {
+				return next(c)
+			}
+
+			isAdmin, ok := claims["is_admin"]
+			if !ok {
+				isAdmin = false
+			}
+
+			c.Set("user_id", userID)
+			c.Set("role", role)
+			c.Set("is_admin", isAdmin)
+			c.Set("username", claims["username"])
+			c.Set("email", claims["email"])
+
+			m.logger.Info(fmt.Sprintf("Authenticated user (optional): %v (type: %T, role: %v)", userID, userID, role))
 			return next(c)
 		}
 	}
