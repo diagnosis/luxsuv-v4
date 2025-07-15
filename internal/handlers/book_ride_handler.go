@@ -2,10 +2,13 @@ package handlers
 
 import (
 	"fmt"
+	"strings"
 	"github.com/diagnosis/luxsuv-v4/internal/logger"
 	"github.com/diagnosis/luxsuv-v4/internal/models"
 	"github.com/diagnosis/luxsuv-v4/internal/repository"
 	"github.com/diagnosis/luxsuv-v4/internal/validation"
+	"github.com/diagnosis/luxsuv-v4/internal/auth"
+	"github.com/diagnosis/luxsuv-v4/internal/email"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"net/url"
@@ -15,12 +18,16 @@ import (
 type BookRideHandler struct {
 	repo   repository.BookRideRepository
 	logger *logger.Logger
+	authService  *auth.Service
+	emailService *email.Service
 }
 
-func NewBookRideHandler(repo repository.BookRideRepository, logger *logger.Logger) *BookRideHandler {
+func NewBookRideHandler(repo repository.BookRideRepository, logger *logger.Logger, authService *auth.Service, emailService *email.Service) *BookRideHandler {
 	return &BookRideHandler{
 		repo:   repo,
 		logger: logger,
+		authService:  authService,
+		emailService: emailService,
 	}
 }
 
