@@ -197,9 +197,11 @@ func (h *BookRideHandler) Update(c echo.Context) error {
 		case int:
 			uid = int64(v)
 		default:
+			h.logger.Warn(fmt.Sprintf("Invalid user_id type in context: %T, value: %v", userID, userID))
 			return c.JSON(http.StatusUnauthorized, map[string]string{"error": "invalid user authentication"})
 		}
 
+		h.logger.Info(fmt.Sprintf("Authenticated user %d attempting to update booking %d", uid, id))
 		booking, err = h.repo.GetByID(c.Request().Context(), id)
 		if err != nil {
 			return c.JSON(http.StatusNotFound, map[string]string{"error": "booking not found"})
@@ -309,28 +311,62 @@ func (h *BookRideHandler) Cancel(c echo.Context) error {
 
 		booking, err = h.repo.GetByID(c.Request().Context(), id)
 		if err != nil {
+			h.logger.Warn(fmt.Sprintf("Booking %d not found: %s", id, err.Error()))
 			return c.JSON(http.StatusNotFound, map[string]string{"error": "booking not found"})
 		}
 
-		if booking.UserID == nil || *booking.UserID != uid {
+		h.logger.Info(fmt.Sprintf("Booking %d details - UserID: %v, Email: %s", id, 
+			func() interface{} {
+				if booking.UserID != nil {
+					return *booking.UserID
+				}
+				return "nil"
+			}(), booking.Email))
+		// Check if user owns the booking (either by user_id or by email if it's a guest booking they later authenticated for)
+		userEmail := c.Get("email")
+		userEmailStr, _ := userEmail.(string)
+		
+		ownsBooking := false
+		if booking.UserID != nil && *booking.UserID == uid {
+			ownsBooking = true
+			h.logger.Info(fmt.Sprintf("User %d owns booking %d via user_id", uid, id))
+		} else if booking.UserID == nil && userEmailStr != "" && booking.Email == userEmailStr {
+			ownsBooking = true
+			h.logger.Info(fmt.Sprintf("User %d owns booking %d via email match (%s)", uid, id, userEmailStr))
+		}
+		
+		if !ownsBooking {
+			h.logger.Warn(fmt.Sprintf("Access denied: User %d (email: %s) cannot access booking %d (booking user_id: %v, booking email: %s)", 
+				uid, userEmailStr, id, 
+				func() interface{} {
+					if booking.UserID != nil {
+						return *booking.UserID
+					}
+					return "nil"
+				}(), booking.Email))
 			return c.JSON(http.StatusForbidden, map[string]string{"error": "access denied"})
 		}
 	} else if token != "" {
 		// Guest user with secure token
+		h.logger.Info(fmt.Sprintf("Guest user attempting to update booking %d with secure token", id))
 		bookingID, email, err := h.authService.ValidateBookingUpdateToken(token)
 		if err != nil {
+			h.logger.Warn(fmt.Sprintf("Invalid secure token for booking %d: %s", id, err.Error()))
 			return c.JSON(http.StatusUnauthorized, map[string]string{"error": "invalid or expired token"})
 		}
 
 		if bookingID != id {
+			h.logger.Warn(fmt.Sprintf("Token booking ID mismatch: token for %d, requested %d", bookingID, id))
 			return c.JSON(http.StatusForbidden, map[string]string{"error": "token not valid for this booking"})
 		}
 
 		booking, err = h.repo.GetByIDAndEmail(c.Request().Context(), id, email)
 		if err != nil {
+			h.logger.Warn(fmt.Sprintf("Booking %d not found for email %s: %s", id, email, err.Error()))
 			return c.JSON(http.StatusNotFound, map[string]string{"error": "booking not found"})
 		}
 	} else {
+		h.logger.Warn(fmt.Sprintf("No authentication provided for booking %d update", id))
 		return c.JSON(http.StatusUnauthorized, map[string]string{"error": "authentication required"})
 	}
 
@@ -386,11 +422,13 @@ func (h *BookRideHandler) GenerateUpdateLink(c echo.Context) error {
 		// Don't reveal if booking exists for security
 		return c.JSON(http.StatusOK, map[string]string{
 			"message": "if the booking exists for this email, an update link has been sent",
+		h.logger.Warn(fmt.Sprintf("Booking %d update failed 24-hour validation: %s", id, err.Error()))
 		})
 	}
 
 	// Check if booking can be updated
 	if booking.BookStatus == models.BookStatusCancelled || booking.BookStatus == models.BookStatusCompleted {
+		h.logger.Warn(fmt.Sprintf("Cannot update booking %d: status is %s", id, booking.BookStatus))
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": "cannot generate update link for cancelled or completed booking"})
 	}
 
