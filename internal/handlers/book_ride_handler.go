@@ -8,6 +8,7 @@ import (
 	"github.com/diagnosis/luxsuv-v4/internal/validation"
 	"github.com/labstack/echo/v4"
 	"net/http"
+	"net/url"
 	"strconv"
 )
 
@@ -36,11 +37,11 @@ func (h *BookRideHandler) Create(c echo.Context) error {
 	if err := validation.ValidateBookRide(br); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
 	}
-	
+
 	// Get user ID from context if user is authenticated
 	userIDClaim := c.Get("user_id")
 	h.logger.Info(fmt.Sprintf("User ID claim from context: %v (type: %T)", userIDClaim, userIDClaim))
-	
+
 	if userIDClaim != nil {
 		var userID int64
 		switch v := userIDClaim.(type) {
@@ -56,7 +57,7 @@ func (h *BookRideHandler) Create(c echo.Context) error {
 			h.logger.Warn(fmt.Sprintf("Unexpected user_id type: %T, value: %v", userIDClaim, userIDClaim))
 			userID = 0
 		}
-		
+
 		if userID > 0 {
 			br.UserID = &userID
 			h.logger.Info(fmt.Sprintf("✅ User ID successfully set: %d", userID))
@@ -66,29 +67,33 @@ func (h *BookRideHandler) Create(c echo.Context) error {
 	} else {
 		h.logger.Info("No user_id in context - guest booking")
 	}
-	
-	h.logger.Info(fmt.Sprintf("Final booking before DB save - UserID: %v, Name: %s, Email: %s", 
+
+	h.logger.Info(fmt.Sprintf("Final booking before DB save - UserID: %v, Name: %s, Email: %s",
 		func() interface{} {
 			if br.UserID != nil {
 				return *br.UserID
 			}
 			return "nil"
 		}(), br.YourName, br.Email))
-	
+
 	br.BookStatus = "Pending"
 	br.RideStatus = "Pending"
-	
+
 	if err := h.repo.Create(c.Request().Context(), br); err != nil {
 		h.logger.Err(fmt.Sprintf("Error creating book ride: %s", err.Error()))
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "error creating book ride"})
 	}
-	
+
 	h.logger.Info(fmt.Sprintf("Booking created successfully: ID %d", br.ID))
 	return c.JSON(http.StatusCreated, br)
 }
 
 func (h *BookRideHandler) GetByEmail(c echo.Context) error {
-	email := c.Param("email")
+	encodedEmail := c.Param("email")
+	email, err := url.PathUnescape(encodedEmail)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "invalid email format"})
+	}
 	if email == "" {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": "email is required!"})
 	}
