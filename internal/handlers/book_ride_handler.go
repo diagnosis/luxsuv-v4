@@ -154,3 +154,268 @@ func (h *BookRideHandler) GetByUserID(c echo.Context) error {
 	return c.JSON(http.StatusOK, bookings)
 
 }
+
+// Update handles updating a booking (authenticated users or via secure token)
+func (h *BookRideHandler) Update(c echo.Context) error {
+	idParam := c.Param("id")
+	id, err := strconv.ParseInt(idParam, 10, 64)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "invalid booking ID"})
+	}
+
+	var updates models.UpdateBookRideRequest
+	if err := c.Bind(&updates); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "invalid request body"})
+	}
+
+	// Validate the updates
+	if err := validation.ValidateUpdateBookRide(&updates); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
+	}
+
+	// Check if user is authenticated or using secure token
+	userID := c.Get("user_id")
+	token := c.QueryParam("token")
+
+	var booking *models.BookRide
+
+	if userID != nil {
+		// Authenticated user - verify they own the booking
+		var uid int64
+		switch v := userID.(type) {
+		case float64:
+			uid = int64(v)
+		case int64:
+			uid = v
+		case int:
+			uid = int64(v)
+		default:
+			return c.JSON(http.StatusUnauthorized, map[string]string{"error": "invalid user authentication"})
+		}
+
+		booking, err = h.repo.GetByID(c.Request().Context(), id)
+		if err != nil {
+			return c.JSON(http.StatusNotFound, map[string]string{"error": "booking not found"})
+		}
+
+		if booking.UserID == nil || *booking.UserID != uid {
+			return c.JSON(http.StatusForbidden, map[string]string{"error": "access denied"})
+		}
+	} else if token != "" {
+		// Guest user with secure token
+		bookingID, email, err := h.authService.ValidateBookingUpdateToken(token)
+		if err != nil {
+			return c.JSON(http.StatusUnauthorized, map[string]string{"error": "invalid or expired token"})
+		}
+
+		if bookingID != id {
+			return c.JSON(http.StatusForbidden, map[string]string{"error": "token not valid for this booking"})
+		}
+
+		booking, err = h.repo.GetByIDAndEmail(c.Request().Context(), id, email)
+		if err != nil {
+			return c.JSON(http.StatusNotFound, map[string]string{"error": "booking not found"})
+		}
+	} else {
+		return c.JSON(http.StatusUnauthorized, map[string]string{"error": "authentication required"})
+	}
+
+	// Check if booking can be updated (not cancelled or completed)
+	if booking.BookStatus == models.BookStatusCancelled || booking.BookStatus == models.BookStatusCompleted {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "cannot update cancelled or completed booking"})
+	}
+
+	// If date/time is being updated, validate 24-hour rule
+	dateToCheck := booking.Date
+	timeToCheck := booking.Time
+
+	if updates.Date != "" {
+		dateToCheck = updates.Date
+	}
+	if updates.Time != "" {
+		timeToCheck = updates.Time
+	}
+
+	if err := validation.ValidateBookingDateTime(dateToCheck, timeToCheck); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
+	}
+
+	// Perform the update
+	if err := h.repo.Update(c.Request().Context(), id, &updates); err != nil {
+		h.logger.Err(fmt.Sprintf("Failed to update booking %d: %s", id, err.Error()))
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "failed to update booking"})
+	}
+
+	// Get updated booking
+	updatedBooking, err := h.repo.GetByID(c.Request().Context(), id)
+	if err != nil {
+		h.logger.Err(fmt.Sprintf("Failed to get updated booking %d: %s", id, err.Error()))
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "booking updated but failed to retrieve updated data"})
+	}
+
+	h.logger.Info(fmt.Sprintf("Booking updated successfully: ID %d", id))
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "booking updated successfully",
+		"booking": updatedBooking,
+	})
+}
+
+// Cancel handles cancelling a booking (authenticated users or via secure token)
+func (h *BookRideHandler) Cancel(c echo.Context) error {
+	idParam := c.Param("id")
+	id, err := strconv.ParseInt(idParam, 10, 64)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "invalid booking ID"})
+	}
+
+	var req struct {
+		Reason string `json:"reason,omitempty"`
+	}
+	if err := c.Bind(&req); err != nil {
+		// Reason is optional, so binding errors are not critical
+		req.Reason = "Cancelled by user"
+	}
+
+	if req.Reason == "" {
+		req.Reason = "Cancelled by user"
+	}
+
+	// Check if user is authenticated or using secure token
+	userID := c.Get("user_id")
+	token := c.QueryParam("token")
+
+	var booking *models.BookRide
+
+	if userID != nil {
+		// Authenticated user - verify they own the booking
+		var uid int64
+		switch v := userID.(type) {
+		case float64:
+			uid = int64(v)
+		case int64:
+			uid = v
+		case int:
+			uid = int64(v)
+		default:
+			return c.JSON(http.StatusUnauthorized, map[string]string{"error": "invalid user authentication"})
+		}
+
+		booking, err = h.repo.GetByID(c.Request().Context(), id)
+		if err != nil {
+			return c.JSON(http.StatusNotFound, map[string]string{"error": "booking not found"})
+		}
+
+		if booking.UserID == nil || *booking.UserID != uid {
+			return c.JSON(http.StatusForbidden, map[string]string{"error": "access denied"})
+		}
+	} else if token != "" {
+		// Guest user with secure token
+		bookingID, email, err := h.authService.ValidateBookingUpdateToken(token)
+		if err != nil {
+			return c.JSON(http.StatusUnauthorized, map[string]string{"error": "invalid or expired token"})
+		}
+
+		if bookingID != id {
+			return c.JSON(http.StatusForbidden, map[string]string{"error": "token not valid for this booking"})
+		}
+
+		booking, err = h.repo.GetByIDAndEmail(c.Request().Context(), id, email)
+		if err != nil {
+			return c.JSON(http.StatusNotFound, map[string]string{"error": "booking not found"})
+		}
+	} else {
+		return c.JSON(http.StatusUnauthorized, map[string]string{"error": "authentication required"})
+	}
+
+	// Check if booking can be cancelled
+	if booking.BookStatus == models.BookStatusCancelled {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "booking is already cancelled"})
+	}
+
+	if booking.BookStatus == models.BookStatusCompleted {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "cannot cancel completed booking"})
+	}
+
+	// Validate 24-hour cancellation rule
+	if err := validation.ValidateBookingDateTime(booking.Date, booking.Time); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "cannot cancel booking less than 24 hours before scheduled time"})
+	}
+
+	// Perform the cancellation
+	if err := h.repo.Cancel(c.Request().Context(), id, req.Reason); err != nil {
+		h.logger.Err(fmt.Sprintf("Failed to cancel booking %d: %s", id, err.Error()))
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "failed to cancel booking"})
+	}
+
+	h.logger.Info(fmt.Sprintf("Booking cancelled successfully: ID %d, Reason: %s", id, req.Reason))
+	return c.JSON(http.StatusOK, map[string]string{
+		"message": "booking cancelled successfully",
+	})
+}
+
+// GenerateUpdateLink generates a secure update link for guest users
+func (h *BookRideHandler) GenerateUpdateLink(c echo.Context) error {
+	idParam := c.Param("id")
+	id, err := strconv.ParseInt(idParam, 10, 64)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "invalid booking ID"})
+	}
+
+	var req struct {
+		Email string `json:"email" validate:"required,email"`
+	}
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "invalid request body"})
+	}
+
+	email := strings.TrimSpace(strings.ToLower(req.Email))
+	if err := validation.ValidateEmail(email); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
+	}
+
+	// Verify booking exists and belongs to this email
+	booking, err := h.repo.GetByIDAndEmail(c.Request().Context(), id, email)
+	if err != nil {
+		// Don't reveal if booking exists for security
+		return c.JSON(http.StatusOK, map[string]string{
+			"message": "if the booking exists for this email, an update link has been sent",
+		})
+	}
+
+	// Check if booking can be updated
+	if booking.BookStatus == models.BookStatusCancelled || booking.BookStatus == models.BookStatusCompleted {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "cannot generate update link for cancelled or completed booking"})
+	}
+
+	// Generate secure token
+	token, err := h.authService.GenerateBookingUpdateToken(id, email)
+	if err != nil {
+		h.logger.Err(fmt.Sprintf("Failed to generate update token for booking %d: %s", id, err.Error()))
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "failed to generate update link"})
+	}
+
+	h.logger.Info(fmt.Sprintf("Update token generated for booking %d, email %s", id, email))
+
+	// Send email if email service is configured
+	if h.emailService != nil {
+		if err := h.emailService.SendBookingUpdateEmail(email, token, booking); err != nil {
+			h.logger.Err(fmt.Sprintf("Failed to send update email to %s: %s", email, err.Error()))
+			// Don't fail the request if email fails
+			return c.JSON(http.StatusOK, map[string]interface{}{
+				"message":      "update link generated (email service failed)",
+				"update_token": token,
+			})
+		}
+
+		return c.JSON(http.StatusOK, map[string]string{
+			"message": "if the booking exists for this email, an update link has been sent",
+		})
+	} else {
+		// In development mode without email service, return the token
+		h.logger.Warn("Email service not configured, returning update token in response")
+		return c.JSON(http.StatusOK, map[string]interface{}{
+			"message":      "update link generated (email service disabled)",
+			"update_token": token,
+		})
+	}
+}

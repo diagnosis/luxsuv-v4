@@ -17,4 +17,34 @@ type BookRide struct {
 	AdditionalNotes    string `json:"additional_notes,omitempty" db:"additional_notes"`
 	BookStatus         string `json:"book_status" db:"book_status"`
 	RideStatus         string `json:"ride_status" db:"ride_status"`
+	CreatedAt          string `json:"created_at" db:"created_at"`
+	UpdatedAt          string `json:"updated_at" db:"updated_at"`
 }
+
+// UpdateBookRideRequest represents the request payload for updating a booking
+type UpdateBookRideRequest struct {
+	YourName           string `json:"your_name,omitempty"`
+	PhoneNumber        string `json:"phone_number,omitempty"`
+	RideType           string `json:"ride_type,omitempty"`
+	PickupLocation     string `json:"pickup_location,omitempty"`
+	DropoffLocation    string `json:"dropoff_location,omitempty"`
+	Date               string `json:"date,omitempty"`
+	Time               string `json:"time,omitempty"`
+	NumberOfPassengers *int   `json:"number_of_passengers,omitempty"`
+	NumberOfLuggage    *int   `json:"number_of_luggage,omitempty"`
+	AdditionalNotes    string `json:"additional_notes,omitempty"`
+}
+
+// BookRide status constants
+const (
+	BookStatusPending   = "Pending"
+	BookStatusAccepted  = "Accepted"
+	BookStatusCancelled = "Cancelled"
+	BookStatusCompleted = "Completed"
+
+	RideStatusPending   = "Pending"
+	RideStatusAssigned  = "Assigned"
+	RideStatusInProgress = "In Progress"
+	RideStatusCompleted = "Completed"
+	RideStatusCancelled = "Cancelled"
+)

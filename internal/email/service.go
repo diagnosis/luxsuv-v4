@@ -355,6 +355,204 @@ This is an automated message, please do not reply.
 	return s.sendEmail(to, subject, html, text)
 }
 
+// SendBookingUpdateEmail sends a booking update email with secure link
+func (s *Service) SendBookingUpdateEmail(to, updateToken string, booking *models.BookRide) error {
+	subject := "Update Your LuxSUV Booking - Secure Link"
+
+	// Create the update URL (you'll need to adjust this based on your frontend URL)
+	updateURL := fmt.Sprintf("http://localhost:5173/update-booking/%d?token=%s", booking.ID, updateToken)
+
+	html := fmt.Sprintf(`
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Update Your Booking</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; 
+            line-height: 1.6; 
+            color: #333; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #f8f9fa;
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 40px auto; 
+            background: white; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header { 
+            background: linear-gradient(135deg, #4299e1 0%%, #3182ce 100%%); 
+            color: white; 
+            padding: 40px 30px; 
+            text-align: center; 
+        }
+        .header h1 { 
+            margin: 0; 
+            font-size: 28px; 
+            font-weight: 600; 
+        }
+        .content { 
+            padding: 40px 30px; 
+        }
+        .booking-details {
+            background-color: #f7fafc;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .booking-details h3 {
+            color: #2d3748;
+            margin-top: 0;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .detail-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        .button { 
+            display: inline-block; 
+            padding: 16px 32px; 
+            background: linear-gradient(135deg, #4299e1 0%%, #3182ce 100%%); 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 6px; 
+            font-weight: 600;
+            text-align: center;
+            margin: 20px 0;
+            transition: transform 0.2s;
+        }
+        .button:hover {
+            transform: translateY(-1px);
+        }
+        .link-fallback {
+            background-color: #f7fafc;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #4299e1;
+            margin: 20px 0;
+            word-break: break-all;
+        }
+        .footer { 
+            background-color: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            font-size: 14px; 
+            color: #718096; 
+        }
+        .security-notice {
+            background-color: #fff5f5;
+            border: 1px solid #fed7d7;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .security-notice strong {
+            color: #c53030;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚗 Update Your Booking</h1>
+        </div>
+        <div class="content">
+            <h2>Hello %s,</h2>
+            <p>You requested to update your LuxSUV booking. Click the button below to securely update your booking details:</p>
+            
+            <div class="booking-details">
+                <h3>Current Booking Details</h3>
+                <div class="detail-row">
+                    <span><strong>Booking ID:</strong></span>
+                    <span>#%d</span>
+                </div>
+                <div class="detail-row">
+                    <span><strong>Date & Time:</strong></span>
+                    <span>%s at %s</span>
+                </div>
+                <div class="detail-row">
+                    <span><strong>Pickup:</strong></span>
+                    <span>%s</span>
+                </div>
+                <div class="detail-row">
+                    <span><strong>Dropoff:</strong></span>
+                    <span>%s</span>
+                </div>
+                <div class="detail-row">
+                    <span><strong>Status:</strong></span>
+                    <span>%s</span>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="%s" class="button">Update My Booking</a>
+            </div>
+            
+            <p>If the button doesn't work, you can copy and paste this link into your browser:</p>
+            <div class="link-fallback">
+                <a href="%s" style="color: #4299e1; text-decoration: none;">%s</a>
+            </div>
+            
+            <div class="security-notice">
+                <p><strong>⏰ This link will expire in 24 hours</strong> for your security.</p>
+                <p><strong>⚠️ Important:</strong> Bookings can only be cancelled up to 24 hours before the scheduled time.</p>
+                <p>If you didn't request this update link, please ignore this email.</p>
+            </div>
+        </div>
+        <div class="footer">
+            <p><strong>LuxSUV - Premium Ride Sharing</strong></p>
+            <p>This is an automated message, please do not reply to this email.</p>
+            <p>If you need help, contact our support team.</p>
+        </div>
+    </div>
+</body>
+</html>
+	`, booking.YourName, booking.ID, booking.Date, booking.Time, booking.PickupLocation, 
+	   booking.DropoffLocation, booking.BookStatus, updateURL, updateURL, updateURL)
+
+	text := fmt.Sprintf(`
+Update Your LuxSUV Booking
+
+Hello %s,
+
+You requested to update your LuxSUV booking.
+
+Current Booking Details:
+- Booking ID: #%d
+- Date & Time: %s at %s
+- Pickup: %s
+- Dropoff: %s
+- Status: %s
+
+Update your booking by visiting this link:
+%s
+
+This link will expire in 24 hours for your security.
+
+Important: Bookings can only be cancelled up to 24 hours before the scheduled time.
+
+If you didn't request this update link, please ignore this email.
+
+---
+LuxSUV - Premium Ride Sharing
+This is an automated message, please do not reply.
+	`, booking.YourName, booking.ID, booking.Date, booking.Time, booking.PickupLocation, 
+	   booking.DropoffLocation, booking.BookStatus, updateURL)
+
+	return s.sendEmail(to, subject, html, text)
+}
+
 // sendEmail sends an email using MailerSend API
 func (s *Service) sendEmail(to, subject, html, text string) error {
 	s.logger.Info(fmt.Sprintf("Attempting to send email to %s via MailerSend", to))

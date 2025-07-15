@@ -194,3 +194,67 @@ func ValidateBookRide(br *models.BookRide) error {
 
 	return nil
 }
+
+// ValidateUpdateBookRide validates the update book ride data
+func ValidateUpdateBookRide(updates *models.UpdateBookRideRequest) error {
+	if updates.YourName != "" {
+		if len(updates.YourName) > 100 {
+			return errors.New("name must be no more than 100 characters long")
+		}
+	}
+
+	if updates.PhoneNumber != "" {
+		if len(updates.PhoneNumber) < 7 || len(updates.PhoneNumber) > 20 {
+			return errors.New("phone number must be between 7 and 20 characters")
+		}
+	}
+
+	if updates.Date != "" {
+		if _, err := time.Parse("2006-01-02", updates.Date); err != nil {
+			return errors.New("invalid date format; use YYYY-MM-DD")
+		}
+	}
+
+	if updates.Time != "" {
+		if _, err := time.Parse("15:04", updates.Time); err != nil {
+			return errors.New("invalid time format; use HH:MM")
+		}
+	}
+
+	if updates.NumberOfPassengers != nil && *updates.NumberOfPassengers <= 0 {
+		return errors.New("number of passengers must be at least 1")
+	}
+
+	if updates.NumberOfLuggage != nil && *updates.NumberOfLuggage < 0 {
+		return errors.New("number of luggage cannot be negative")
+	}
+
+	if updates.AdditionalNotes != "" && len(updates.AdditionalNotes) > 500 {
+		return errors.New("additional notes must be no more than 500 characters")
+	}
+
+	return nil
+}
+
+// ValidateBookingDateTime validates that booking is at least 24 hours in the future
+func ValidateBookingDateTime(dateStr, timeStr string) error {
+	if dateStr == "" || timeStr == "" {
+		return errors.New("date and time are required")
+	}
+
+	// Parse the booking date and time
+	bookingDateTime, err := time.Parse("2006-01-02 15:04", dateStr+" "+timeStr)
+	if err != nil {
+		return errors.New("invalid date or time format")
+	}
+
+	// Check if booking is at least 24 hours in the future
+	now := time.Now()
+	minBookingTime := now.Add(24 * time.Hour)
+
+	if bookingDateTime.Before(minBookingTime) {
+		return errors.New("booking must be at least 24 hours in advance")
+	}
+
+	return nil
+}

@@ -96,7 +96,7 @@ func main() {
 	authHandler := handlers.NewAuthHandler(authService, emailService, log)
 	userHandler := handlers.NewUserHandler(authService, userRepo, log)
 	passwordHandler := handlers.NewPasswordHandler(authService, userRepo, emailService, log)
-	bookRideHandler := handlers.NewBookRideHandler(bookRideRepo, log)
+	bookRideHandler := handlers.NewBookRideHandler(bookRideRepo, log, authService, emailService)
 	authMiddleware := middleware.NewAuthMiddleware(authService, log)
 
 	// Set up Echo server
@@ -198,9 +198,16 @@ func main() {
 	// Public
 	e.POST("/book-ride", bookRideHandler.Create, authMiddleware.OptionalAuth())
 	e.GET("/bookings/email/:email", bookRideHandler.GetByEmail)
+	e.POST("/bookings/:id/update-link", bookRideHandler.GenerateUpdateLink)
 
 	// Protected (authenticated users)
 	protectedGroup.GET("/bookings/my", bookRideHandler.GetByUserID) // Example for user-specific bookings
+	protectedGroup.PUT("/bookings/:id", bookRideHandler.Update)
+	protectedGroup.DELETE("/bookings/:id/cancel", bookRideHandler.Cancel)
+
+	// Public update/cancel with secure token
+	e.PUT("/bookings/:id/update", bookRideHandler.Update)
+	e.DELETE("/bookings/:id/cancel", bookRideHandler.Cancel)
 
 	// Driver-protected (add driver role middleware if defined)
 	driverGroup := protectedGroup.Group("/driver")
@@ -223,7 +230,12 @@ func main() {
 	log.Info("  DELETE /admin/users/:id (admin only)")
 	log.Info("  POST /book-ride (public)")
 	log.Info("  GET  /bookings/email/:email (public)")
+	log.Info("  POST /bookings/:id/update-link (public)")
 	log.Info("  GET  /bookings/my (protected)")
+	log.Info("  PUT  /bookings/:id (protected)")
+	log.Info("  DELETE /bookings/:id/cancel (protected)")
+	log.Info("  PUT  /bookings/:id/update (public with token)")
+	log.Info("  DELETE /bookings/:id/cancel (public with token)")
 	log.Info("  PUT  /driver/bookings/:id/accept (driver only)")
 
 	if err := e.Start(":" + cfg.Port); err != nil {
