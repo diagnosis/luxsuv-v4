@@ -151,6 +151,52 @@ func (m *AuthMiddleware) RequireDriver() echo.MiddlewareFunc {
 	return m.RequireRole("driver")
 }
 
+// RequireSuperDriver middleware ensures only super-drivers can access the endpoint
+func (m *AuthMiddleware) RequireSuperDriver() echo.MiddlewareFunc {
+	return m.RequireRole(models.RoleSuperDriver)
+}
+
+// RequireDispatcher middleware ensures only dispatchers can access the endpoint
+func (m *AuthMiddleware) RequireDispatcher() echo.MiddlewareFunc {
+	return m.RequireRole(models.RoleDispatcher)
+}
+
+// RequireDispatcherOrSuperDriver middleware allows both dispatchers and super-drivers
+func (m *AuthMiddleware) RequireDispatcherOrSuperDriver() echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			role := c.Get("role")
+			if role == nil {
+				m.logger.Warn("Missing role in context")
+				return c.JSON(http.StatusForbidden, map[string]string{
+					"error": "access denied",
+				})
+			}
+
+			userRole, ok := role.(string)
+			if !ok {
+				m.logger.Warn("Invalid role type in context")
+				return c.JSON(http.StatusForbidden, map[string]string{
+					"error": "access denied",
+				})
+			}
+
+			// Check if user has required role or is admin
+			isAdmin := c.Get("is_admin")
+			adminFlag, _ := isAdmin.(bool)
+
+			if userRole != models.RoleDispatcher && userRole != models.RoleSuperDriver && !adminFlag {
+				m.logger.Warn(fmt.Sprintf("Access denied: required dispatcher or super_driver role, user role %s", userRole))
+				return c.JSON(http.StatusForbidden, map[string]string{
+					"error": "dispatcher or super-driver access required",
+				})
+			}
+
+			return next(c)
+		}
+	}
+}
+
 // RequireRole middleware ensures user has specific role
 func (m *AuthMiddleware) RequireRole(requiredRole string) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {

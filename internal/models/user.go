@@ -15,15 +15,17 @@ type User struct {
 
 // UserRole constants
 const (
-	RoleRider  = "rider"
-	RoleDriver = "driver"
-	RoleAdmin  = "admin"
+	RoleRider      = "rider"
+	RoleDriver     = "driver"
+	RoleSuperDriver = "super_driver"
+	RoleDispatcher = "dispatcher"
+	RoleAdmin      = "admin"
 )
 
 // IsValidRole checks if the role is valid
 func IsValidRole(role string) bool {
 	switch role {
-	case RoleRider, RoleDriver, RoleAdmin:
+	case RoleRider, RoleDriver, RoleSuperDriver, RoleDispatcher, RoleAdmin:
 		return true
 	default:
 		return false
@@ -35,7 +37,7 @@ type CreateUserRequest struct {
 	Username string `json:"username" validate:"required,min=3,max=50"`
 	Email    string `json:"email" validate:"required,email"`
 	Password string `json:"password" validate:"required,min=8"`
-	Role     string `json:"role" validate:"omitempty,oneof=rider driver admin"`
+	Role     string `json:"role" validate:"omitempty,oneof=rider driver super_driver dispatcher admin"`
 }
 
 // LoginRequest represents the request payload for user login

@@ -453,3 +453,119 @@ func (h *BookRideHandler) GenerateUpdateLink(c echo.Context) error {
 		})
 	}
 }
+
+// GetAvailableBookings returns bookings available for pickup (super-driver/dispatcher only)
+func (h *BookRideHandler) GetAvailableBookings(c echo.Context) error {
+	bookings, err := h.repo.GetAvailableBookings(c.Request().Context())
+	if err != nil {
+		h.logger.Err(fmt.Sprintf("Failed to get available bookings: %s", err.Error()))
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "failed to get available bookings"})
+	}
+
+	h.logger.Info(fmt.Sprintf("Retrieved %d available bookings", len(bookings)))
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"bookings": bookings,
+		"count":    len(bookings),
+	})
+}
+
+// GetAssignedBookings returns bookings assigned to the current driver
+func (h *BookRideHandler) GetAssignedBookings(c echo.Context) error {
+	userIDClaim := c.Get("user_id")
+	driverID, ok := middleware.ConvertToInt64(userIDClaim)
+	if !ok {
+		h.logger.Warn(fmt.Sprintf("Invalid driver ID type: %T, value: %v", userIDClaim, userIDClaim))
+		return c.JSON(http.StatusUnauthorized, map[string]string{"error": "invalid driver authentication"})
+	}
+
+	bookings, err := h.repo.GetAssignedBookings(c.Request().Context(), driverID)
+	if err != nil {
+		h.logger.Err(fmt.Sprintf("Failed to get assigned bookings for driver %d: %s", driverID, err.Error()))
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "failed to get assigned bookings"})
+	}
+
+	h.logger.Info(fmt.Sprintf("Retrieved %d assigned bookings for driver %d", len(bookings), driverID))
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"bookings": bookings,
+		"count":    len(bookings),
+	})
+}
+
+// GetAllBookingsForDispatcher returns all bookings for dispatcher management
+func (h *BookRideHandler) GetAllBookingsForDispatcher(c echo.Context) error {
+	bookings, err := h.repo.GetAllBookingsForDispatcher(c.Request().Context())
+	if err != nil {
+		h.logger.Err(fmt.Sprintf("Failed to get all bookings for dispatcher: %s", err.Error()))
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "failed to get bookings"})
+	}
+
+	h.logger.Info(fmt.Sprintf("Retrieved %d bookings for dispatcher", len(bookings)))
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"bookings": bookings,
+		"count":    len(bookings),
+	})
+}
+
+// AssignBookingToDriver assigns a booking to a specific driver (dispatcher/super-driver only)
+func (h *BookRideHandler) AssignBookingToDriver(c echo.Context) error {
+	bookingIDParam := c.Param("id")
+	bookingID, err := strconv.ParseInt(bookingIDParam, 10, 64)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "invalid booking ID"})
+	}
+
+	var req models.BookingAssignmentRequest
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "invalid request body"})
+	}
+
+	if req.DriverID <= 0 {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "valid driver ID is required"})
+	}
+
+	// Get the user who is making the assignment
+	assignedByClaim := c.Get("user_id")
+	assignedBy, ok := middleware.ConvertToInt64(assignedByClaim)
+	if !ok {
+		return c.JSON(http.StatusUnauthorized, map[string]string{"error": "invalid authentication"})
+	}
+
+	// Assign the booking
+	if err := h.repo.AssignToDriver(c.Request().Context(), bookingID, req.DriverID, assignedBy, req.Notes); err != nil {
+		h.logger.Err(fmt.Sprintf("Failed to assign booking %d to driver %d: %s", bookingID, req.DriverID, err.Error()))
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
+	}
+
+	h.logger.Info(fmt.Sprintf("Booking %d assigned to driver %d by user %d", bookingID, req.DriverID, assignedBy))
+	return c.JSON(http.StatusOK, map[string]string{
+		"message": "booking assigned successfully",
+	})
+}
+
+// GetDriverBookings returns bookings for a specific driver with optional status filter
+func (h *BookRideHandler) GetDriverBookings(c echo.Context) error {
+	driverIDParam := c.Param("driverId")
+	driverID, err := strconv.ParseInt(driverIDParam, 10, 64)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "invalid driver ID"})
+	}
+
+	status := c.QueryParam("status") // Optional: "Pending", "Accepted", "Completed", "Cancelled", or "all"
+	if status == "" {
+		status = "all"
+	}
+
+	bookings, err := h.repo.GetDriverBookings(c.Request().Context(), driverID, status)
+	if err != nil {
+		h.logger.Err(fmt.Sprintf("Failed to get bookings for driver %d: %s", driverID, err.Error()))
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "failed to get driver bookings"})
+	}
+
+	h.logger.Info(fmt.Sprintf("Retrieved %d bookings for driver %d (status: %s)", len(bookings), driverID, status))
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"bookings":  bookings,
+		"count":     len(bookings),
+		"driver_id": driverID,
+		"status":    status,
+	})
+}

@@ -232,6 +232,23 @@ func logAvailableEndpoints(log *logger.Logger) {
 	log.Info("  PUT  /bookings/:id (protected/token)")
 	log.Info("  DELETE /bookings/:id/cancel (protected/token)")
 	log.Info("  PUT  /driver/bookings/:id/accept (driver only)")
+	
+	// Super-driver endpoints
+	log.Info("  GET  /super-driver/bookings/available (super-driver only)")
+	log.Info("  POST /super-driver/bookings/:id/assign (super-driver only)")
+	log.Info("  GET  /super-driver/bookings/driver/:driverId (super-driver only)")
+	
+	// Dispatcher endpoints
+	log.Info("  GET  /dispatcher/bookings/all (dispatcher only)")
+	log.Info("  POST /dispatcher/bookings/:id/assign (dispatcher only)")
+	log.Info("  GET  /dispatcher/bookings/driver/:driverId (dispatcher only)")
+	log.Info("  GET  /dispatcher/bookings/available (dispatcher only)")
+	
+	// Management endpoints (dispatcher or super-driver)
+	log.Info("  GET  /management/bookings/available (dispatcher/super-driver)")
+	log.Info("  POST /management/bookings/:id/assign (dispatcher/super-driver)")
+	log.Info("  GET  /management/bookings/driver/:driverId (dispatcher/super-driver)")
+	log.Info("  GET  /driver/bookings/assigned (driver only)")
 }
 
 // GooseLogger adapts your logger to Goose's logger interface

@@ -48,3 +48,16 @@ const (
 	RideStatusCompleted = "Completed"
 	RideStatusCancelled = "Cancelled"
 )
+
+// BookingAssignmentRequest represents the request to assign a booking to a driver
+type BookingAssignmentRequest struct {
+	DriverID int64  `json:"driver_id" validate:"required"`
+	Notes    string `json:"notes,omitempty"`
+}
+
+// BookingListResponse represents the response for booking lists with driver info
+type BookingListResponse struct {
+	*BookRide
+	DriverName  string `json:"driver_name,omitempty"`
+	DriverEmail string `json:"driver_email,omitempty"`
+}

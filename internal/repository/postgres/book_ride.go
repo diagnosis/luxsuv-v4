@@ -207,3 +207,210 @@ func (r *bookRideRepository) GetByIDAndEmail(ctx context.Context, id int64, emai
 	}
 	return br, nil
 }
+
+func (r *bookRideRepository) GetAvailableBookings(ctx context.Context) ([]*models.BookingListResponse, error) {
+	var bookings []*models.BookingListResponse
+	query := `
+		SELECT br.*, 
+		       COALESCE(d.username, '') as driver_name,
+		       COALESCE(d.email, '') as driver_email
+		FROM book_rides br
+		LEFT JOIN users d ON br.driver_id = d.id
+		WHERE br.book_status = 'Pending' 
+		   OR (br.book_status = 'Accepted' AND br.driver_id IS NOT NULL)
+		ORDER BY br.date ASC, br.time ASC
+	`
+	
+	rows, err := r.db.QueryContext(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		booking := &models.BookingListResponse{BookRide: &models.BookRide{}}
+		err := rows.Scan(
+			&booking.ID, &booking.UserID, &booking.DriverID, &booking.YourName,
+			&booking.Email, &booking.PhoneNumber, &booking.RideType,
+			&booking.PickupLocation, &booking.DropoffLocation, &booking.Date,
+			&booking.Time, &booking.NumberOfPassengers, &booking.NumberOfLuggage,
+			&booking.AdditionalNotes, &booking.BookStatus, &booking.RideStatus,
+			&booking.CreatedAt, &booking.UpdatedAt, &booking.DriverName, &booking.DriverEmail,
+		)
+		if err != nil {
+			return nil, err
+		}
+		bookings = append(bookings, booking)
+	}
+
+	return bookings, nil
+}
+
+func (r *bookRideRepository) GetAssignedBookings(ctx context.Context, driverID int64) ([]*models.BookingListResponse, error) {
+	var bookings []*models.BookingListResponse
+	query := `
+		SELECT br.*, 
+		       COALESCE(d.username, '') as driver_name,
+		       COALESCE(d.email, '') as driver_email
+		FROM book_rides br
+		LEFT JOIN users d ON br.driver_id = d.id
+		WHERE br.driver_id = $1 
+		  AND br.book_status NOT IN ('Cancelled', 'Completed')
+		ORDER BY br.date ASC, br.time ASC
+	`
+	
+	rows, err := r.db.QueryContext(ctx, query, driverID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		booking := &models.BookingListResponse{BookRide: &models.BookRide{}}
+		err := rows.Scan(
+			&booking.ID, &booking.UserID, &booking.DriverID, &booking.YourName,
+			&booking.Email, &booking.PhoneNumber, &booking.RideType,
+			&booking.PickupLocation, &booking.DropoffLocation, &booking.Date,
+			&booking.Time, &booking.NumberOfPassengers, &booking.NumberOfLuggage,
+			&booking.AdditionalNotes, &booking.BookStatus, &booking.RideStatus,
+			&booking.CreatedAt, &booking.UpdatedAt, &booking.DriverName, &booking.DriverEmail,
+		)
+		if err != nil {
+			return nil, err
+		}
+		bookings = append(bookings, booking)
+	}
+
+	return bookings, nil
+}
+
+func (r *bookRideRepository) GetAllBookingsForDispatcher(ctx context.Context) ([]*models.BookingListResponse, error) {
+	var bookings []*models.BookingListResponse
+	query := `
+		SELECT br.*, 
+		       COALESCE(d.username, '') as driver_name,
+		       COALESCE(d.email, '') as driver_email
+		FROM book_rides br
+		LEFT JOIN users d ON br.driver_id = d.id
+		ORDER BY 
+			CASE 
+				WHEN br.book_status = 'Pending' THEN 1
+				WHEN br.book_status = 'Accepted' THEN 2
+				ELSE 3
+			END,
+			br.date ASC, br.time ASC
+	`
+	
+	rows, err := r.db.QueryContext(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		booking := &models.BookingListResponse{BookRide: &models.BookRide{}}
+		err := rows.Scan(
+			&booking.ID, &booking.UserID, &booking.DriverID, &booking.YourName,
+			&booking.Email, &booking.PhoneNumber, &booking.RideType,
+			&booking.PickupLocation, &booking.DropoffLocation, &booking.Date,
+			&booking.Time, &booking.NumberOfPassengers, &booking.NumberOfLuggage,
+			&booking.AdditionalNotes, &booking.BookStatus, &booking.RideStatus,
+			&booking.CreatedAt, &booking.UpdatedAt, &booking.DriverName, &booking.DriverEmail,
+		)
+		if err != nil {
+			return nil, err
+		}
+		bookings = append(bookings, booking)
+	}
+
+	return bookings, nil
+}
+
+func (r *bookRideRepository) AssignToDriver(ctx context.Context, bookingID int64, driverID int64, assignedBy int64, notes string) error {
+	// First check if booking exists and is available for assignment
+	var currentStatus string
+	var currentDriverID sql.NullInt64
+	
+	checkQuery := `SELECT book_status, driver_id FROM book_rides WHERE id = $1`
+	err := r.db.QueryRowContext(ctx, checkQuery, bookingID).Scan(&currentStatus, &currentDriverID)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return errors.New("booking not found")
+		}
+		return err
+	}
+
+	if currentStatus == "Cancelled" || currentStatus == "Completed" {
+		return errors.New("cannot assign cancelled or completed booking")
+	}
+
+	// Update the booking with driver assignment
+	updateQuery := `
+		UPDATE book_rides 
+		SET driver_id = $1, 
+		    book_status = 'Accepted', 
+		    ride_status = 'Assigned',
+		    additional_notes = COALESCE(additional_notes, '') || $2,
+		    updated_at = NOW()
+		WHERE id = $3
+	`
+	
+	assignmentNote := fmt.Sprintf("\n[ASSIGNED to driver ID %d by user ID %d: %s]", driverID, assignedBy, notes)
+	result, err := r.db.ExecContext(ctx, updateQuery, driverID, assignmentNote, bookingID)
+	if err != nil {
+		return err
+	}
+
+	rowsAffected, _ := result.RowsAffected()
+	if rowsAffected == 0 {
+		return errors.New("failed to assign booking")
+	}
+
+	return nil
+}
+
+func (r *bookRideRepository) GetDriverBookings(ctx context.Context, driverID int64, status string) ([]*models.BookingListResponse, error) {
+	var bookings []*models.BookingListResponse
+	
+	query := `
+		SELECT br.*, 
+		       COALESCE(d.username, '') as driver_name,
+		       COALESCE(d.email, '') as driver_email
+		FROM book_rides br
+		LEFT JOIN users d ON br.driver_id = d.id
+		WHERE br.driver_id = $1
+	`
+	
+	args := []interface{}{driverID}
+	
+	if status != "" && status != "all" {
+		query += " AND br.book_status = $2"
+		args = append(args, status)
+	}
+	
+	query += " ORDER BY br.date ASC, br.time ASC"
+	
+	rows, err := r.db.QueryContext(ctx, query, args...)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		booking := &models.BookingListResponse{BookRide: &models.BookRide{}}
+		err := rows.Scan(
+			&booking.ID, &booking.UserID, &booking.DriverID, &booking.YourName,
+			&booking.Email, &booking.PhoneNumber, &booking.RideType,
+			&booking.PickupLocation, &booking.DropoffLocation, &booking.Date,
+			&booking.Time, &booking.NumberOfPassengers, &booking.NumberOfLuggage,
+			&booking.AdditionalNotes, &booking.BookStatus, &booking.RideStatus,
+			&booking.CreatedAt, &booking.UpdatedAt, &booking.DriverName, &booking.DriverEmail,
+		)
+		if err != nil {
+			return nil, err
+		}
+		bookings = append(bookings, booking)
+	}
+
+	return bookings, nil
+}

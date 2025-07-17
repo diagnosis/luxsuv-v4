@@ -107,7 +107,7 @@ func ValidateRole(role string) error {
 		return nil // Will default to rider
 	}
 	if !models.IsValidRole(role) {
-		return errors.New("invalid role; must be rider, driver, or admin")
+		return errors.New("invalid role; must be rider, driver, super_driver, dispatcher, or admin")
 	}
 	return nil
 }
