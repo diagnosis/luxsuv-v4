@@ -10,27 +10,12 @@ import (
 	"github.com/diagnosis/luxsuv-v4/internal/validation"
 	"github.com/diagnosis/luxsuv-v4/internal/auth"
 	"github.com/diagnosis/luxsuv-v4/internal/email"
+	"github.com/diagnosis/luxsuv-v4/internal/middleware"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"net/url"
 	"strconv"
 )
-
-// Helper function to convert interface{} to int64 (same as middleware)
-func convertToInt64(value interface{}) (int64, bool) {
-	switch v := value.(type) {
-	case int64:
-		return v, true
-	case int:
-		return int64(v), true
-	case float64:
-		return int64(v), true
-	case float32:
-		return int64(v), true
-	default:
-		return 0, false
-	}
-}
 
 type BookRideHandler struct {
 	repo   repository.BookRideRepository
@@ -66,7 +51,7 @@ func (h *BookRideHandler) Create(c echo.Context) error {
 	userIDClaim := c.Get("user_id")
 
 	if userIDClaim != nil {
-		if userID, ok := convertToInt64(userIDClaim); ok && userID > 0 {
+		if userID, ok := middleware.ConvertToInt64(userIDClaim); ok && userID > 0 {
 			br.UserID = &userID
 			h.logger.Info(fmt.Sprintf("✅ User ID successfully set: %d", userID))
 		} else {
@@ -129,7 +114,7 @@ func (h *BookRideHandler) Accept(c echo.Context) error {
 	}
 
 	driverIDClaim := c.Get("user_id")
-	driverID, ok := convertToInt64(driverIDClaim)
+	driverID, ok := middleware.ConvertToInt64(driverIDClaim)
 	if !ok {
 		h.logger.Warn(fmt.Sprintf("Invalid driver ID type: %T, value: %v", driverIDClaim, driverIDClaim))
 		return c.JSON(http.StatusUnauthorized, map[string]string{"error": "invalid driver authentication"})
@@ -151,7 +136,7 @@ func (h *BookRideHandler) Accept(c echo.Context) error {
 
 func (h *BookRideHandler) GetByUserID(c echo.Context) error {
 	userIDClaim := c.Get("user_id")
-	userID, ok := convertToInt64(userIDClaim)
+	userID, ok := middleware.ConvertToInt64(userIDClaim)
 	if !ok {
 		h.logger.Warn(fmt.Sprintf("Invalid user ID type: %T, value: %v", userIDClaim, userIDClaim))
 		return c.JSON(http.StatusUnauthorized, map[string]string{"error": "invalid user authentication"})
@@ -193,7 +178,7 @@ func (h *BookRideHandler) Update(c echo.Context) error {
 
 	if userID != nil {
 		// Authenticated user - verify they own the booking
-		uid, ok := convertToInt64(userID)
+		uid, ok := middleware.ConvertToInt64(userID)
 		if !ok {
 			h.logger.Warn(fmt.Sprintf("Invalid user_id type in context: %T, value: %v", userID, userID))
 			return c.JSON(http.StatusUnauthorized, map[string]string{"error": "invalid user authentication"})
@@ -295,7 +280,7 @@ func (h *BookRideHandler) Cancel(c echo.Context) error {
 
 	if userID != nil {
 		// Authenticated user - verify they own the booking
-		uid, ok := convertToInt64(userID)
+		uid, ok := middleware.ConvertToInt64(userID)
 		if !ok {
 			h.logger.Warn(fmt.Sprintf("Invalid user_id type in context: %T, value: %v", userID, userID))
 			return c.JSON(http.StatusUnauthorized, map[string]string{"error": "invalid user authentication"})

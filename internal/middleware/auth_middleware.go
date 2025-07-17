@@ -22,8 +22,8 @@ func NewAuthMiddleware(authService *auth.Service, logger *logger.Logger) *AuthMi
 	}
 }
 
-// Helper function to convert interface{} to int64
-func convertToInt64(value interface{}) (int64, bool) {
+// ConvertToInt64 is a helper function to convert interface{} to int64 (exported for use in handlers)
+func ConvertToInt64(value interface{}) (int64, bool) {
 	switch v := value.(type) {
 	case int64:
 		return v, true
@@ -87,7 +87,7 @@ func (m *AuthMiddleware) RequireAuth() echo.MiddlewareFunc {
 			}
 
 			// Convert user_id to int64
-			userID, ok := convertToInt64(userIDRaw)
+			userID, ok := ConvertToInt64(userIDRaw)
 			if !ok {
 				m.logger.Warn(fmt.Sprintf("Invalid user_id type in token claims: %T", userIDRaw))
 				return c.JSON(http.StatusUnauthorized, map[string]string{
@@ -212,7 +212,7 @@ func (m *AuthMiddleware) OptionalAuth() echo.MiddlewareFunc {
 			}
 
 			// Convert user_id to int64
-			userID, ok := convertToInt64(userIDRaw)
+			userID, ok := ConvertToInt64(userIDRaw)
 			if !ok {
 				return next(c)
 			}
