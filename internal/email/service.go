@@ -3,10 +3,10 @@ package email
 import (
 	"context"
 	"fmt"
-	"time"
-
 	"github.com/diagnosis/luxsuv-v4/internal/logger"
+	"github.com/diagnosis/luxsuv-v4/internal/models"
 	"github.com/mailersend/mailersend-go"
+	"time"
 )
 
 type Service struct {
@@ -518,8 +518,8 @@ func (s *Service) SendBookingUpdateEmail(to, updateToken string, booking *models
     </div>
 </body>
 </html>
-	`, booking.YourName, booking.ID, booking.Date, booking.Time, booking.PickupLocation, 
-	   booking.DropoffLocation, booking.BookStatus, updateURL, updateURL, updateURL)
+	`, booking.YourName, booking.ID, booking.Date, booking.Time, booking.PickupLocation,
+		booking.DropoffLocation, booking.BookStatus, updateURL, updateURL, updateURL)
 
 	text := fmt.Sprintf(`
 Update Your LuxSUV Booking
@@ -547,8 +547,8 @@ If you didn't request this update link, please ignore this email.
 ---
 LuxSUV - Premium Ride Sharing
 This is an automated message, please do not reply.
-	`, booking.YourName, booking.ID, booking.Date, booking.Time, booking.PickupLocation, 
-	   booking.DropoffLocation, booking.BookStatus, updateURL)
+	`, booking.YourName, booking.ID, booking.Date, booking.Time, booking.PickupLocation,
+		booking.DropoffLocation, booking.BookStatus, updateURL)
 
 	return s.sendEmail(to, subject, html, text)
 }
