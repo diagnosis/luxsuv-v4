@@ -304,3 +304,72 @@ func (s *Service) ValidateResetToken(tokenString string) (int64, error) {
 
 	return userID, nil
 }
+
+// GenerateBookingUpdateToken generates a secure token for guest booking updates
+func (s *Service) GenerateBookingUpdateToken(bookingID int64, email string) (string, error) {
+	claims := jwt.MapClaims{
+		"booking_id": bookingID,
+		"email":      email,
+		"type":       "booking_update",
+		"exp":        time.Now().Add(24 * time.Hour).Unix(), // 24 hour expiry
+		"iat":        time.Now().Unix(),
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString([]byte(s.jwtSecret))
+}
+
+// ValidateBookingUpdateToken validates a booking update token and returns booking ID and email
+func (s *Service) ValidateBookingUpdateToken(tokenString string) (int64, string, error) {
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+		return []byte(s.jwtSecret), nil
+	})
+
+	if err != nil {
+		return 0, "", err
+	}
+
+	if !token.Valid {
+		return 0, "", errors.New("invalid token")
+	}
+
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		return 0, "", errors.New("invalid token claims")
+	}
+
+	// Check token type
+	tokenType, ok := claims["type"]
+	if !ok || tokenType != "booking_update" {
+		return 0, "", errors.New("invalid token type")
+	}
+
+	// Get booking ID
+	bookingIDClaim, ok := claims["booking_id"]
+	if !ok {
+		return 0, "", errors.New("missing booking ID in token")
+	}
+
+	var bookingID int64
+	switch v := bookingIDClaim.(type) {
+	case float64:
+		bookingID = int64(v)
+	case int64:
+		bookingID = v
+	case int:
+		bookingID = int64(v)
+	default:
+		return 0, "", errors.New("invalid booking ID type")
+	}
+
+	// Get email
+	email, ok := claims["email"].(string)
+	if !ok {
+		return 0, "", errors.New("missing or invalid email in token")
+	}
+
+	return bookingID, email, nil
+}

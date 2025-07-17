@@ -1,6 +1,6 @@
 # LuxSUV Backend API
 
-A Go-based REST API for a luxury ride-sharing service with user authentication, password reset, and email notifications powered by MailerSend.
+A Go-based REST API for a luxury ride-sharing service with user authentication, ride booking management, password reset, and email notifications powered by MailerSend.
 
 ## 🚀 Features
 
@@ -8,6 +8,10 @@ A Go-based REST API for a luxury ride-sharing service with user authentication, 
 - Password reset functionality with beautiful email notifications
 - Role-based access control (rider, driver, admin)
 - Admin user management with full CRUD operations
+- **Ride booking system** with create, update, and cancel functionality
+- **Guest booking support** with secure email-based update links
+- **24-hour advance booking** and cancellation policy
+- **Driver booking acceptance** system
 - Professional email service integration with MailerSend
 - Comprehensive logging and monitoring
 - Database migrations with Goose
@@ -184,6 +188,123 @@ curl -X POST http://localhost:8080/auth/reset-password \
     "reset_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
     "new_password": "mynewpassword123"
   }'
+```
+
+### 🚗 Ride Booking Endpoints
+
+#### 1. Create Booking (Public - Authenticated or Guest)
+```bash
+# Create booking as authenticated user
+curl -X POST http://localhost:8080/book-ride \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "your_name": "John Doe",
+    "email": "john@example.com",
+    "phone_number": "+1234567890",
+    "ride_type": "Airport Transfer",
+    "pickup_location": "123 Main St, City",
+    "dropoff_location": "Airport Terminal 1",
+    "date": "2025-01-15",
+    "time": "14:30",
+    "number_of_passengers": 2,
+    "number_of_luggage": 3,
+    "additional_notes": "Flight AA123 at 6 PM"
+  }'
+
+# Create booking as guest user (no authentication required)
+curl -X POST http://localhost:8080/book-ride \
+  -H "Content-Type: application/json" \
+  -d '{
+    "your_name": "Jane Smith",
+    "email": "jane@example.com",
+    "phone_number": "+1987654321",
+    "ride_type": "City Tour",
+    "pickup_location": "Hotel Downtown",
+    "dropoff_location": "City Center",
+    "date": "2025-01-20",
+    "time": "10:00",
+    "number_of_passengers": 4,
+    "number_of_luggage": 0
+  }'
+```
+
+#### 2. Get Bookings by Email (Public)
+```bash
+# Retrieve all bookings for an email address
+curl -X GET http://localhost:8080/bookings/email/john%40example.com
+```
+
+#### 3. Generate Secure Update Link (Public)
+```bash
+# Request secure update link for guest users
+curl -X POST http://localhost:8080/bookings/123/update-link \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "john@example.com"
+  }'
+```
+**Response:** Beautiful email sent with secure update link
+
+#### 4. Update Booking (Authenticated Users)
+```bash
+# Update booking as authenticated user
+curl -X PUT http://localhost:8080/bookings/123 \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "pickup_location": "Updated Pickup Location",
+    "date": "2025-01-16",
+    "time": "15:00",
+    "number_of_passengers": 3
+  }'
+```
+
+#### 5. Update Booking with Secure Token (Guest Users)
+```bash
+# Update booking using secure token from email
+curl -X PUT "http://localhost:8080/bookings/123/update?token=SECURE_TOKEN_FROM_EMAIL" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "your_name": "John Updated",
+    "phone_number": "+1234567899",
+    "additional_notes": "Updated flight information"
+  }'
+```
+
+#### 6. Cancel Booking (Authenticated Users)
+```bash
+# Cancel booking as authenticated user
+curl -X DELETE http://localhost:8080/bookings/123/cancel \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "reason": "Plans changed"
+  }'
+```
+
+#### 7. Cancel Booking with Secure Token (Guest Users)
+```bash
+# Cancel booking using secure token from email
+curl -X DELETE "http://localhost:8080/bookings/123/cancel?token=SECURE_TOKEN_FROM_EMAIL" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "reason": "Emergency came up"
+  }'
+```
+
+#### 8. Get My Bookings (Authenticated Users)
+```bash
+# Get all bookings for authenticated user
+curl -X GET http://localhost:8080/bookings/my \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+```
+
+#### 9. Accept Booking (Driver Only)
+```bash
+# Driver accepts a pending booking
+curl -X PUT http://localhost:8080/driver/bookings/123/accept \
+  -H "Authorization: Bearer DRIVER_JWT_TOKEN"
 ```
 
 ### 🔐 Protected Endpoints (Require Authentication)
@@ -369,8 +490,14 @@ curl -X PUT http://localhost:8080/admin/users/123/role \
 
 ## 📧 Email Features
 
+### Booking Management Emails
+- **Booking Update Links**: Secure, time-limited links for guest users to update bookings
+- **Professional Design**: Consistent branding with booking details and clear call-to-action buttons
+- **Security Features**: 24-hour token expiry, booking-specific access control
+
 ### Beautiful Email Templates
 - **Password Reset**: Professional design with gradient headers, security notices, and clear call-to-action buttons
+- **Booking Updates**: Secure update links with booking details and professional styling
 - **Welcome Email**: Engaging onboarding email with feature highlights and modern styling
 - **Responsive Design**: Looks great on all devices
 - **Security Features**: Expiration notices, IP logging, security warnings
@@ -386,6 +513,8 @@ curl -X PUT http://localhost:8080/admin/users/123/role \
 
 - **Password Security**: bcrypt hashing with salt
 - **JWT Authentication**: Secure token-based authentication
+- **Booking Security**: Secure tokens for guest booking updates with email verification
+- **24-Hour Policies**: Advance booking and cancellation restrictions
 - **Rate Limiting**: 
   - General endpoints: 5 req/sec, burst of 10
   - Auth endpoints: 2 req/sec, burst of 5
@@ -395,6 +524,29 @@ curl -X PUT http://localhost:8080/admin/users/123/role \
 - **Password Requirements**: Minimum 8 chars, letters + numbers required
 
 ## 📊 API Response Formats
+
+### Booking Response Example
+```json
+{
+  "id": 123,
+  "user_id": 456,
+  "your_name": "John Doe",
+  "email": "john@example.com",
+  "phone_number": "+1234567890",
+  "ride_type": "Airport Transfer",
+  "pickup_location": "123 Main St",
+  "dropoff_location": "Airport Terminal 1",
+  "date": "2025-01-15",
+  "time": "14:30",
+  "number_of_passengers": 2,
+  "number_of_luggage": 3,
+  "additional_notes": "Flight AA123",
+  "book_status": "Pending",
+  "ride_status": "Pending",
+  "created_at": "2025-01-10T12:00:00Z",
+  "updated_at": "2025-01-10T12:00:00Z"
+}
+```
 
 ### Success Responses
 ```json
@@ -422,6 +574,101 @@ curl -X PUT http://localhost:8080/admin/users/123/role \
 - `500`: Internal Server Error
 
 ## 🚀 Development
+
+### Complete Booking Workflow Examples
+
+#### Guest User Booking Flow
+```bash
+# Step 1: Create booking as guest
+curl -X POST http://localhost:8080/book-ride \
+  -H "Content-Type: application/json" \
+  -d '{
+    "your_name": "Guest User",
+    "email": "guest@example.com",
+    "phone_number": "+1234567890",
+    "ride_type": "City Tour",
+    "pickup_location": "Hotel",
+    "dropoff_location": "Mall",
+    "date": "2025-01-20",
+    "time": "10:00",
+    "number_of_passengers": 2,
+    "number_of_luggage": 1
+  }'
+
+# Step 2: Request update link
+curl -X POST http://localhost:8080/bookings/123/update-link \
+  -H "Content-Type: application/json" \
+  -d '{"email": "guest@example.com"}'
+
+# Step 3: Use token from email to update
+curl -X PUT "http://localhost:8080/bookings/123/update?token=TOKEN_FROM_EMAIL" \
+  -H "Content-Type: application/json" \
+  -d '{"pickup_location": "Updated Hotel Location"}'
+
+# Step 4: Cancel if needed (using same token)
+curl -X DELETE "http://localhost:8080/bookings/123/cancel?token=TOKEN_FROM_EMAIL" \
+  -H "Content-Type: application/json" \
+  -d '{"reason": "Plans changed"}'
+```
+
+#### Authenticated User Booking Flow
+```bash
+# Step 1: Login and get token
+TOKEN=$(curl -s -X POST http://localhost:8080/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "password123"
+  }' | jq -r '.token')
+
+# Step 2: Create booking
+curl -X POST http://localhost:8080/book-ride \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "your_name": "Authenticated User",
+    "email": "user@example.com",
+    "phone_number": "+1234567890",
+    "ride_type": "Business Meeting",
+    "pickup_location": "Office",
+    "dropoff_location": "Conference Center",
+    "date": "2025-01-18",
+    "time": "09:00",
+    "number_of_passengers": 1,
+    "number_of_luggage": 1
+  }'
+
+# Step 3: View my bookings
+curl -X GET http://localhost:8080/bookings/my \
+  -H "Authorization: Bearer $TOKEN"
+
+# Step 4: Update booking directly
+curl -X PUT http://localhost:8080/bookings/123 \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"time": "09:30"}'
+
+# Step 5: Cancel if needed
+curl -X DELETE http://localhost:8080/bookings/123/cancel \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"reason": "Meeting rescheduled"}'
+```
+
+#### Driver Workflow
+```bash
+# Step 1: Login as driver
+DRIVER_TOKEN=$(curl -s -X POST http://localhost:8080/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "driver@luxsuv.com",
+    "password": "driverpass123"
+  }' | jq -r '.token')
+
+# Step 2: Accept pending booking
+curl -X PUT http://localhost:8080/driver/bookings/123/accept \
+  -H "Authorization: Bearer $DRIVER_TOKEN"
+```
 
 ### Running with Air (Hot Reload)
 ```bash
@@ -491,15 +738,31 @@ curl -v -X POST http://localhost:8080/register \
 
 ## 📝 User Roles & Permissions
 
+### Booking Permissions
+
+#### Guest Users (No Authentication)
+- Create bookings
+- View bookings by email
+- Request secure update links
+- Update/cancel bookings with secure tokens
+
+#### Authenticated Users
+- All guest permissions
+- Direct booking updates without tokens
+- View personal booking history
+- Automatic user association with bookings
+
 ### Rider (Default)
 - Register and login
 - View own profile
 - Change own password
-- Book rides (future feature)
+- **Book rides and manage bookings**
+- **Update and cancel own bookings**
 
 ### Driver
 - All rider permissions
-- Accept rides (future feature)
+- **Accept pending bookings**
+- **View assigned rides**
 - Driver-specific features (future)
 
 ### Admin
@@ -521,17 +784,36 @@ curl -v -X POST http://localhost:8080/register \
 ## 📈 Monitoring & Logging
 
 - **Comprehensive Logging**: All requests, errors, and operations logged
+- **Booking Audit Trail**: Complete tracking of booking creation, updates, and cancellations
 - **Log Levels**: INFO, WARN, ERROR with timestamps
 - **File + Console**: Logs written to both `app.log` and console
 - **Request Tracking**: Full request/response logging with timing
 
+## 🔄 Business Rules
+
+### Booking Rules
+- **24-Hour Advance Booking**: All bookings must be scheduled at least 24 hours in the future
+- **24-Hour Cancellation Policy**: Bookings can only be cancelled 24+ hours before scheduled time
+- **Status Protection**: Cannot update/cancel completed or already cancelled bookings
+- **Driver Assignment**: Only drivers can accept bookings, and only pending bookings can be accepted
+- **Guest Security**: Guest users receive secure, time-limited tokens (24-hour expiry) for updates
+
+### Booking Statuses
+- **Book Status**: `Pending` → `Accepted` → `Completed` or `Cancelled`
+- **Ride Status**: `Pending` → `Assigned` → `In Progress` → `Completed` or `Cancelled`
+
 ## 🔮 Future Enhancements
 
-- [ ] Ride booking and management system
+- [x] ~~Ride booking and management system~~ ✅ **COMPLETED**
+- [x] ~~Guest booking support with secure updates~~ ✅ **COMPLETED**
+- [x] ~~24-hour booking and cancellation policies~~ ✅ **COMPLETED**
 - [ ] Real-time ride tracking with WebSockets
 - [ ] Payment integration (Stripe)
 - [ ] Driver location tracking
 - [ ] Push notifications
+- [ ] Booking confirmation SMS
+- [ ] Driver rating system
+- [ ] Ride history and receipts
 - [ ] Mobile app API support
 - [ ] Advanced analytics and reporting
 

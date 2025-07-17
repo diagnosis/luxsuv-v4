@@ -22,6 +22,22 @@ func NewAuthMiddleware(authService *auth.Service, logger *logger.Logger) *AuthMi
 	}
 }
 
+// ConvertToInt64 is a helper function to convert interface{} to int64 (exported for use in handlers)
+func ConvertToInt64(value interface{}) (int64, bool) {
+	switch v := value.(type) {
+	case int64:
+		return v, true
+	case int:
+		return int64(v), true
+	case float64:
+		return int64(v), true
+	case float32:
+		return int64(v), true
+	default:
+		return 0, false
+	}
+}
+
 // RequireAuth middleware validates JWT tokens
 func (m *AuthMiddleware) RequireAuth() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
@@ -62,9 +78,18 @@ func (m *AuthMiddleware) RequireAuth() echo.MiddlewareFunc {
 			}
 
 			// Extract user information from claims
-			userID, ok := claims["user_id"]
+			userIDRaw, ok := claims["user_id"]
 			if !ok {
 				m.logger.Warn("Missing user_id in token claims")
+				return c.JSON(http.StatusUnauthorized, map[string]string{
+					"error": "invalid token claims",
+				})
+			}
+
+			// Convert user_id to int64
+			userID, ok := ConvertToInt64(userIDRaw)
+			if !ok {
+				m.logger.Warn(fmt.Sprintf("Invalid user_id type in token claims: %T", userIDRaw))
 				return c.JSON(http.StatusUnauthorized, map[string]string{
 					"error": "invalid token claims",
 				})
@@ -181,7 +206,13 @@ func (m *AuthMiddleware) OptionalAuth() echo.MiddlewareFunc {
 				return next(c) // Invalid token, proceed as guest
 			}
 
-			userID, ok := claims["user_id"]
+			userIDRaw, ok := claims["user_id"]
+			if !ok {
+				return next(c)
+			}
+
+			// Convert user_id to int64
+			userID, ok := ConvertToInt64(userIDRaw)
 			if !ok {
 				return next(c)
 			}
