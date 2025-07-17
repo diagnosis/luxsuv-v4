@@ -161,10 +161,20 @@ func initializeServices(db *sqlx.DB, cfg *config.Config, log *logger.Logger) (*S
 
 // initializeHandlers creates all handlers
 func initializeHandlers(services *Services, log *logger.Logger) *Handlers {
-	// Initialize repositories (needed for handlers)
-	// Note: In a larger app, you might want to pass repositories through services
-	// For now, we'll recreate them here - consider refactoring if this grows
-	db, _ := sqlx.Connect("postgres", "dummy") // This is a temporary solution
+	// Get database connection for repositories
+	// TODO: Refactor to pass repositories through services for better architecture
+	cfg, err := config.LoadConfig(log)
+	if err != nil {
+		log.Err("Failed to load config for handlers: " + err.Error())
+		panic("Failed to initialize handlers")
+	}
+	
+	db, err := sqlx.Connect("postgres", cfg.DatabaseURL)
+	if err != nil {
+		log.Err("Failed to connect to database for handlers: " + err.Error())
+		panic("Failed to initialize handlers")
+	}
+	
 	userRepo := postgres.NewUserRepository(db)
 	bookRideRepo := postgres.NewBookRideRepository(db)
 

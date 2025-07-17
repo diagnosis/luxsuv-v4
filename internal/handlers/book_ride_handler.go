@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"strings"
+	"time"
 	"github.com/diagnosis/luxsuv-v4/internal/logger"
 	"github.com/diagnosis/luxsuv-v4/internal/models"
 	"github.com/diagnosis/luxsuv-v4/internal/repository"
@@ -14,6 +15,22 @@ import (
 	"net/url"
 	"strconv"
 )
+
+// Helper function to convert interface{} to int64 (same as middleware)
+func convertToInt64(value interface{}) (int64, bool) {
+	switch v := value.(type) {
+	case int64:
+		return v, true
+	case int:
+		return int64(v), true
+	case float64:
+		return int64(v), true
+	case float32:
+		return int64(v), true
+	default:
+		return 0, false
+	}
+}
 
 type BookRideHandler struct {
 	repo   repository.BookRideRepository
@@ -47,29 +64,13 @@ func (h *BookRideHandler) Create(c echo.Context) error {
 
 	// Get user ID from context if user is authenticated
 	userIDClaim := c.Get("user_id")
-	h.logger.Info(fmt.Sprintf("User ID claim from context: %v (type: %T)", userIDClaim, userIDClaim))
 
 	if userIDClaim != nil {
-		var userID int64
-		switch v := userIDClaim.(type) {
-		case float64:
-			userID = int64(v)
-		case int64:
-			userID = v
-		case int:
-			userID = int64(v)
-		case int32:
-			userID = int64(v)
-		default:
-			h.logger.Warn(fmt.Sprintf("Unexpected user_id type: %T, value: %v", userIDClaim, userIDClaim))
-			userID = 0
-		}
-
-		if userID > 0 {
+		if userID, ok := convertToInt64(userIDClaim); ok && userID > 0 {
 			br.UserID = &userID
 			h.logger.Info(fmt.Sprintf("✅ User ID successfully set: %d", userID))
 		} else {
-			h.logger.Warn("❌ Failed to extract valid user ID from claims")
+			h.logger.Warn(fmt.Sprintf("❌ Failed to extract valid user ID from claims: %T, value: %v", userIDClaim, userIDClaim))
 		}
 	} else {
 		h.logger.Info("No user_id in context - guest booking")
@@ -127,12 +128,14 @@ func (h *BookRideHandler) Accept(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": "invalid booking ID"})
 	}
 
-	driverID, ok := c.Get("user_id").(int64)
+	driverIDClaim := c.Get("user_id")
+	driverID, ok := convertToInt64(driverIDClaim)
 	if !ok {
-		return c.JSON(http.StatusUnauthorized, map[string]string{"error": "driver not authorized"})
+		h.logger.Warn(fmt.Sprintf("Invalid driver ID type: %T, value: %v", driverIDClaim, driverIDClaim))
+		return c.JSON(http.StatusUnauthorized, map[string]string{"error": "invalid driver authentication"})
 	}
 
-	//role check
+	// Role check
 	role, ok := c.Get("role").(string)
 	if !ok || role != models.RoleDriver {
 		return c.JSON(http.StatusForbidden, map[string]string{"error": "access denied: driver role required"})
@@ -147,9 +150,11 @@ func (h *BookRideHandler) Accept(c echo.Context) error {
 }
 
 func (h *BookRideHandler) GetByUserID(c echo.Context) error {
-	userID, ok := c.Get("user_id").(int64)
+	userIDClaim := c.Get("user_id")
+	userID, ok := convertToInt64(userIDClaim)
 	if !ok {
-		return c.JSON(http.StatusUnauthorized, map[string]string{"error": "user not authorized"})
+		h.logger.Warn(fmt.Sprintf("Invalid user ID type: %T, value: %v", userIDClaim, userIDClaim))
+		return c.JSON(http.StatusUnauthorized, map[string]string{"error": "invalid user authentication"})
 	}
 
 	bookings, err := h.repo.GetByUserID(c.Request().Context(), userID)
@@ -188,15 +193,8 @@ func (h *BookRideHandler) Update(c echo.Context) error {
 
 	if userID != nil {
 		// Authenticated user - verify they own the booking
-		var uid int64
-		switch v := userID.(type) {
-		case float64:
-			uid = int64(v)
-		case int64:
-			uid = v
-		case int:
-			uid = int64(v)
-		default:
+		uid, ok := convertToInt64(userID)
+		if !ok {
 			h.logger.Warn(fmt.Sprintf("Invalid user_id type in context: %T, value: %v", userID, userID))
 			return c.JSON(http.StatusUnauthorized, map[string]string{"error": "invalid user authentication"})
 		}
@@ -297,15 +295,9 @@ func (h *BookRideHandler) Cancel(c echo.Context) error {
 
 	if userID != nil {
 		// Authenticated user - verify they own the booking
-		var uid int64
-		switch v := userID.(type) {
-		case float64:
-			uid = int64(v)
-		case int64:
-			uid = v
-		case int:
-			uid = int64(v)
-		default:
+		uid, ok := convertToInt64(userID)
+		if !ok {
+			h.logger.Warn(fmt.Sprintf("Invalid user_id type in context: %T, value: %v", userID, userID))
 			return c.JSON(http.StatusUnauthorized, map[string]string{"error": "invalid user authentication"})
 		}
 
@@ -380,7 +372,19 @@ func (h *BookRideHandler) Cancel(c echo.Context) error {
 	}
 
 	// Validate 24-hour cancellation rule
-	if err := validation.ValidateBookingDateTime(booking.Date, booking.Time); err != nil {
+	// Parse the booking date and time to check if it's within 24 hours
+	bookingDateTime, err := time.Parse("2006-01-02 15:04", booking.Date+" "+booking.Time)
+	if err != nil {
+		h.logger.Err(fmt.Sprintf("Failed to parse booking date/time for cancellation check: %s", err.Error()))
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "failed to validate booking time"})
+	}
+
+	now := time.Now()
+	minCancelTime := now.Add(24 * time.Hour)
+
+	if bookingDateTime.Before(minCancelTime) {
+		h.logger.Warn(fmt.Sprintf("Cancellation denied: booking %d is within 24 hours (booking: %s, now: %s)", 
+			id, bookingDateTime.Format("2006-01-02 15:04"), now.Format("2006-01-02 15:04")))
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": "cannot cancel booking less than 24 hours before scheduled time"})
 	}
 
