@@ -420,9 +420,9 @@ func (h *BookRideHandler) GenerateUpdateLink(c echo.Context) error {
 	booking, err := h.repo.GetByIDAndEmail(c.Request().Context(), id, email)
 	if err != nil {
 		// Don't reveal if booking exists for security
+		h.logger.Warn(fmt.Sprintf("Booking %d not found for email %s: %s", id, email, err.Error()))
 		return c.JSON(http.StatusOK, map[string]string{
 			"message": "if the booking exists for this email, an update link has been sent",
-		h.logger.Warn(fmt.Sprintf("Booking %d update failed 24-hour validation: %s", id, err.Error()))
 		})
 	}
 

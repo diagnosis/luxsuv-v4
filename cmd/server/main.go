@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 	"time"
 
 	"github.com/diagnosis/luxsuv-v4/internal/auth"
@@ -12,9 +11,9 @@ import (
 	"github.com/diagnosis/luxsuv-v4/internal/logger"
 	"github.com/diagnosis/luxsuv-v4/internal/middleware"
 	"github.com/diagnosis/luxsuv-v4/internal/repository/postgres"
+	"github.com/diagnosis/luxsuv-v4/internal/routes"
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
-	echomiddleware "github.com/labstack/echo/v4/middleware"
 	_ "github.com/lib/pq"
 	"github.com/pressly/goose/v3"
 )
@@ -35,46 +34,104 @@ func main() {
 	}
 	log.Info("Configuration loaded successfully")
 
+	// Initialize database
+	db, err := initializeDatabase(cfg, log)
+	if err != nil {
+		log.Err("Failed to initialize database: " + err.Error())
+		return
+	}
+	defer db.Close()
+
+	// Initialize services
+	services, err := initializeServices(db, cfg, log)
+	if err != nil {
+		log.Err("Failed to initialize services: " + err.Error())
+		return
+	}
+
+	// Initialize handlers
+	handlers := initializeHandlers(services, log)
+
+	// Set up Echo server
+	e := echo.New()
+	e.HideBanner = true
+	e.HidePort = true
+
+	// Setup global middleware
+	middlewareConfig := routes.SetupGlobalMiddleware(e, cfg.Environment)
+	log.Info(fmt.Sprintf("Using %s CORS configuration", cfg.Environment))
+
+	// Setup all routes
+	setupAllRoutes(e, handlers, services.AuthMiddleware, middlewareConfig)
+
+	// Log available endpoints
+	logAvailableEndpoints(log)
+
+	// Start server
+	log.Info("Starting server on port " + cfg.Port)
+	if err := e.Start(":" + cfg.Port); err != nil {
+		log.Err("Failed to start server: " + err.Error())
+	}
+}
+
+// Services holds all initialized services
+type Services struct {
+	AuthService    *auth.Service
+	EmailService   *email.Service
+	AuthMiddleware *middleware.AuthMiddleware
+}
+
+// Handlers holds all initialized handlers
+type Handlers struct {
+	AuthHandler     *handlers.AuthHandler
+	UserHandler     *handlers.UserHandler
+	PasswordHandler *handlers.PasswordHandler
+	BookRideHandler *handlers.BookRideHandler
+}
+
+// initializeDatabase sets up database connection and runs migrations
+func initializeDatabase(cfg *config.Config, log *logger.Logger) (*sqlx.DB, error) {
 	// Run migrations
 	migrationDB, err := sqlx.Open("postgres", cfg.DatabaseURL)
 	if err != nil {
-		log.Err("Failed to open database for migrations: " + err.Error())
-		return
+		return nil, fmt.Errorf("failed to open database for migrations: %w", err)
 	}
 	defer migrationDB.Close()
 
 	goose.SetLogger(&GooseLogger{log: log})
 	if err := goose.Up(migrationDB.DB, "../../migrations"); err != nil {
-		log.Err("Failed to apply migrations: " + err.Error())
-		return
+		return nil, fmt.Errorf("failed to apply migrations: %w", err)
 	}
 	log.Info("Database migrations applied successfully")
 
 	// Connect to database with connection pool settings
 	db, err := sqlx.Connect("postgres", cfg.DatabaseURL)
 	if err != nil {
-		log.Err("Failed to connect to database: " + err.Error())
-		return
+		return nil, fmt.Errorf("failed to connect to database: %w", err)
 	}
-	defer db.Close()
 
 	// Configure connection pool
-	db.SetMaxOpenConns(25)
+	db.SetMaxOpenConns(cfg.MaxConnections)
 	db.SetMaxIdleConns(5)
 	db.SetConnMaxLifetime(5 * time.Minute)
 
 	// Test database connection
 	if err := db.Ping(); err != nil {
-		log.Err("Failed to ping database: " + err.Error())
-		return
+		return nil, fmt.Errorf("failed to ping database: %w", err)
 	}
 	log.Info("Successfully connected to database")
 
-	// Initialize repositories and services
-	userRepo := postgres.NewUserRepository(db)
-	authService := auth.NewService(userRepo, cfg.JWTSecret, log)
-	bookRideRepo := postgres.NewBookRideRepository(db)
+	return db, nil
+}
 
+// initializeServices creates and configures all services
+func initializeServices(db *sqlx.DB, cfg *config.Config, log *logger.Logger) (*Services, error) {
+	// Initialize repositories
+	userRepo := postgres.NewUserRepository(db)
+	
+	// Initialize auth service
+	authService := auth.NewService(userRepo, cfg.JWTSecret, log)
+	
 	// Initialize email service
 	var emailService *email.Service
 	if cfg.MailerSendAPIKey != "" && cfg.MailerSendFromEmail != "" {
@@ -92,155 +149,79 @@ func main() {
 		log.Warn("Please configure MAILERSEND_API_KEY and MAILERSEND_FROM_EMAIL in .env file")
 	}
 
-	// Initialize handlers
-	authHandler := handlers.NewAuthHandler(authService, emailService, log)
-	userHandler := handlers.NewUserHandler(authService, userRepo, log)
-	passwordHandler := handlers.NewPasswordHandler(authService, userRepo, emailService, log)
-	bookRideHandler := handlers.NewBookRideHandler(bookRideRepo, log, authService, emailService)
+	// Initialize middleware
 	authMiddleware := middleware.NewAuthMiddleware(authService, log)
 
-	// Set up Echo server
-	e := echo.New()
+	return &Services{
+		AuthService:    authService,
+		EmailService:   emailService,
+		AuthMiddleware: authMiddleware,
+	}, nil
+}
 
-	// Configure Echo
-	e.HideBanner = true
-	e.HidePort = true
+// initializeHandlers creates all handlers
+func initializeHandlers(services *Services, log *logger.Logger) *Handlers {
+	// Initialize repositories (needed for handlers)
+	// Note: In a larger app, you might want to pass repositories through services
+	// For now, we'll recreate them here - consider refactoring if this grows
+	db, _ := sqlx.Connect("postgres", "dummy") // This is a temporary solution
+	userRepo := postgres.NewUserRepository(db)
+	bookRideRepo := postgres.NewBookRideRepository(db)
 
-	// Global middleware
-	e.Use(echomiddleware.Recover())
-	e.Use(echomiddleware.Logger())
-
-	// Enhanced CORS configuration
-	if cfg.Environment == "development" {
-		e.Use(echomiddleware.CORSWithConfig(middleware.DevelopmentCORSConfig()))
-		log.Info("Using development CORS configuration (permissive)")
-	} else {
-		e.Use(echomiddleware.CORSWithConfig(middleware.CORSConfig()))
-		log.Info("Using production CORS configuration")
+	return &Handlers{
+		AuthHandler:     handlers.NewAuthHandler(services.AuthService, services.EmailService, log),
+		UserHandler:     handlers.NewUserHandler(services.AuthService, userRepo, log),
+		PasswordHandler: handlers.NewPasswordHandler(services.AuthService, userRepo, services.EmailService, log),
+		BookRideHandler: handlers.NewBookRideHandler(bookRideRepo, log, services.AuthService, services.EmailService),
 	}
+}
 
-	e.Use(echomiddleware.Secure())
+// setupAllRoutes configures all application routes
+func setupAllRoutes(e *echo.Echo, handlers *Handlers, authMiddleware *middleware.AuthMiddleware, middlewareConfig routes.MiddlewareConfig) {
+	// Health and system routes
+	routes.SetupHealthRoutes(e)
 
-	// Configure rate limiter
-	generalRateLimiterConfig := echomiddleware.RateLimiterConfig{
-		Store: echomiddleware.NewRateLimiterMemoryStoreWithConfig(
-			echomiddleware.RateLimiterMemoryStoreConfig{
-				Rate:      5,               // 5 requests per second
-				Burst:     10,              // Allow burst of 10 requests
-				ExpiresIn: 3 * time.Minute, // Clean up expired entries
-			},
-		),
-		IdentifierExtractor: func(ctx echo.Context) (string, error) {
-			return ctx.RealIP(), nil
-		},
-		ErrorHandler: func(context echo.Context, err error) error {
-			return context.JSON(429, map[string]string{"error": "too many requests"})
-		},
-	}
-
-	// More restrictive rate limiter for authentication endpoints
-	authRateLimiterConfig := echomiddleware.RateLimiterConfig{
-		Store: echomiddleware.NewRateLimiterMemoryStoreWithConfig(
-			echomiddleware.RateLimiterMemoryStoreConfig{
-				Rate:      2,               // 2 requests per second
-				Burst:     5,               // Allow burst of 5 requests
-				ExpiresIn: 5 * time.Minute, // Clean up expired entries
-			},
-		),
-		IdentifierExtractor: func(ctx echo.Context) (string, error) {
-			return ctx.RealIP(), nil
-		},
-		ErrorHandler: func(context echo.Context, err error) error {
-			return context.JSON(429, map[string]string{"error": "too many requests"})
-		},
-	}
-
-	// Apply general rate limiting
-	e.Use(echomiddleware.RateLimiterWithConfig(generalRateLimiterConfig))
-
-	// Health check endpoint
-	e.GET("/health", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, map[string]string{
-			"status":    "healthy",
-			"timestamp": time.Now().UTC().Format(time.RFC3339),
-		})
-	})
-
-	// Public routes with stricter rate limiting
-	authGroup := e.Group("")
-	authGroup.Use(echomiddleware.RateLimiterWithConfig(authRateLimiterConfig))
-	authGroup.POST("/register", authHandler.Register)
-	authGroup.POST("/login", authHandler.Login)
-
-	// Password reset routes (public)
-	e.POST("/auth/forgot-password", passwordHandler.ResetPasswordRequest)
-	e.POST("/auth/reset-password", passwordHandler.ResetPassword)
-
-	// Protected routes
-	protectedGroup := e.Group("")
-	protectedGroup.Use(authMiddleware.RequireAuth())
-	protectedGroup.GET("/users/me", authHandler.GetCurrentUser)
-	protectedGroup.PUT("/users/me/password", passwordHandler.ChangePassword)
+	// Authentication routes
+	routes.SetupAuthRoutes(e, handlers.AuthHandler, handlers.PasswordHandler, authMiddleware, middlewareConfig.AuthRateLimiter)
 
 	// Admin routes
-	adminGroup := e.Group("/admin")
-	adminGroup.Use(authMiddleware.RequireAuth())
-	adminGroup.Use(authMiddleware.RequireAdmin())
+	routes.SetupAdminRoutes(e, handlers.AuthHandler, handlers.UserHandler, authMiddleware)
 
-	// User management endpoints
-	adminGroup.GET("/users", userHandler.ListUsers)
-	adminGroup.GET("/users/by-email", userHandler.GetUserByEmail)
-	adminGroup.GET("/users/:id", userHandler.GetUserByID)
-	adminGroup.PUT("/users/:id/role", userHandler.UpdateUserRole)
-	adminGroup.DELETE("/users/:id", authHandler.DeleteUser)
+	// Booking routes
+	routes.SetupBookingRoutes(e, handlers.BookRideHandler, authMiddleware)
+}
 
-	// Book ride routes
-	// Public
-	e.POST("/book-ride", bookRideHandler.Create, authMiddleware.OptionalAuth())
-	e.GET("/bookings/email/:email", bookRideHandler.GetByEmail)
-	e.POST("/bookings/:id/update-link", bookRideHandler.GenerateUpdateLink)
-
-	// Protected (authenticated users)
-	protectedGroup.GET("/bookings/my", bookRideHandler.GetByUserID) // Example for user-specific bookings
-	protectedGroup.PUT("/bookings/:id", bookRideHandler.Update)
-	protectedGroup.DELETE("/bookings/:id/cancel", bookRideHandler.Cancel)
-
-	// Public update/cancel with secure token
-	e.PUT("/bookings/:id/update", bookRideHandler.Update)
-	e.DELETE("/bookings/:id/cancel", bookRideHandler.Cancel)
-
-	// Driver-protected (add driver role middleware if defined)
-	driverGroup := protectedGroup.Group("/driver")
-	driverGroup.Use(authMiddleware.RequireDriver()) // Assuming you have a RequireDriver middleware; implement if not
-	driverGroup.PUT("/bookings/:id/accept", bookRideHandler.Accept)
-
-	log.Info("Starting server on port " + cfg.Port)
+// logAvailableEndpoints logs all available API endpoints
+func logAvailableEndpoints(log *logger.Logger) {
 	log.Info("Available endpoints:")
+	
+	// Health endpoints
 	log.Info("  GET  /health")
+	log.Info("  GET  /api/info")
+	
+	// Auth endpoints
 	log.Info("  POST /register")
 	log.Info("  POST /login")
 	log.Info("  POST /auth/forgot-password")
 	log.Info("  POST /auth/reset-password")
 	log.Info("  GET  /users/me (protected)")
 	log.Info("  PUT  /users/me/password (protected)")
+	
+	// Admin endpoints
 	log.Info("  GET  /admin/users (admin only)")
 	log.Info("  GET  /admin/users/by-email?email=user@example.com (admin only)")
 	log.Info("  GET  /admin/users/:id (admin only)")
 	log.Info("  PUT  /admin/users/:id/role (admin only)")
 	log.Info("  DELETE /admin/users/:id (admin only)")
+	
+	// Booking endpoints
 	log.Info("  POST /book-ride (public)")
 	log.Info("  GET  /bookings/email/:email (public)")
 	log.Info("  POST /bookings/:id/update-link (public)")
 	log.Info("  GET  /bookings/my (protected)")
-	log.Info("  PUT  /bookings/:id (protected)")
-	log.Info("  DELETE /bookings/:id/cancel (protected)")
-	log.Info("  PUT  /bookings/:id/update (public with token)")
-	log.Info("  DELETE /bookings/:id/cancel (public with token)")
+	log.Info("  PUT  /bookings/:id (protected/token)")
+	log.Info("  DELETE /bookings/:id/cancel (protected/token)")
 	log.Info("  PUT  /driver/bookings/:id/accept (driver only)")
-
-	if err := e.Start(":" + cfg.Port); err != nil {
-		log.Err("Failed to start server: " + err.Error())
-	}
 }
 
 // GooseLogger adapts your logger to Goose's logger interface
