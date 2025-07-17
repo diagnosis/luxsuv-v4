@@ -22,10 +22,10 @@ echo "================================="
 echo -e "\n${YELLOW}1.1 Register Regular Driver${NC}"
 echo "curl -X POST $BASE_URL/register \\"
 echo "  -H \"Content-Type: application/json\" \\"
-echo "  -d '{\"username\":\"regulardriver\",\"email\":\"driver@test.com\",\"password\":\"password123\",\"role\":\"driver\"}'"
+echo "  -d '{\"username\":\"regulardriver\",\"email\":\"regulardriver@test.com\",\"password\":\"password123\",\"role\":\"driver\"}'"
 curl -X POST $BASE_URL/register \
   -H "Content-Type: application/json" \
-  -d '{"username":"regulardriver","email":"driver@test.com","password":"password123","role":"driver"}'
+  -d '{"username":"regulardriver","email":"regulardriver@test.com","password":"password123","role":"driver"}'
 echo -e "\n"
 
 echo -e "\n${YELLOW}1.2 Register Super Driver${NC}"
@@ -61,7 +61,7 @@ echo "======================="
 echo -e "\n${YELLOW}2.1 Login as Regular Driver${NC}"
 DRIVER_RESPONSE=$(curl -s -X POST $BASE_URL/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"driver@test.com","password":"password123"}')
+  -d '{"email":"regulardriver@test.com","password":"password123"}')
 echo $DRIVER_RESPONSE
 DRIVER_TOKEN=$(echo $DRIVER_RESPONSE | grep -o '"token":"[^"]*' | cut -d'"' -f4)
 echo -e "\n${GREEN}Driver Token: $DRIVER_TOKEN${NC}"

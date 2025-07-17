@@ -7,6 +7,7 @@ import (
 
 	"github.com/diagnosis/luxsuv-v4/internal/auth"
 	"github.com/diagnosis/luxsuv-v4/internal/logger"
+	"github.com/diagnosis/luxsuv-v4/internal/models"
 	"github.com/labstack/echo/v4"
 )
 

@@ -485,10 +485,7 @@ func (h *BookRideHandler) GetAssignedBookings(c echo.Context) error {
 	}
 
 	h.logger.Info(fmt.Sprintf("Retrieved %d assigned bookings for driver %d", len(bookings), driverID))
-	return c.JSON(http.StatusOK, map[string]interface{}{
-		"bookings": bookings,
-		"count":    len(bookings),
-	})
+	return c.JSON(http.StatusOK, bookings)
 }
 
 // GetAllBookingsForDispatcher returns all bookings for dispatcher management
