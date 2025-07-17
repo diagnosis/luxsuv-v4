@@ -12,6 +12,8 @@ A Go-based REST API for a luxury ride-sharing service with user authentication, 
 - **Guest booking support** with secure email-based update links
 - **24-hour advance booking** and cancellation policy
 - **Driver booking acceptance** system
+- **Hierarchical driver management** with dispatcher, super-driver, and regular driver roles
+- **Booking assignment system** for dispatchers and super-drivers
 - Professional email service integration with MailerSend
 - Comprehensive logging and monitoring
 - Database migrations with Goose
@@ -307,6 +309,58 @@ curl -X PUT http://localhost:8080/driver/bookings/123/accept \
   -H "Authorization: Bearer DRIVER_JWT_TOKEN"
 ```
 
+#### 10. Get Assigned Bookings (Driver Only)
+```bash
+# Driver views their assigned bookings
+curl -X GET http://localhost:8080/driver/bookings/assigned \
+  -H "Authorization: Bearer DRIVER_JWT_TOKEN"
+```
+
+### 🚛 Driver Management Endpoints
+
+#### 1. Dispatcher - View All Bookings
+```bash
+# Dispatcher sees all bookings in the system
+curl -X GET http://localhost:8080/dispatcher/bookings/all \
+  -H "Authorization: Bearer DISPATCHER_JWT_TOKEN"
+```
+
+#### 2. Dispatcher - Assign Booking to Driver
+```bash
+# Dispatcher assigns a booking to a specific driver
+curl -X POST http://localhost:8080/dispatcher/bookings/123/assign \
+  -H "Authorization: Bearer DISPATCHER_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"driver_id": 456, "notes": "Assigned by dispatcher"}'
+```
+
+#### 3. Super-Driver - View Available Bookings
+```bash
+# Super-driver sees all available bookings
+curl -X GET http://localhost:8080/super-driver/bookings/available \
+  -H "Authorization: Bearer SUPER_DRIVER_JWT_TOKEN"
+```
+
+#### 4. Super-Driver - Assign Booking to Driver
+```bash
+# Super-driver assigns a booking to a driver
+curl -X POST http://localhost:8080/super-driver/bookings/123/assign \
+  -H "Authorization: Bearer SUPER_DRIVER_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"driver_id": 456, "notes": "Assigned by super driver"}'
+```
+
+#### 5. Management - View Driver's Bookings
+```bash
+# Dispatcher or Super-driver views a specific driver's bookings
+curl -X GET http://localhost:8080/management/bookings/driver/456 \
+  -H "Authorization: Bearer DISPATCHER_OR_SUPER_DRIVER_TOKEN"
+
+# With status filter
+curl -X GET "http://localhost:8080/management/bookings/driver/456?status=Accepted" \
+  -H "Authorization: Bearer DISPATCHER_OR_SUPER_DRIVER_TOKEN"
+```
+
 ### 🔐 Protected Endpoints (Require Authentication)
 
 #### 6. Get Current User Profile
@@ -486,6 +540,31 @@ curl -X PUT http://localhost:8080/admin/users/123/role \
   -H "Authorization: Bearer $ADMIN_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"role": "driver"}'
+```
+
+### Complete Driver Management Flow
+```bash
+# Step 1: Dispatcher login
+DISPATCHER_TOKEN=$(curl -s -X POST http://localhost:8080/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "dispatcher@luxsuv.com",
+    "password": "dispatcherpass123"
+  }' | jq -r '.token')
+
+# Step 2: View all incoming bookings
+curl -X GET http://localhost:8080/dispatcher/bookings/all \
+  -H "Authorization: Bearer $DISPATCHER_TOKEN"
+
+# Step 3: Assign booking to a driver
+curl -X POST http://localhost:8080/dispatcher/bookings/123/assign \
+  -H "Authorization: Bearer $DISPATCHER_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"driver_id": 456, "notes": "Best driver for this route"}'
+
+# Step 4: Check driver's assigned bookings
+curl -X GET http://localhost:8080/dispatcher/bookings/driver/456 \
+  -H "Authorization: Bearer $DISPATCHER_TOKEN"
 ```
 
 ## 📧 Email Features
@@ -695,6 +774,26 @@ curl http://localhost:8080/health
 curl -v -X POST http://localhost:8080/register \
   -H "Content-Type: application/json" \
   -d '{"username":"test","email":"test@example.com","password":"password123","role":"rider"}'
+
+# Register Driver  
+curl -X POST http://localhost:8080/register \
+  -H "Content-Type: application/json" \
+  -d '{"username":"testdriver","email":"driver@test.com","password":"password123","role":"driver"}'
+
+# Register Super Driver
+curl -X POST http://localhost:8080/register \
+  -H "Content-Type: application/json" \
+  -d '{"username":"superdriver","email":"superdriver@test.com","password":"password123","role":"super_driver"}'
+
+# Register Dispatcher
+curl -X POST http://localhost:8080/register \
+  -H "Content-Type: application/json" \
+  -d '{"username":"dispatcher","email":"dispatcher@test.com","password":"password123","role":"dispatcher"}'
+
+# Register Admin
+curl -X POST http://localhost:8080/register \
+  -H "Content-Type: application/json" \
+  -d '{"username":"testadmin","email":"admin@test.com","password":"password123","role":"admin"}'
 ```
 
 ## 🌐 Production Deployment
@@ -752,20 +851,34 @@ curl -v -X POST http://localhost:8080/register \
 - View personal booking history
 - Automatic user association with bookings
 
-### Rider (Default)
+#### Rider (Default)
 - Register and login
 - View own profile
 - Change own password
 - **Book rides and manage bookings**
 - **Update and cancel own bookings**
 
-### Driver
+#### Driver (Regular)
 - All rider permissions
-- **Accept pending bookings**
-- **View assigned rides**
-- Driver-specific features (future)
+- **View assigned bookings only**
+- **Accept assigned bookings**
+- Cannot see all available bookings
 
-### Admin
+#### Super Driver
+- All driver permissions
+- **View all available bookings**
+- **Assign bookings to other drivers**
+- **Manage driver assignments**
+- Elevated driver privileges
+
+#### Dispatcher
+- **View all bookings in the system**
+- **Assign bookings to any driver**
+- **Monitor all driver activities**
+- **Full booking management control**
+- Cannot drive (booking management only)
+
+#### Admin
 - All user permissions
 - List all users
 - View any user profile
@@ -780,11 +893,13 @@ curl -v -X POST http://localhost:8080/register \
 | General | 5 req/sec | 10 requests |
 | Authentication | 2 req/sec | 5 requests |
 | Admin | 5 req/sec | 10 requests |
+| Driver Management | 5 req/sec | 10 requests |
 
 ## 📈 Monitoring & Logging
 
 - **Comprehensive Logging**: All requests, errors, and operations logged
 - **Booking Audit Trail**: Complete tracking of booking creation, updates, and cancellations
+- **Driver Assignment Tracking**: Full audit trail of booking assignments
 - **Log Levels**: INFO, WARN, ERROR with timestamps
 - **File + Console**: Logs written to both `app.log` and console
 - **Request Tracking**: Full request/response logging with timing
@@ -795,18 +910,25 @@ curl -v -X POST http://localhost:8080/register \
 - **24-Hour Advance Booking**: All bookings must be scheduled at least 24 hours in the future
 - **24-Hour Cancellation Policy**: Bookings can only be cancelled 24+ hours before scheduled time
 - **Status Protection**: Cannot update/cancel completed or already cancelled bookings
-- **Driver Assignment**: Only drivers can accept bookings, and only pending bookings can be accepted
+- **Driver Assignment**: Dispatchers and super-drivers can assign bookings to regular drivers
+- **Assignment Hierarchy**: Regular drivers can only see and accept assigned bookings
 - **Guest Security**: Guest users receive secure, time-limited tokens (24-hour expiry) for updates
 
 ### Booking Statuses
 - **Book Status**: `Pending` → `Accepted` → `Completed` or `Cancelled`
 - **Ride Status**: `Pending` → `Assigned` → `In Progress` → `Completed` or `Cancelled`
 
+### Driver Hierarchy
+- **Dispatcher**: Full system oversight, assigns bookings to drivers
+- **Super Driver**: Can see all available bookings and assign to other drivers
+- **Regular Driver**: Can only see assigned bookings and accept them
+
 ## 🔮 Future Enhancements
 
 - [x] ~~Ride booking and management system~~ ✅ **COMPLETED**
 - [x] ~~Guest booking support with secure updates~~ ✅ **COMPLETED**
 - [x] ~~24-hour booking and cancellation policies~~ ✅ **COMPLETED**
+- [x] ~~Hierarchical driver management system~~ ✅ **COMPLETED**
 - [ ] Real-time ride tracking with WebSockets
 - [ ] Payment integration (Stripe)
 - [ ] Driver location tracking
@@ -816,6 +938,8 @@ curl -v -X POST http://localhost:8080/register \
 - [ ] Ride history and receipts
 - [ ] Mobile app API support
 - [ ] Advanced analytics and reporting
+- [ ] Automatic driver assignment based on location/availability
+- [ ] Driver performance metrics and reporting
 
 ## 📄 License
 
